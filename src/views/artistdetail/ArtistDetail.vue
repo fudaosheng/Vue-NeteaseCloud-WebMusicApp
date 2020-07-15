@@ -1,8 +1,8 @@
 <template>
   <div class="artist-detail">
     <scroll ref="scroll" class="artist-scroll-c">
-      <artist-base-info :desc="artistDesc" :base-info="artist" />
-      <artist-bar :list="barlist" />
+      <artist-base-info :desc="artistDesc" :base-info="getArtist" />
+      <artist-bar ref="artistBar" :list="barlist" />
       <router-view></router-view>
     </scroll>
   </div>
@@ -29,14 +29,24 @@ export default {
     ArtistBar
   },
   created() {
-    setTimeout(()=>{
       this.artist = this.$store.state.artist;
-    if (this.artist.id != null) {
-      _getArtistDesc(this.artist.id).then(res => {
-        this.artistDesc = res.data.briefDesc;
-      });
+  },
+  watch:{
+    artist(to,form){
+      /**解决切换歌手，ArtistBar与内容不符问题 */
+      this.$refs.artistBar.currentClick(0);
+      if(to.id!==null){
+        _getArtistDesc(to.id).then(res=>{
+          this.artistDesc = res.data.briefDesc;
+        })
+      }
     }
-    },200)
+  },
+  computed:{
+    getArtist(){
+      this.artist=this.$store.state.artist
+      return this.artist;
+    },
   },
 };
 </script>
