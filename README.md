@@ -6,6 +6,10 @@
 
 Gitee地址：https://gitee.com/fudaosheng/vue-fds_music
 
+ **特别感谢** 
+
+@北京-张嘉利 给出的解决“点击相似歌手,切换到对应歌手详情页，但是歌手基础信息不变的问题”。
+
  **项目简介** 
 
 本项目后端接口是Github大神Binaryify的开源项目（项目地址：[https://github.com/Binaryify/NeteaseCloudMusicApi](http://)），接口文档直接在百度搜索“网易云音乐API”作者是Binaryify。
