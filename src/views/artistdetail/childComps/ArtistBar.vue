@@ -10,7 +10,6 @@
   </div>
 </template>
 <script>
-import { clickMixin } from "assets/common/mixin";
 export default {
   name: "DetailBar",
   props: {
@@ -27,7 +26,11 @@ export default {
         }
     }
   },
-  mixins: [clickMixin],
+  data(){
+        return{
+            currentIndex:0,
+        }
+    },
   methods: {
     currentClick(index) {
       this.currentIndex = index;
