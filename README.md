@@ -4,7 +4,7 @@
 
 肝代码不易，本项目还是比较能拿的出手的，若是在网上发表请标明出处，另外跪求Star。另外本项目仅用于学习。 
 
-本项目最新地址在Gitee上，地址：https://gitee.com/fudaosheng/vue-fds_music
+Gitee地址：https://gitee.com/fudaosheng/vue-fds_music
 
  **项目简介** 
 
