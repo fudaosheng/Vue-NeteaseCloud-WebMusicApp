@@ -31,7 +31,7 @@ export const indexMixin = {
 
                         if (i == musiclist.length - 1) {
 
-                            this.$bus.$emit("playMusic", playlist, index, path);
+                            this.$bus.$emit("playMusic", playlist, index, path,musiclist);
                         }
                     })
                     .catch(err => {

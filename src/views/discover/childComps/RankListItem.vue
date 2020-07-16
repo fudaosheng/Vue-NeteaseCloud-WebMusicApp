@@ -1,6 +1,9 @@
 <template>
   <div class="rank-item" v-if="musicListDetail!=null&&rankId!=null" @click="enterDetail()">
-    <div class="rank-item-top" :style="{background:'linear-gradient(to right,'+bgColor[0]+','+bgColor[1]+')'}">
+    <div
+      class="rank-item-top"
+      :style="{background:'linear-gradient(to right,'+bgColor[0]+','+bgColor[1]+')'}"
+    >
       <div class="left">
         <div class="left-itemF">
           <i>{{title[0]}}</i>
@@ -41,23 +44,23 @@ import { formatDate } from "assets/common/tool";
 export default {
   name: "RankListItem",
   props: {
-    rankId:{
-        type:Number,
-        default(){
-            return 0
-        }
+    rankId: {
+      type: Number,
+      default() {
+        return 0;
+      }
     },
-    bgColor:{
-        type:Array,
-        defaule(){
-            return []
-        }
+    bgColor: {
+      type: Array,
+      defaule() {
+        return [];
+      }
     },
-    title:{
-       type:Array,
-        defaule(){
-            return []
-        }
+    title: {
+      type: Array,
+      defaule() {
+        return [];
+      }
     }
   },
   data() {
@@ -68,7 +71,7 @@ export default {
   },
   mounted() {
     if (this.rankId != null) {
-          _getMusicListDetail(this.rankId).then(res => {
+      _getMusicListDetail(this.rankId).then(res => {
         this.musicListDetail = res.data;
         /**遍历查询歌单所有歌曲详情 */
         for (let i of this.musicListDetail.playlist.trackIds.slice(0, 8)) {
@@ -93,9 +96,11 @@ export default {
       }
       return false;
     },
-     enterDetail() {
-      this.$router.push("/musiclistdetail/" + this.rankId+"/"+new Date().getTime());
-    },
+    enterDetail() {
+      this.$router.push(
+        "/musiclistdetail/" + this.rankId + "/" + new Date().getTime()
+      );
+    }
   }
 };
 </script>
@@ -126,11 +131,11 @@ export default {
   display: flex;
   position: relative;
 }
-.update{
-    width: 100px;
-    position: absolute;
-    left: 5px;
-    top: 15px;
+.update {
+  width: 100px;
+  position: absolute;
+  left: 5px;
+  top: 15px;
 }
 .left-item {
   font-size: 26px;
@@ -148,12 +153,16 @@ export default {
 .right img {
   width: 100%;
 }
+.center {
+  width: 100%;
+}
 .center table {
   width: 100%;
   font-size: 13px;
   color: #575757;
 }
 .center tr {
+  width: 100%;
   height: 30px;
   text-align: left;
 }
@@ -170,9 +179,10 @@ export default {
   border: none;
   position: relative;
 }
-.center tr td:nth-child(2){
-    color: #dcdde4;
+.center tr td:nth-child(2) {
+  color: #dcdde4;
 }
+
 .backColor {
   background: #1a1c20;
 }

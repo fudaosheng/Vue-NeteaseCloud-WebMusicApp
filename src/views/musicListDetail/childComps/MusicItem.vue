@@ -84,6 +84,9 @@ width: 100%;
     opacity: .6;
 }
 .music tbody tr td:nth-child(3){
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     color: #dcdde4;
 }
 .music tr td .live{
@@ -98,6 +101,9 @@ width: 100%;
 }
 .music tr td:nth-child(4){
     width: 140px;
+     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .music tr td:nth-child(5){
     width: 180px;

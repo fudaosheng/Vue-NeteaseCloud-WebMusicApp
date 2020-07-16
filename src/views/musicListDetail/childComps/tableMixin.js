@@ -11,6 +11,11 @@ export const tableMixin={
             return false;
         },
         musicItemClick(index){
+            console.log(this.$parent.$parent.$el.className);
+            if(this.$parent.$parent.$el.className.indexOf('play-music-list')!=-1){
+                this.$bus.$emit('PlayMusicListItem',index);
+                return ;
+            }
             this.$emit('musicItemClick',index);
         }
     },

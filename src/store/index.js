@@ -40,8 +40,6 @@ export default new Vuex.Store({
     /**保存歌手信息 */
     addArtist(state, artist) {
       state.artist = artist;
-      console.log(state.artist);
-
     },
   },
   getters: {
