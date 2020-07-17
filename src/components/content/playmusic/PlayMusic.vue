@@ -10,6 +10,8 @@
       </div>
     </div>
     <play-music-list class="paly-music-list" v-show="isMusicList" :music-list="musicList"/>
+    <lyric class="play-music-lyric" ref="lyric" :lyric="lyric" v-show="isLyric"/>
+
     <div class="paly-music-left">
       <div class="pre" @click="preMusic()">
         <img src="~assets/img/playmusic/pre.png" alt />
@@ -30,6 +32,7 @@
         @timeupdate="audioTimeUpdate()"
         @pause="musicPause()"
         @ended="musicEnded()"
+        @play="playLoad()"
         @playing="musicPlaying()"
         @error="musicErr()"
       ></audio>
@@ -79,7 +82,9 @@
 import MusicProgress from "components/common/progress/Progress";
 import VolumnProgress from "components/common/progress/Progress";
 import PlayMusicList from "./PlayMusicList";
+import Lyric from "./Lyric"
 import { formatDate } from "assets/common/tool";
+import {  _getLyric } from "network/detail"
 export default {
   name: "PlayMusic",
   data() {
@@ -93,6 +98,7 @@ export default {
       schemaIndex: 0,
       currentTime: "00:00",
       duration: "00:00",
+      lyric:'',
       playList: [
         {
           title: "爱存在（抖音版）（翻自 魏奇奇）",
@@ -111,7 +117,8 @@ export default {
   components: {
     MusicProgress,
     VolumnProgress,
-    PlayMusicList
+    PlayMusicList,
+    Lyric
   },
   watch: {
     music() {
@@ -182,7 +189,16 @@ export default {
         );
         let scale = this.$refs.audio.currentTime / this.$refs.audio.duration;
         this.$refs.music_pro.setProgress(scale);
+
+        /**歌词滚动 */
+        this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime);
       }
+    },
+    /**监听音乐加载 */
+    playLoad(){
+      _getLyric(this.playList[this.currentIndex].id).then(res=>{
+        this.lyric=res.data.lrc.lyric;
+      })
     },
     /**监听音乐已开始播放 */
     musicPlaying() {
@@ -280,6 +296,16 @@ export default {
   position: absolute;
   right: 0px;
   bottom: 59px;
+}
+.play-music-lyric{
+  width: 460px;
+  height: 30px;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 59px;
+  z-index: 999;
+  margin: auto;
 }
 .music-top-icon {
   height: 100%;

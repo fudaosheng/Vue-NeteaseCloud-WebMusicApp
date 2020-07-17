@@ -16,27 +16,36 @@ export const indexMixin = {
             for (let i = 0, length = musiclist.length; i < length; i++) {
                 let getUrl = _getMusicUrl(musiclist[i].id).then(res => {
                     url = res.data.data[0].url;
-                    return url;
-                });
-                let getLyric = _getLyric(musiclist[i].id).then(res => {
-                    lyric = res.data.tlyric.lyric;
-                    return lyric;
-                });
-                Promise.all([getUrl, getLyric])
-                    .then(results => {
-                        let song = new playList(i, musiclist[i], results[0], results[1]);
-                        playlist.push(song);
-                        currentLength++;
-                        /**每次完成两个网络请求都判断是否满足要求，满足才发送事件 */
+                    // return url;
+                    let song = new playList(i, musiclist[i], url, musiclist[i].id);
+                    playlist.push(song);
+                    currentLength++;
+                    if (i == musiclist.length - 1) {
 
-                        if (i == musiclist.length - 1) {
+                        this.$bus.$emit("playMusic", playlist, index, path, musiclist);
+                    }
+                });
+                // let getLyric = _getLyric(musiclist[i].id).then(res => {
+                //     console.log(musiclist[i].id);
+                //     lyric = res.data.tlyric.lyric;
+                //     console.log(lyric);
+                //     return lyric;
+                // });
+                // Promise.all([getUrl, getLyric])
+                //     .then(results => {
+                //         let song = new playList(i, musiclist[i], results[0], results[1]);
+                //         playlist.push(song);
+                //         currentLength++;
+                //         /**每次完成两个网络请求都判断是否满足要求，满足才发送事件 */
 
-                            this.$bus.$emit("playMusic", playlist, index, path,musiclist);
-                        }
-                    })
-                    .catch(err => {
-                        this.$Message.warning('数据加载中，请稍等');
-                    });
+                //         if (i == musiclist.length - 1) {
+
+                //             this.$bus.$emit("playMusic", playlist, index, path,musiclist);
+                //         }
+                //     })
+                //     .catch(err => {
+                //         this.$Message.warning('数据加载中，请稍等');
+                //     });
             }
         },
     }

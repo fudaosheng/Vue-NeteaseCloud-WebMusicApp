@@ -32,7 +32,6 @@ export default {
     MusicItem
   },
   updated() {
-    console.log("update");
     this.$refs.scroll.refresh();
   },
   methods: {
