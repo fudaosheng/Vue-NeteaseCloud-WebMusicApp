@@ -243,7 +243,7 @@ mounted() {
 
  **新增** 
 
-| 播放器歌单 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0716/110240_8edcf752_7602838.png "屏幕截图.png") |   |
+| 播放器歌单 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0716/110240_8edcf752_7602838.png "屏幕截图.png") |播放器歌词功能 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0717/090113_4a050b0f_7602838.png "屏幕截图.png")  |
 |---|---|
 
  **音乐不能播放问题** 
