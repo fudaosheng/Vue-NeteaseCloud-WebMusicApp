@@ -28,6 +28,7 @@ import { _getSongsDetail, songDetail } from "network/detail";
 import { debounce } from "assets/common/tool";
 import { imgLoad } from "./indexMixin";
 import { indexMixin } from "views/musicListDetail/indexMixin";
+import {loadingMixin} from "views/mixin/loadingMixin"
 export default {
   name: "Individuation",
   data() {
@@ -47,13 +48,14 @@ export default {
     PrivateContent,
     newSongs
   },
-  mixins: [imgLoad, indexMixin],
+  mixins: [imgLoad, indexMixin,loadingMixin],
   created() {
     if (this.$store.state.cookie != null && this.$store.state.cookie != "") {
       this.limit = 11;
     }
     /**轮播图数据 */
     _getBanner().then(res => {
+      this.showLoading();
       this.banner = res.data.banners.slice(0, 6);
     });
     /**推荐歌单*/
@@ -68,6 +70,7 @@ export default {
 
     _getNewSong().then(res => {
       this.songList = res.data.result;
+      this.hiddenLoading();
     });
   },
   methods: {

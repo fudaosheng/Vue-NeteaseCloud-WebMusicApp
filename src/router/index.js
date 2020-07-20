@@ -92,10 +92,6 @@ Vue.use(VueRouter)
       path:'/search/:key',
       component:SearchList
     },
-    // {
-    //   path:'/player',
-    //   component:Player,
-    // }
 ]
 
 const router = new VueRouter({

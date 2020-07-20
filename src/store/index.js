@@ -12,6 +12,7 @@ const state = {
   cookie: '',
   playlist: [],
   artist: null,//歌手信息
+  isloading:false,//是否显示loading
 };
 export default new Vuex.Store({
   state,
@@ -41,11 +42,17 @@ export default new Vuex.Store({
     addArtist(state, artist) {
       state.artist = artist;
     },
+    showLoading(state){
+      state.isloading=true;
+    },
+    hiddenLoading(state){
+      state.isloading=false;
+    }
   },
   getters: {
     getShowLogin(state) {
       return state.isShowLogin;
-    }
+    },
   },
   actions: {
   },

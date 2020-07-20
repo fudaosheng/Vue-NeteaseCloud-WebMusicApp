@@ -35,6 +35,7 @@ import { _getArtist } from "network/discover";
 import { imgLoad } from "./indexMixin";
 import { debounce } from "assets/common/tool";
 import { indexMixin } from "../../musicListDetail/indexMixin";
+import { loadingMixin } from "views/mixin/loadingMixin";
 export default {
   name: "ArtistCategory",
   data() {
@@ -64,7 +65,7 @@ export default {
     Scroll,
     ArtistList
   },
-  mixins: [indexMixin],
+  mixins: [indexMixin,loadingMixin],
   created() {
     this.getArtist();
   },
@@ -86,8 +87,10 @@ export default {
         this.type[this.typeIndex].value,
         this.limit * this.page
       ).then(res => {
+        this.showLoading();
         this.artistlist = res.data.artists;
         this.page++;
+        this.hiddenLoading();
       });
     },
     getArtist(){
@@ -96,7 +99,9 @@ export default {
         this.type[this.typeIndex].value,
         this.limit * this.page
       ).then(res => {
+        this.showLoading();
         this.artistlist = res.data.artists;
+        this.hiddenLoading();
       });
     }
   }

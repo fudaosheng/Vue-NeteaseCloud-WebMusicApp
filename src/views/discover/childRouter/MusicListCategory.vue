@@ -19,9 +19,10 @@
 import MusicList from "components/content/musiclist/MusicList";
 import Scroll from "components/common/scroll/Scroll";
 
-import {debounce} from "assets/common/tool"
+import { debounce } from "assets/common/tool";
 import { _getMusicListHot, _getHighquality } from "network/discover";
 import { imgLoad } from "./indexMixin";
+import { loadingMixin } from "views/mixin/loadingMixin";
 export default {
   name: "MusicListCategory",
   data() {
@@ -37,11 +38,13 @@ export default {
     MusicList,
     Scroll
   },
-  mixins: [imgLoad],
+  mixins: [imgLoad, loadingMixin],
   created() {
     _getMusicListHot().then(res => {
+      this.showLoading();
       this.tags = res.data.tags;
       this.getHighquality();
+      this.hiddenLoading();
     });
   },
   methods: {
@@ -50,18 +53,19 @@ export default {
       this.getHighquality();
     },
     pullingUp() {
-      debounce(this.getHighquality(),1000);
+      debounce(this.getHighquality(), 1000);
     },
     getHighquality() {
       _getHighquality(
         this.tags[this.currentIndex].name,
         this.limit * this.page
       ).then(res => {
+        this.showLoading();
         this.musicList = res.data.playlists;
         /**之所以放到里面是因为异步操作后执行,放外面可能数据没加载完就告诉scroll数据执行完了 */
         this.page++;
         this.$refs.scroll.finishPullUp();
-        console.log(this.musicList);
+        this.hiddenLoading();
       });
     }
   }

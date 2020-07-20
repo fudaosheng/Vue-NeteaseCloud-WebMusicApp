@@ -9,6 +9,7 @@ import ArtistHot50 from "../childComps/ArtistHot50";
 import ArtistAlbumList from "../childComps/ArtistAlbumList"
 import { _getArtistHot50, _getArtistAlbum} from "network/artist";
 import { _getSongsDetail, songDetail } from "network/detail";
+import { loadingMixin } from "views/mixin/loadingMixin";
 export default {
     name:'ArtistAlbum',
     data(){
@@ -22,18 +23,20 @@ export default {
         ArtistHot50,
         ArtistAlbumList
     },
+    mixins:[loadingMixin],
     created(){
         this.artist=this.$route.query.artist||this.$store.state.artist;
         if (this.artist!= null) {
       /**热门五十首 */
       _getArtistHot50(this.artist.id).then(res => {
-
+          this.showLoading();
         for (let i of res.data.songs) {
           _getSongsDetail(i.id).then(res => {
             let song = new songDetail(res.data.songs);
             this.musiclist.push(song);
           });
         }
+        this.hiddenLoading();
       });
 
       /**获取歌曲专辑 */

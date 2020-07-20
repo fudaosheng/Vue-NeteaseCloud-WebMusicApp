@@ -27,6 +27,7 @@ import {
   _getSub,
 } from "network/detail";
 import {indexMixin} from "./indexMixin"
+import { loadingMixin } from "views/mixin/loadingMixin";
 export default {
   name: "MusicListDetail",
   data() {
@@ -51,11 +52,12 @@ export default {
     Recommends,
     MusicListLive
   },
-  mixins:[indexMixin],
+  mixins:[indexMixin,loadingMixin],
   created() {
     this.id = this.$route.params.id;
 
     _getMusicListDetail(this.id).then(res => {
+      this.showLoading();
       this.musicListDetail = res.data;
       /**保存歌单基础信息 */
       this.baseInfo = new baseInfo(this.musicListDetail.playlist);
@@ -79,6 +81,7 @@ export default {
       _getSub(this.id, 30).then(res => {
         this.subs = res.data.subscribers;
       });
+      this.hiddenLoading();
     });
   },
   methods: {

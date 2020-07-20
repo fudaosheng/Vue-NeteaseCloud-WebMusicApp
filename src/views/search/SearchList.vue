@@ -1,33 +1,34 @@
 <template>
   <div class="search-list">
     <scroll class="search-scroll">
-        <div class="title" v-if="this.key!=''&&this.musiclist.length!=0">
-      搜索
-      <span>"{{key}}"</span>,找到
-      <span>{{this.musiclist.length}}</span>首单曲
-    </div>
-    <div class="bar">
-      <div
-        class="bar-item"
-        v-for="(item,index) in list"
-        :class="{action:currentIndex==index}"
-        :key="index"
-        @click="barClick(index)"
-      >{{item}}</div>
-    </div>
-    <music-item :musiclist="musiclist" @musicItemClick="musicItemClick" v-show="isShow=='music'"/>
-    <artist-item :artistslist="artistslist" v-show="isShow=='artist'"/>
+      <div class="title" v-if="this.key!=''&&this.musiclist.length!=0">
+        搜索
+        <span>"{{key}}"</span>,找到
+        <span>{{this.musiclist.length}}</span>首单曲
+      </div>
+      <div class="bar">
+        <div
+          class="bar-item"
+          v-for="(item,index) in list"
+          :class="{action:currentIndex==index}"
+          :key="index"
+          @click="barClick(index)"
+        >{{item}}</div>
+      </div>
+      <music-item :musiclist="musiclist" @musicItemClick="musicItemClick" v-show="isShow=='music'" />
+      <artist-item :artistslist="artistslist" v-show="isShow=='artist'" />
     </scroll>
   </div>
 </template>
 <script>
-import Scroll from "components/common/scroll/Scroll"
+import Scroll from "components/common/scroll/Scroll";
 
-import MusicItem from "views/musicListDetail/childComps/MusicItem"
-import ArtistItem from "./childComps/ArtistItem"
+import MusicItem from "views/musicListDetail/childComps/MusicItem";
+import ArtistItem from "./childComps/ArtistItem";
 
-import {distinct} from "assets/common/tool"
-import {indexMixin} from "views/musicListDetail/indexMixin"
+import { distinct } from "assets/common/tool";
+import { indexMixin } from "views/musicListDetail/indexMixin";
+import { loadingMixin } from "views/mixin/loadingMixin";
 import { _Search } from "network/search";
 import { _getSongsDetail, songDetail } from "network/detail";
 export default {
@@ -40,20 +41,20 @@ export default {
       musiclist: [],
       list: ["单曲", "歌手"],
       currentIndex: 0,
-      isShow:'music',
+      isShow: "music"
     };
   },
-  components:{
-      Scroll,
-      MusicItem,
-      ArtistItem
+  components: {
+    Scroll,
+    MusicItem,
+    ArtistItem
   },
-  mixins:[indexMixin],
+  mixins: [indexMixin, loadingMixin],
   created() {
     this.key = this.$route.params.key;
     if (this.key != null && this.key != "") {
-      console.log("---");
       _Search(this.key).then(res => {
+        this.showLoading();
         let list = res.data.result.songs;
         for (let i in list) {
           this.artistslist.push(list[i].artists[0]);
@@ -67,9 +68,8 @@ export default {
                 this.musiclist.push(song);
               });
             }
-
-            console.log('distinct,');
-           this.artistslist=distinct(this.artistslist);
+            this.artistslist = distinct(this.artistslist);
+            this.hiddenLoading();
           }
         }
       });
@@ -78,13 +78,17 @@ export default {
   methods: {
     barClick(index) {
       this.currentIndex = index;
-      switch(index){
-          case 0:this.isShow='music';break;
-          case 1:this.isShow='artist';break;
+      switch (index) {
+        case 0:
+          this.isShow = "music";
+          break;
+        case 1:
+          this.isShow = "artist";
+          break;
       }
     },
-    musicItemClick(index){
-        this.PlayMusic(index);
+    musicItemClick(index) {
+      this.PlayMusic(index);
     }
   }
 };
@@ -95,9 +99,9 @@ export default {
   height: 100%;
   padding: 10px 40px;
 }
-.search-scroll{
-    height: 100%;
-    overflow: hidden;
+.search-scroll {
+  height: 100%;
+  overflow: hidden;
 }
 .title {
   font-size: 14px;
