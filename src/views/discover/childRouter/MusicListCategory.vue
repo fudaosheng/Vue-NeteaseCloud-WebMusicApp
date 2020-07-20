@@ -39,11 +39,8 @@ export default {
   },
   mixins: [imgLoad],
   created() {
-    console.log("created");
-
     _getMusicListHot().then(res => {
       this.tags = res.data.tags;
-      console.log(this.tags);
       this.getHighquality();
     });
   },
@@ -56,8 +53,6 @@ export default {
       debounce(this.getHighquality(),1000);
     },
     getHighquality() {
-        console.log(this.page);
-        
       _getHighquality(
         this.tags[this.currentIndex].name,
         this.limit * this.page

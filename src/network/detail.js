@@ -20,6 +20,17 @@ export function _getMusicUrl(id){
     })
 }
 
+/**歌曲评论 */
+export function _musicRecommend(id,limit){
+    return request({
+        url:'/comment/music',
+        params:{
+            id:id,
+            limit:limit
+        }
+    })
+}
+
 /**获取歌词 */
 export function _getLyric(id){
     return request ({

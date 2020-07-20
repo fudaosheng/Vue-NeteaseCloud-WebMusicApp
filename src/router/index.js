@@ -18,6 +18,8 @@ const SimiArtist=()=>import('views/artistdetail/childRouter/SimiArtist')
 
 const SearchList=()=>import('views/search/SearchList')
 
+const Player=()=>import('components/content/playmusic/Player')
+
 Vue.use(VueRouter)
 
   const routes = [
@@ -89,7 +91,11 @@ Vue.use(VueRouter)
     {
       path:'/search/:key',
       component:SearchList
-    }
+    },
+    // {
+    //   path:'/player',
+    //   component:Player,
+    // }
 ]
 
 const router = new VueRouter({

@@ -52,7 +52,6 @@ export default {
        this.$bus.$on('pullResource',cookie=>{
          this.isShow=true;
       })
-      console.log(this.$store.state.cookie);
   },
   methods: {
     getImgUrl(item){

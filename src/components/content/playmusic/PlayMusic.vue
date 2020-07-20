@@ -1,16 +1,26 @@
 <template>
   <div class="play-music" v-if="playList!==null">
+    <player v-show="isPlayerShow" ref="player" :music="playList[currentIndex]" :lyric="lyric" />
     <div class="top">
-      <div class="music-top-icon" v-if="playList[currentIndex]!=null">
+      <div
+        class="music-top-icon"
+        v-if="playList[currentIndex]!=null"
+        @mouseenter="isShade=true"
+        @mouseleave="isShade=false"
+        @click="PlayerRouter()"
+      >
         <img :src="playList[currentIndex].pic" alt />
+        <div class="music-max" v-show="isShade">
+          <img src="~assets/img/playmusic/max.svg" alt />
+        </div>
       </div>
       <div class="music-top-center" v-if="playList[currentIndex]!=null">
         <div class="music-title">{{playList[currentIndex].title}}</div>
         <div class="music-artist">{{playList[currentIndex].artist}}</div>
       </div>
     </div>
-    <play-music-list class="paly-music-list" v-show="isMusicList" :music-list="musicList"/>
-    <lyric class="play-music-lyric" ref="lyric" :lyric="lyric" v-show="isLyric"/>
+    <play-music-list class="paly-music-list" v-show="isMusicList" :music-list="musicList" />
+    <lyric class="play-music-lyric" ref="lyric" :lyric="lyric" v-show="isLyric" />
 
     <div class="paly-music-left">
       <div class="pre" @click="preMusic()">
@@ -79,12 +89,13 @@
   </div>
 </template>
 <script>
+import Player from "./Player";
 import MusicProgress from "components/common/progress/Progress";
 import VolumnProgress from "components/common/progress/Progress";
 import PlayMusicList from "./PlayMusicList";
-import Lyric from "./Lyric"
+import Lyric from "./Lyric";
 import { formatDate } from "assets/common/tool";
-import {  _getLyric } from "network/detail"
+import { _getLyric } from "network/detail";
 export default {
   name: "PlayMusic",
   data() {
@@ -93,12 +104,14 @@ export default {
       isVolume: false,
       isLyric: false,
       isMusicList: false,
+      isShade: false,
+      isPlayerShow: false,
       path: "",
       currentIndex: 0,
       schemaIndex: 0,
       currentTime: "00:00",
       duration: "00:00",
-      lyric:'',
+      lyric: "",
       playList: [
         {
           title: "爱存在（抖音版）（翻自 魏奇奇）",
@@ -111,10 +124,11 @@ export default {
             "https://p1.music.126.net/Y3MgpdL1iMno2g0yDnfMXQ==/109951165054657451.jpg"
         }
       ],
-      musicList:[]
+      musicList: []
     };
   },
   components: {
+    Player,
     MusicProgress,
     VolumnProgress,
     PlayMusicList,
@@ -129,12 +143,11 @@ export default {
   },
   mounted() {
     /**list是音乐列表，index是要播放的音乐在列表中的位置，path是当前播放音乐的路由路径,musicList是歌单信息*/
-    this.$bus.$on("playMusic", (list, index, path,musicList) => {
-      console.log("playindex," + list.length + "," + index + "," + path);
+    this.$bus.$on("playMusic", (list, index, path, musicList) => {
       this.playList = [];
       this.path = path;
       this.playList = list;
-      this.musicList=musicList;
+      this.musicList = musicList;
       //   this.music = list.filter(item => {
       //     return item.src !== "";
       //   });
@@ -148,17 +161,13 @@ export default {
       this.setCurrentIndex(index);
     });
 
-    this.$bus.$on('PlayMusicListItem',index=>{
+    this.$bus.$on("PlayMusicListItem", index => {
       this.setCurrentIndex(index);
-    })
-    if (this.$refs.audio.volume !== null && this.$refs.volume_pro !== null) {
-      this.$refs.audio.volume = 0.8;
-      this.$refs.volume_pro.setProgress(0.8);
-    }
+    });
   },
   methods: {
     /**设置要播放的音乐 */
-    setCurrentIndex(index){
+    setCurrentIndex(index) {
       for (let i in this.playList) {
         if (this.playList[i].index == index) {
           this.currentIndex = i;
@@ -191,14 +200,20 @@ export default {
         this.$refs.music_pro.setProgress(scale);
 
         /**歌词滚动 */
-        this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime);
+        if (this.$refs.audio.currentTime !== null) {
+          this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime);
+          this.$refs.player.$refs.playerLyric.maxScroll(
+            this.$refs.audio.currentTime
+          );
+        }
       }
     },
     /**监听音乐加载 */
-    playLoad(){
-      _getLyric(this.playList[this.currentIndex].id).then(res=>{
-        this.lyric=res.data.lrc.lyric;
-      })
+    playLoad() {
+      _getLyric(this.playList[this.currentIndex].id).then(res => {
+        this.lyric = res.data.lrc.lyric;
+      });
+      // console.log(this.$refs.player.refs);
     },
     /**监听音乐已开始播放 */
     musicPlaying() {
@@ -209,10 +224,12 @@ export default {
         this.playList[this.currentIndex].index,
         this.path
       );
+      if (this.$refs.player != null) this.$refs.player.isPlay = true;
     },
     /**对播放暂停进行监视 */
     musicPause() {
       this.isPlay = false;
+      if (this.$refs.player != null) this.$refs.player.isPlay = false;
     },
     /**音乐出现错误 */
     musicErr() {
@@ -229,7 +246,9 @@ export default {
     musicEnded() {
       switch (this.schemaIndex) {
         case 0:
-          this.currentIndex >= this.playList.length - 1 ? 0 : this.currentIndex++; //循环播放
+          this.currentIndex >= this.playList.length - 1
+            ? 0
+            : this.currentIndex++; //循环播放
           break;
         case 1:
           this.currentIndex = Math.floor(Math.random() * this.playList.length); //随机播放
@@ -270,6 +289,9 @@ export default {
     },
     toggleMusicList() {
       this.isMusicList = !this.isMusicList;
+    },
+    PlayerRouter() {
+      this.isPlayerShow = !this.isPlayerShow;
     }
   }
 };
@@ -297,7 +319,7 @@ export default {
   right: 0px;
   bottom: 59px;
 }
-.play-music-lyric{
+.play-music-lyric {
   width: 460px;
   height: 30px;
   position: absolute;
@@ -312,6 +334,17 @@ export default {
 }
 .music-top-icon img {
   height: 100%;
+}
+.music-max {
+  position: relative;
+  bottom: 64px;
+  z-index: 4;
+  width: 59px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+.music-max img {
+  opacity: 0.5;
 }
 .music-top-center {
   width: 100px;

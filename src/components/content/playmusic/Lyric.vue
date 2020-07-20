@@ -25,6 +25,8 @@ export default {
         return{
             lyricArray:[],
             lyricIndex:-1,
+            maxIndex:0,
+            length:0,
         }
     },
     components:{
@@ -33,13 +35,12 @@ export default {
     watch:{
         lyric(){
             this.lyricIndex=-1;
+            this.maxIndex=0;
             this.parseLyric(this.lyric);
-            console.log(this.lyricArray);
         }
     },
     methods:{
         parseLyric(lyric){
-             console.log('---');
             let RegExp=/\[(\d*:\d*\.\d*)\]/;
             let arr=[],timeArr=[],lyricArr=[],mergeArr=[];
             
@@ -69,12 +70,22 @@ export default {
                 this.lyricArray=mergeArr.sort((a,b)=>{
                     return a.time-b.time;
                 })
+                this.length=this.lyricArray.length;
         },
-        scrollLyric(time){
+        scrollLyric(time=0){
+            if(this.lyricIndex>this.length-2)return;
             if(time>=this.lyricArray[this.lyricIndex+1].time){
-                console.log('++');
                 this.lyricIndex++;
                 this.$refs.scroll.scrollTo(0,-30*this.lyricIndex,2000);
+            }
+        },
+        maxScroll(time=0){
+            if(this.lyricIndex>this.length-2)return;
+            if(time>=this.lyricArray[this.lyricIndex+1].time){
+                this.lyricIndex++;
+                if(this.lyricIndex<5 ||this.lyricIndex>=this.lyricArray.length-5)return; 
+                this.maxIndex++;
+                this.$refs.scroll.scrollTo(0,-30*this.maxIndex,2000);
             }
         }
     }
