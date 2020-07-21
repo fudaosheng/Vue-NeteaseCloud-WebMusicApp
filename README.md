@@ -244,6 +244,14 @@ mounted() {
 | **纯净模式上线，听歌看评论**   ![输入图片说明](https://images.gitee.com/uploads/images/2020/0718/095732_be583e10_7602838.png "屏幕截图.png") |  **纯净模式和播放器歌单更配哦**  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0718/100014_0c4fcb10_7602838.png "屏幕截图.png")|
 |---|---|
 
+ **MV** 
+
+| 推荐MV ![输入图片说明](https://images.gitee.com/uploads/images/2020/0721/153001_c36028ff_7602838.png "屏幕截图.png") | 所有MV ![输入图片说明](https://images.gitee.com/uploads/images/2020/0721/153047_d279ca8e_7602838.png "屏幕截图.png") |
+|---|---|
+
+|MV播放页面  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0721/153156_d3032761_7602838.png "屏幕截图.png") |MV播放页面  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0721/153331_687ce1f3_7602838.png "屏幕截图.png") |
+|---|---|
+
  **音乐不能播放问题** 
 
 1.要播放的音乐需要vip
