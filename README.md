@@ -229,8 +229,8 @@ mounted() {
 
 | 歌手首页简介![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/103906_8419d742_7602838.png "屏幕截图.png")  |歌手详情 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/103936_056a2644_7602838.png "屏幕截图.png")  |
 |---|---|
-| 相似歌手，需要登陆![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/104058_8f6d2b32_7602838.png "屏幕截图.png") |
-|--|
+|  相似歌手，需要登陆![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/104058_8f6d2b32_7602838.png "屏幕截图.png")   |歌手MV ![输入图片说明](https://images.gitee.com/uploads/images/2020/0721/165258_126b274d_7602838.png "屏幕截图.png")  |
+|---|---|
 
  **最新歌曲** 
 | 点击播放全部或双击单曲播放 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/104226_b125fecd_7602838.png "屏幕截图.png") |可上拉加载更多 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/104247_f3913cbb_7602838.png "屏幕截图.png")  |
