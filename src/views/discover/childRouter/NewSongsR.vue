@@ -50,7 +50,6 @@ import { _getTopSongs } from "network/discover";
 import { _getSongsDetail, songDetail } from "network/detail";
 import { tableMixin } from "views/musicListDetail/childComps/tableMixin";
 import { indexMixin } from "views/musicListDetail/indexMixin";
-import { loadingMixin } from "views/mixin/loadingMixin";
 import { debounce } from "assets/common/tool";
 export default {
   name: "NewSongs",
@@ -73,7 +72,7 @@ export default {
   components: {
     Scroll
   },
-  mixins: [tableMixin, indexMixin, loadingMixin],
+  mixins: [tableMixin, indexMixin],
   created() {
     this.getTopSongs();
   },
@@ -88,7 +87,7 @@ export default {
     getTopSongs(clear = false) {
       if (clear) this.musiclist = [];
       _getTopSongs(this.area[this.areaIndex].value).then(res => {
-        this.showLoading();
+
         this.list = res.data.data.slice(0, this.page * 30);
         for (let i of this.list) {
           _getSongsDetail(i.id).then(res => {
@@ -99,7 +98,6 @@ export default {
 
         this.page++;
         this.$refs.scroll.finishPullUp();
-        this.hiddenLoading();
       });
     },
     imgLoad() {

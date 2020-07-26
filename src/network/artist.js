@@ -57,3 +57,13 @@ export function _getSimiArtist(cookie,id){
         }
     })
 }
+
+/**mv */
+export function _getArtistMv(id){
+    return request({
+        url:'/artist/mv',
+        params:{
+            id:id
+        }
+    })
+}

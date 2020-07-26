@@ -36,8 +36,9 @@ export default {
       this.currentIndex = index;
       switch(index){
           case 0:this.$router.push('/artist/album'); break;
-          case 1:this.$router.push('/artist/desc'); break;
-          case 2:this.$router.push('/artist/simi'); break;
+          case 1:this.$router.push('/artist/mv'); break;
+          case 2:this.$router.push('/artist/desc'); break;
+          case 3:this.$router.push('/artist/simi'); break;
       }
     }
   }

@@ -100,6 +100,7 @@ export default {
 .recommend .content {
   width: 100%;
   font-size: 13px;
+  color: var(--color-text-tint);
 }
 .recommend .content p {
   padding-top: 30px;

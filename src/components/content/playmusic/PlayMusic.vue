@@ -22,7 +22,7 @@
     <play-music-list class="paly-music-list" v-show="isMusicList" :music-list="musicList" />
     <lyric class="play-music-lyric" ref="lyric" :lyric="lyric" v-show="isLyric" />
 
-    <div class="paly-music-left">
+    <div class="player-music-left">
       <div class="pre" @click="preMusic()">
         <img src="~assets/img/playmusic/pre.png" alt />
       </div>
@@ -363,7 +363,7 @@ export default {
   position: absolute;
   bottom: 0px;
 }
-.paly-music-left {
+.player-music-left {
   display: flex;
   float: left;
   width: 15%;
@@ -371,10 +371,10 @@ export default {
   justify-content: space-around;
   align-items: center;
 }
-.paly-music-left div {
+.player-music-left div {
   cursor: pointer;
 }
-.paly-music-left .play img {
+.player-music-left .play img {
   width: 55px;
   height: 55px;
 }

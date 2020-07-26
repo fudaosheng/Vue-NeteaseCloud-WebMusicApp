@@ -28,7 +28,6 @@ import ArtistItem from "./childComps/ArtistItem";
 
 import { distinct } from "assets/common/tool";
 import { indexMixin } from "views/musicListDetail/indexMixin";
-import { loadingMixin } from "views/mixin/loadingMixin";
 import { _Search } from "network/search";
 import { _getSongsDetail, songDetail } from "network/detail";
 export default {
@@ -54,7 +53,7 @@ export default {
     this.key = this.$route.params.key;
     if (this.key != null && this.key != "") {
       _Search(this.key).then(res => {
-        this.showLoading();
+
         let list = res.data.result.songs;
         for (let i in list) {
           this.artistslist.push(list[i].artists[0]);
@@ -69,7 +68,7 @@ export default {
               });
             }
             this.artistslist = distinct(this.artistslist);
-            this.hiddenLoading();
+
           }
         }
       });

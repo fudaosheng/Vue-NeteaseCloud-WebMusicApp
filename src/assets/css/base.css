@@ -2,3 +2,8 @@
     margin: 0;
     padding: 0;
 }
+:root{
+    --color-text-an:#828385;
+    --color-text-tint:#dcdde4;
+    --color-text-blue:#2e6bb0
+}

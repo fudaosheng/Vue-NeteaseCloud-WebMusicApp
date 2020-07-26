@@ -44,7 +44,6 @@ import songItem from "../childComps/RankListItem";
 import { _getRankList } from "network/discover";
 import { imgLoad } from "./indexMixin";
 import { indexMixin } from "../../musicListDetail/indexMixin";
-import { loadingMixin } from "views/mixin/loadingMixin";
 export default {
   name: "MusicRankList",
   data() {
@@ -62,12 +61,10 @@ export default {
     hotItem,
     songItem
   },
-  mixins: [indexMixin, loadingMixin],
+  mixins: [indexMixin],
   created() {
     _getRankList().then(res => {
-      this.showLoading();
       this.ranklist = res.data.list;
-      this.hiddenLoading();
     });
   }
 };

@@ -12,7 +12,6 @@ import Scroll from "components/common/scroll/Scroll";
 import DayBaseInfo from "./childComps/DayBaseInfo";
 import MusicItem from "./childComps/MusicItem";
 import { _getRecommendResource } from "network/discover";
-import { loadingMixin } from "views/mixin/loadingMixin";
 import {
   _getSongsDetail,
   songDetail,
@@ -35,14 +34,13 @@ export default {
     let cookie = this.$store.state.cookie;
     if (cookie != "" && cookie != null) {
       _getRecommendResource(cookie, this.$store.state.uid).then(res => {
-        this.showLoading();
         for (let i of res.data.data.dailySongs) {
           _getSongsDetail(i.id).then(res => {
             let song = new songDetail(res.data.songs);
             this.musiclist.push(song);
           });
         }
-        this.hiddenLoading();
+
       });
     }
   },

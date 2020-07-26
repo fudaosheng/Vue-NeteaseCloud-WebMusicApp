@@ -20,7 +20,7 @@ export default {
     return {
       artist: null,
       artistDesc: null,
-      barlist: ["专辑", "歌手详情", "相似歌手"],
+      barlist: ["专辑","MV", "歌手详情", "相似歌手"],
     };
   },
   components: {

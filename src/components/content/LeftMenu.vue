@@ -30,9 +30,9 @@ export default {
           title: "发现音乐"
         },
         {
-          link: "/test",
-          image: require("assets/img/leftmenu/fm.svg"),
-          title: "私人FM"
+          link: "/allmv",
+          image: require("assets/img/leftmenu/mv.svg"),
+          title: "MV"
         },
         {
           link: "",

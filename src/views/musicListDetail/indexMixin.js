@@ -3,7 +3,6 @@ import { playList } from "components/content/playmusic/playList";
 export const indexMixin = {
     methods: {
         PlayMusic(index = 0) {
-            this.$store.commit('showLoading');
             let path = this.$route.path;
             let musiclist;
             if (this.musiclist.length >= 200) {
@@ -24,7 +23,7 @@ export const indexMixin = {
                     if (i == musiclist.length - 1) {
 
                         this.$bus.$emit("playMusic", playlist, index, path, musiclist);
-                        this.$store.commit('hiddenLoading');
+            
                     }
                 });
                 // let getLyric = _getLyric(musiclist[i].id).then(res => {

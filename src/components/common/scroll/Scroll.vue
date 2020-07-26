@@ -30,7 +30,7 @@ export default {
       default(){
         return false
       }
-    }
+    },
   },
   data() {
     return {
@@ -42,7 +42,7 @@ export default {
       click: true,
       probeType: this.probeType ,//3时时监听滚动
       pullUpLoad:this.pullUpLoad,//上拉加载更多
-      scrollbar:this.scrollbar
+      scrollbar:this.scrollbar,
     })
      this.scroll.on('scroll', (position) => {//监听滚动
         this.$emit('scroll',position);    
@@ -64,6 +64,14 @@ export default {
     },
     getScrollY(){
       return this.scroll?this.scroll.y:0;
+    },
+    /**启用scroll */
+    enable(){
+      this.scroll&&this.scroll.enable();
+    },
+    /**禁用better-scroll */
+    disable(){
+      this.scroll&&this.scroll.disable();
     }
   }
 };

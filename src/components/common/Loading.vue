@@ -15,6 +15,7 @@ export default {
 <style>
 .loading {
   position: absolute;
+  position: -1;
   top: 0px;
   width: 100%;
   height: 100%;

@@ -7,18 +7,21 @@ const MusicListCategory=()=>import('views/discover/childRouter/MusicListCategory
 const MusicRankList=()=>import('views/discover/childRouter/MusicRankList')
 const ArtistCategory=()=>import('views/discover/childRouter/ArtistCategory')
 const NewSongsR=()=>import('views/discover/childRouter/NewSongsR')
+const MV=()=>import('views/mv/MV')
 
 const MusicListDetail=()=>import('views/musicListDetail/MusicListDetail')
 const DayMusicListDetail=()=>import('views/musicListDetail/DayMusicListDetail')
 
 const ArtistDetail=()=>import('views/artistdetail/ArtistDetail')
 const ArtistAlbum=()=>import('views/artistdetail/childRouter/ArtistAlbum')
+const ArtistMV=()=>import('views/artistdetail/childRouter/ArtistMV')
 const ArtistDescDetail=()=>import('views/artistdetail/childRouter/ArtistDescDetail')
 const SimiArtist=()=>import('views/artistdetail/childRouter/SimiArtist')
 
 const SearchList=()=>import('views/search/SearchList')
 
-const Player=()=>import('components/content/playmusic/Player')
+const PlayMV=()=>import('views/mv/PlayMV')
+const AllMV=()=>import('views/mv/AllMV')
 
 Vue.use(VueRouter)
 
@@ -54,7 +57,11 @@ Vue.use(VueRouter)
         {
           path:'/discover/newsongs',
           component:NewSongsR
-        }
+        },
+        {
+          path:'/discover/mv',
+          component:MV
+        },
       ]
     },
     {
@@ -79,6 +86,10 @@ Vue.use(VueRouter)
           component:ArtistAlbum
         },
         {
+          path:'/artist/mv',
+          component:ArtistMV
+        },
+        {
           path:'/artist/desc',
           component:ArtistDescDetail
         },
@@ -92,6 +103,14 @@ Vue.use(VueRouter)
       path:'/search/:key',
       component:SearchList
     },
+    {
+      path:'/playmv/:id',
+      component:PlayMV
+    },
+    {
+      path:'/allmv',
+      component:AllMV
+    }
 ]
 
 const router = new VueRouter({
