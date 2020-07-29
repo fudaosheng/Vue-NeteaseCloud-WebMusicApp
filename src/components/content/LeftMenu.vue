@@ -32,7 +32,7 @@ export default {
         {
           link: "/allmv",
           image: require("assets/img/leftmenu/mv.svg"),
-          title: "MV"
+          title: "全部MV"
         },
         {
           link: "",

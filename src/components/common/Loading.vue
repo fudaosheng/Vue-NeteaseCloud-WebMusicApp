@@ -1,10 +1,8 @@
 <template>
-  <div class="loading">
     <Spin fix class="loading-fix" color="red">
       <Icon type="ios-loading" size="42" class="demo-spin-icon-load"></Icon>
       <div class="loading-font">loading...</div>
     </Spin>
-  </div>
 </template>
 <script>
 // 部分样式代码冗长，未作展示
@@ -13,13 +11,6 @@ export default {
 };
 </script>
 <style>
-.loading {
-  position: absolute;
-  position: -1;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-}
 .loading-font{
     font-size: 24px;
 }

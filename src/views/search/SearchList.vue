@@ -48,7 +48,7 @@ export default {
     MusicItem,
     ArtistItem
   },
-  mixins: [indexMixin, loadingMixin],
+  mixins: [indexMixin],
   created() {
     this.key = this.$route.params.key;
     if (this.key != null && this.key != "") {

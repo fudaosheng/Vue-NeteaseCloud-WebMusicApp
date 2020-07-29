@@ -2,7 +2,7 @@
   <div class="private" v-if="pri!=null">
     <p class="top">{{pri.name}}</p>
     <div class="content">
-      <div class="item" v-for="(item,index) in pri.result" :key="index">
+      <div class="item" v-for="(item,index) in pri.result" :key="index" @click="playMV(item.id)">
         <div class="loco">
           <img src="~assets/img/leftmenu/shiping.svg" alt @load="priImgLoad" />
         </div>
@@ -30,7 +30,10 @@ export default {
       /**类似于防抖函数功能*/
       if (this.imgCount == this.pri.result.length) this.$emit("priImgLoad");
       this.imgCount++;
-    }
+    },
+    playMV(id){
+            this.$router.push('/playmv/'+id)
+        }
   }
 };
 </script>

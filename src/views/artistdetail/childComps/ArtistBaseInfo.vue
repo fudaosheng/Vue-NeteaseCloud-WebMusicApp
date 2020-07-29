@@ -88,11 +88,12 @@ export default {
 }
 .center {
   position: absolute;
-  top: 0;
+  top: 0px;
   bottom: 0;
   margin: auto;
   display: flex;
   align-items: center;
+  height: 25%;
 }
 .center div {
   padding: 5px 10px;
@@ -108,10 +109,12 @@ export default {
 }
 .desc {
   position: absolute;
+  max-height: 49px;
   bottom: 0px;
   color: #dcdde4;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
 }
 .desc div {

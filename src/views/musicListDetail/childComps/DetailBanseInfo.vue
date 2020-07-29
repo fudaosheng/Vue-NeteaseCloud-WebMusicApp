@@ -134,9 +134,10 @@ export default {
   color: #4e4e52;
 }
 .desc .desc-item {
-  display: block;
-  white-space: nowrap;
+  line-height: 30px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 </style>
