@@ -36,7 +36,7 @@ export function _Swiper (oSwiper) {
         clearInterval(timer);
         timer = setInterval(() => {
             nextPic();
-        }, 3000);
+        }, 6000);
         oPre.style.display = 'none';
         oNext.style.display = 'none';
     }

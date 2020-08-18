@@ -113,14 +113,12 @@ export default {
   transform: scale(0.9);
   transform-origin: 0% 100%;
   z-index: 0;
-  animation-duration: 3s;
   opacity: 0.5;
 }
 
 .list2 {
   transform: translateX(250px);
   z-index: 2;
-  animation-duration: 3s;
   opacity: 1;
 }
 
@@ -128,7 +126,6 @@ export default {
   transform: translateX(750px) scale(0.9);
   transform-origin: 0% 100%;
   z-index: 0;
-  animation-duration: 3s;
   opacity: 0.5;
 }
 
@@ -136,7 +133,6 @@ export default {
   transform: translateX(1000px) scale(0.9);
   transform-origin: 0% 100%;
   z-index: 0;
-  animation-duration: 3s;
   opacity: 0.5;
 }
 
@@ -144,7 +140,6 @@ export default {
   transform: translateX(1250px) scale(0.9);
   transform-origin: 0% 100%;
   z-index: 0;
-  animation-duration: 3s;
   opacity: 0.5;
 }
 
@@ -152,8 +147,10 @@ export default {
   transform: translateX(1500px) scale(0.9);
   transform-origin: 0% 100%;
   z-index: 0;
-  animation-duration: 3s;
   opacity: 0.5;
+}
+[class*='list']{
+   transition: transform .8s;
 }
 
 .lineBar .action {
