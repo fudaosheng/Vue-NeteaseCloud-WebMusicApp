@@ -6,9 +6,10 @@
 
 Gitee地址：https://gitee.com/fudaosheng/vue-fds_music
 
- **特别感谢** 
-
-@北京-张嘉利 给出的解决“点击相似歌手,切换到对应歌手详情页，但是歌手基础信息不变的问题”。
+ **打赏作者**
+如果您觉得本项目不错，您可以设置任何金额支持作者，您的支持是作者持续更新的动力。
+| ![微信](https://images.gitee.com/uploads/images/2020/0827/170558_62cb7b87_7602838.png "wechat.png")  |  ![支付宝](https://images.gitee.com/uploads/images/2020/0827/170614_e539c549_7602838.jpeg "支付宝.jpg") |
+|---|---|
 
  **项目简介** 
 
