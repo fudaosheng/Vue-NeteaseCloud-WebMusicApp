@@ -27,7 +27,6 @@ export default {
   mixins: [imgLoadMixin],
   methods: {
     priImgLoad() {
-      /**类似于防抖函数功能*/
       if (this.imgCount == this.pri.result.length) this.$emit("priImgLoad");
       this.imgCount++;
     },

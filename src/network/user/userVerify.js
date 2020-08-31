@@ -19,7 +19,6 @@ export function _login(phone,password){
     })
 }
 
-/**获取用户歌单 */
 export function _getSongList(id){
     return request({
         url:'/user/playlist',

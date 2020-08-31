@@ -6,13 +6,13 @@ Vue.use(Vuex)
 
 const state = {
   isShowLogin: false,
-  user: null,//保存用户信息
-  SongList: null,//用户歌单
+  user: null,
+  SongList: null,
   uid: null,
   cookie: '',
   playlist: [],
-  artist: null,//歌手信息
-  isloading:false,//是否显示loading
+  artist: null,
+  isloading:false,
 };
 export default new Vuex.Store({
   state,
@@ -21,14 +21,12 @@ export default new Vuex.Store({
       state.playlist = list
 
     },
-    /**登陆界面显示与隐藏 */
     showLogin(state) {
       state.isShowLogin = true;
     },
     hiddenLogin(state) {
       state.isShowLogin = false;
     },
-    /**保存用户信息 */
     addUser(state, obj) {
       state.user = obj;
       state.uid = state.user.profile.userId;
@@ -38,7 +36,6 @@ export default new Vuex.Store({
         state.SongList = res.data.playlist;
       });
     },
-    /**保存歌手信息 */
     addArtist(state, artist) {
       state.artist = artist;
     },

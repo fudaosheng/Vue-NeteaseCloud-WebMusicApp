@@ -59,7 +59,6 @@ export default {
       ).then(res => {
 
         this.musicList = res.data.playlists;
-        /**之所以放到里面是因为异步操作后执行,放外面可能数据没加载完就告诉scroll数据执行完了 */
         this.page++;
         this.$refs.scroll.finishPullUp();
 

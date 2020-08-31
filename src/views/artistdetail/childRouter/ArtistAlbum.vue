@@ -25,7 +25,6 @@ export default {
   created() {
     this.artist = this.$route.query.artist || this.$store.state.artist;
     if (this.artist != null) {
-      /**热门五十首 */
       _getArtistHot50(this.artist.id).then(res => {
         let songs = res.data.songs;
         for (let i in songs) {
@@ -35,8 +34,6 @@ export default {
           });
         }
       });
-
-      /**获取歌曲专辑 */
       _getArtistAlbum(this.artist.id).then(res => {
         this.albumlist = res.data.hotAlbums;
       });

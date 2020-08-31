@@ -58,7 +58,6 @@ export default {
       return item.picUrl||item.coverImgUrl;
     },
     imgLoad() {
-      /**类似于防抖函数功能*/
       if (this.imgCount == this.personList.length) this.$emit("imgLoad");
       this.imgCount++;
     },

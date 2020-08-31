@@ -100,7 +100,7 @@ export default {
   name: "PlayMusic",
   data() {
     return {
-      isPlay: false, //true正在播放
+      isPlay: false, 
       isVolume: false,
       isLyric: false,
       isMusicList: false,
@@ -142,22 +142,16 @@ export default {
     }
   },
   mounted() {
-    /**list是音乐列表，index是要播放的音乐在列表中的位置，path是当前播放音乐的路由路径,musicList是歌单信息*/
     this.$bus.$on("playMusic", (list, index, path, musicList) => {
       this.playList = [];
       this.path = path;
       this.playList = list;
       this.musicList = musicList;
-      //   this.music = list.filter(item => {
-      //     return item.src !== "";
-      //   });
-      /**对数组进行排序 */
+
       this.playList = this.playList.sort((a, b) => {
         return a.index - b.index;
       });
-      /**在请求歌曲的时候可能有的歌曲不可用，或丢失。导致在播放器中的歌曲列表和页面展示存在差异，可能会出现指定的播放歌曲不服
-       * 用一次查找解决问题
-       */
+
       this.setCurrentIndex(index);
     });
 
@@ -166,16 +160,14 @@ export default {
     });
   },
   methods: {
-    /**设置要播放的音乐 */
     setCurrentIndex(index) {
       for (let i in this.playList) {
         if (this.playList[i].index == index) {
           this.currentIndex = i;
-          break; //break跳出循环------continue跳出本次循环
+          break;
         }
       }
     },
-    /**暂停或播放音乐 */
     toggle() {
       this.isPlay = !this.isPlay;
       if (this.isPlay && this.$refs.audio.readyState == 4)
@@ -184,10 +176,8 @@ export default {
         this.$refs.audio.pause();
       }
     },
-    /**返回当前的播放时间 */
     audioTimeUpdate() {
       if (this.$refs.audio != null) {
-        //     /**new Date()传入的是毫秒，而$refs.audio.currentTime返回的是秒*/
         this.currentTime = formatDate(
           new Date(this.$refs.audio.currentTime * 1000),
           "mm:ss"
@@ -199,7 +189,6 @@ export default {
         let scale = this.$refs.audio.currentTime / this.$refs.audio.duration;
         this.$refs.music_pro.setProgress(scale);
 
-        /**歌词滚动 */
         if (this.$refs.audio.currentTime !== null) {
           this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime);
           this.$refs.player.$refs.playerLyric.maxScroll(
@@ -208,17 +197,13 @@ export default {
         }
       }
     },
-    /**监听音乐加载 */
     playLoad() {
       _getLyric(this.playList[this.currentIndex].id).then(res => {
         this.lyric = res.data.lrc.lyric;
       });
-      // console.log(this.$refs.player.refs);
     },
-    /**监听音乐已开始播放 */
     musicPlaying() {
       this.isPlay = true;
-      /**currentIndex并不等于歌单里音乐，music数组里每个属性index才对应歌单里的顺序 */
       this.$bus.$emit(
         "Playing",
         this.playList[this.currentIndex].index,
@@ -226,19 +211,15 @@ export default {
       );
       if (this.$refs.player != null) this.$refs.player.isPlay = true;
     },
-    /**对播放暂停进行监视 */
     musicPause() {
       this.isPlay = false;
       if (this.$refs.player != null) this.$refs.player.isPlay = false;
     },
-    /**音乐出现错误 */
     musicErr() {
       console.log("err");
       this.$Message.error("当前音频不可用");
       this.currentIndex++;
     },
-    /**对音乐播放结束进行监视 */
-    /**播放方式 */
     toggleSchema() {
       if (this.schemaIndex >= 2) this.schemaIndex = 0;
       else this.schemaIndex++;
@@ -248,16 +229,15 @@ export default {
         case 0:
           this.currentIndex >= this.playList.length - 1
             ? 0
-            : this.currentIndex++; //循环播放
+            : this.currentIndex++;
           break;
         case 1:
-          this.currentIndex = Math.floor(Math.random() * this.playList.length); //随机播放
+          this.currentIndex = Math.floor(Math.random() * this.playList.length);
           break;
-        case 3: //单曲循环
+        case 3:
           break;
       }
     },
-    /**加载下一首音乐 */
     nextMusic() {
       if (this.currentIndex >= this.playList.length - 1) this.currentIndex = 0;
       else this.currentIndex++;

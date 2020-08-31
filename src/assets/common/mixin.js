@@ -14,7 +14,6 @@ export const clickMixin={
     },
 }
 
-/**歌单详情路由混入 */
 export const detailMixin={
     data(){
         return{

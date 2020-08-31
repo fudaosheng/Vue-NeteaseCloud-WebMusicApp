@@ -28,10 +28,8 @@ export default {
     NavBar
   },
   created(){
-    /**解决跳转到其他路由返回时navbar与内容不符的问题 */
     for(let i in this.list){
       if(this.list[i].link==this.$route.path){
-        /**如果直接在created中使用子组件的属性或方法，此时子组件可能还没创建，异步解决此问题 */
         setTimeout(()=>{
           this.$refs.nav.barClick(i);
         },100)

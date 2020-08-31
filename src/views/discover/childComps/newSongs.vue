@@ -34,7 +34,6 @@ export default {
   mixins: [imgLoadMixin],
   methods: {
     newSongImgLoad() {
-      /**类似于防抖函数功能*/
       if (this.imgCount == this.songList.length) this.$emit("newSongImgLoad");
       this.imgCount++;
     },

@@ -57,12 +57,9 @@ export default {
 
     _getMusicListDetail(this.id).then(res => {
       this.musicListDetail = res.data;
-      /**保存歌单基础信息 */
       this.baseInfo = new baseInfo(this.musicListDetail.playlist);
       let str = "评论(" + this.musicListDetail.playlist.commentCount + ")";
       this.list = ["歌曲列表", str, "收藏者"];
-
-      /**遍历查询歌单所有歌曲详情 */
       for (let i of this.musicListDetail.playlist.trackIds) {
         _getSongsDetail(i.id).then(res => {
           let song = new songDetail(res.data.songs);
@@ -70,12 +67,10 @@ export default {
         });
       }
 
-      /**获取歌单评论 */
       _getRecommends(this.id, this.limit).then(res => {
         this.recommends = res.data.comments;
       });
 
-      /**获取歌单收藏者 */
       _getSub(this.id, 30).then(res => {
         this.subs = res.data.subscribers;
       });

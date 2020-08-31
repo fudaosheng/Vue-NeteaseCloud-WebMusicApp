@@ -28,21 +28,6 @@ export default {
         this.scale=(this.proLine/this.$el.offsetWidth).toFixed(2);
         this.$emit('childclick',this.scale);
     },
-    // setProMouse(e) {
-    //     this.$off('click',this.setProClick);
-        
-    //     let newX=0;
-    //     let posX=e.clientX;
-    //     this.$el.onmousemove=(e)=>{
-    //         newX=e.clientX;
-    //     }
-    //     document.onmouseup=()=>{
-    //         this.onmousemove=null;
-    //         console.log('up'+posX+','+newX);
-            
-    //     }
-    // },
-    // 通过比例设置进度条进度
     setProgress(scale){
         this.proLine = scale*this.$el.offsetWidth;
         this.proLoad = scale*this.$el.offsetWidth;

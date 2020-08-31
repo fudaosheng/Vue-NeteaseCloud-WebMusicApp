@@ -32,11 +32,11 @@ export default {
   name: "Individuation",
   data() {
     return {
-      banner: null, //轮播图数据
-      limit: 12, //一次获取的歌单数量
-      personalized: null, //保存获取到的推荐歌单
-      privateContent: null, //独家放送
-      songList: null, //每日新歌
+      banner: null,
+      limit: 12,
+      personalized: null,
+      privateContent: null,
+      songList: null,
       musiclist: []
     };
   },
@@ -52,16 +52,13 @@ export default {
     if (this.$store.state.cookie != null && this.$store.state.cookie != "") {
       this.limit = 11;
     }
-    /**轮播图数据 */
     _getBanner().then(res => {
       this.banner = res.data.banners.slice(0, 6);
     });
-    /**推荐歌单*/
     _getPersonalized(this.limit).then(res => {
       this.personalized = res.data.result;
     });
 
-    /**独家放送*/
     _getPrivateContent().then(res => {
       this.privateContent = res.data;
       console.log(this.privateContent);

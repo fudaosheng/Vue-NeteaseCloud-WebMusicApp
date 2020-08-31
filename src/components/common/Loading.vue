@@ -5,7 +5,6 @@
     </Spin>
 </template>
 <script>
-// 部分样式代码冗长，未作展示
 export default {
   name: "Loading"
 };

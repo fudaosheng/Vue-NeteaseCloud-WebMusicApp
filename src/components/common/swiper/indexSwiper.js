@@ -40,7 +40,6 @@ export function _Swiper (oSwiper) {
         oPre.style.display = 'none';
         oNext.style.display = 'none';
     }
-    /**下一张*/
     function nextPic() {
         switchNext();
         addClass();
@@ -88,19 +87,15 @@ export function _Swiper (oSwiper) {
             }
         }
     }
-    /**给Li添加类*/
     function addClass() {
-        /**设置属性远比访问属性节省性能*/
         for (let i = 0, length = aLi.length; i < length; i++) {
             aLi[i].setAttribute('class', aName[i]);
         }
     }
-    /**将数组所有元素向后移一位*/
     function switchNext() {
-        aName.unshift(aName[aName.length - 1]);//将类名数组最后一个元素复制一份插入数组最前面
+        aName.unshift(aName[aName.length - 1]);
         aName.pop();//
     }
-    /**将数组所有元素向前移一位*/
     function switchPre() {
         aName.push(aName[0]);
         aName.shift();

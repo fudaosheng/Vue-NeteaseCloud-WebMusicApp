@@ -10,7 +10,6 @@ export function _getMusicListDetail(id){
     })
 }
 
-/**获取歌曲url */
 export function _getMusicUrl(id){
     return request({
         url:'/song/url',
@@ -20,7 +19,6 @@ export function _getMusicUrl(id){
     })
 }
 
-/**歌曲评论 */
 export function _musicRecommend(id,limit){
     return request({
         url:'/comment/music',
@@ -31,7 +29,6 @@ export function _musicRecommend(id,limit){
     })
 }
 
-/**获取歌词 */
 export function _getLyric(id){
     return request ({
         url:'/lyric',
@@ -41,7 +38,6 @@ export function _getLyric(id){
     })
 }
 
-/**对歌单发表评论 */
 export  function _pushCommend(cookie,id,content){
     return request({
         url:'/comment',
@@ -55,7 +51,6 @@ export  function _pushCommend(cookie,id,content){
     })
 }
 
-/**获取歌单收藏者 */
 export function _getSub(id,limit){
     return request({
         url:'/playlist/subscribers',
@@ -66,7 +61,6 @@ export function _getSub(id,limit){
     })
 }
 
-/**歌单评论信息 */
 export function _getRecommends(id,limit){
     return request({
         url:'/comment/playlist',
@@ -77,7 +71,6 @@ export function _getRecommends(id,limit){
     })
 }
 
-/**获取歌单歌曲信息 */
 export function _getSongsDetail(arr){
     return request({
         url:'/song/detail',
@@ -86,7 +79,6 @@ export function _getSongsDetail(arr){
         }
     })
 }
-/**对歌曲数据进行封装 */
 export class songDetail{
     constructor(songs){
         this.id=songs[0].id;
@@ -98,7 +90,6 @@ export class songDetail{
     }
 }
 
-/**歌单基础信息 */
 export class baseInfo{
     constructor(playlist){
         this.img=playlist.coverImgUrl;

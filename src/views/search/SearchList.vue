@@ -59,10 +59,8 @@ export default {
           this.artistslist.push(list[i].artists[0]);
           this.mlist.push(list[i].id);
           if (i == list.length - 1) {
-            /**查询 歌曲详情*/
             for (let i of this.mlist) {
               _getSongsDetail(i).then(res => {
-                //   console.log(res);
                 let song = new songDetail(res.data.songs);
                 this.musiclist.push(song);
               });

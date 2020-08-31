@@ -33,7 +33,6 @@ export default {
   },
   watch:{
     artist(to,form){
-      /**解决切换歌手，ArtistBar与内容不符问题 */
       this.$refs.artistBar.currentClick(0);
       if(to.id!==null){
         _getArtistDesc(to.id).then(res=>{

@@ -1,7 +1,6 @@
 export function debounce(fn,delay){
   let timer=null;
   
-  //返回的函数是用户每次实际调用的函数
   return (...args)=>{
     if(timer)clearTimeout(timer);
     timer=setTimeout(()=>{
@@ -10,7 +9,6 @@ export function debounce(fn,delay){
   }
 }
 
-/**数组去重 */
 export function distinct(arr){
   let newArr=[];
   let isExist=false;
@@ -30,7 +28,6 @@ export function distinct(arr){
   return newArr;
 }
 
-/**时间格式化函数 */
 export function formatDate(date, fmt) {
   if (/(y+)/.test(fmt)) {
     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
