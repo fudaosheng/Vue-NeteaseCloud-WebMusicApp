@@ -40,6 +40,11 @@ export default {
       probeType: this.probeType ,
       pullUpLoad:this.pullUpLoad,
       scrollbar:this.scrollbar,
+      mouseWheel: {
+      speed: 20,
+      invert: false,
+      easeTime: 300
+    }
     })
      this.scroll.on('scroll', (position) => {
         this.$emit('scroll',position);    
