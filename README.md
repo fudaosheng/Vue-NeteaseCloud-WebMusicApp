@@ -1,15 +1,20 @@
 ### 小符音乐-高仿网易云音乐
 
+#### 推荐项目：
+
+本人新写了个Vue组件库，目前已写20+组件，每个组件都有详细的API文档，[查看文档](https://fudaosheng.gitee.io/vbest-ui/)。觉得不错的可以去 ***[vbest-ui](https://gitee.com/fudaosheng/vbest-ui)*** 仓库查看。
+
  **前言**
 
-肝代码不易，本项目还是比较能拿的出手的，若是在网上发表请标明出处，另外跪求Star。另外本项目仅用于学习。 
+肝代码不易，本项目还是比较能拿的出手的，若是在网上发表请标明出处，另外跪求Star。本项目仅用于学习。 
 
-Gitee地址：https://gitee.com/fudaosheng/vue-fds_music
+Github地址：[https://github.com/daoshengfu/vue-fds_music](http://)
 
  **打赏作者**
 如果您觉得本项目不错，您可以设置任何金额支持作者，您的支持是作者持续更新的动力。
 | ![微信](https://images.gitee.com/uploads/images/2020/0827/170558_62cb7b87_7602838.png "wechat.png")  |  ![支付宝](https://images.gitee.com/uploads/images/2020/0827/170614_e539c549_7602838.jpeg "支付宝.jpg") |
 |---|---|
+
 
  **项目简介** 
 
@@ -17,7 +22,7 @@ Gitee地址：https://gitee.com/fudaosheng/vue-fds_music
 
 本项目前端均是本人独立自主开发，所用技术栈：Vue全家桶+better-scroll+axios。
 
-项目演示：（b站)[https://www.bilibili.com/video/BV1ui4y137Xr/](http://)随手点个赞吧 :tw-1f339: 
+项目演示：（b站)[https://www.bilibili.com/video/BV1ui4y137Xr/](http://) 随手点个赞吧:tw-1f339: 
 
 下面也有项目效果图
 
@@ -30,11 +35,11 @@ Gitee地址：https://gitee.com/fudaosheng/vue-fds_music
 
 1. git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
 
-(不会使用git的小伙伴可以直接去接口仓库下载哦，接口仓库地址：[https://github.com/Binaryify/NeteaseCloudMusicApi](http://))
+(不会使用git的小伙伴可以直接去仓库下载接口哦，接口仓库地址：[https://github.com/Binaryify/NeteaseCloudMusicApi](http://))
 
-2.$ npm install
+2. npm install
 
-3。cd api文件夹
+3.cd api文件夹
 
 4.node app.js
 
@@ -42,17 +47,15 @@ Gitee地址：https://gitee.com/fudaosheng/vue-fds_music
 
 以上是运行成功的效果
 
- **项目知识点介绍：Mixin** 
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/094104_d9a27d78_7602838.png "屏幕截图.png")
-
-了解详细Mixin请去vue官网。
+#### 问题交流群
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0915/095720_2490a5ae_7602838.jpeg "qrcode_1600134831290.jpg")
 
  **项目优点** 
 
 个人觉得本项目最大的优点在于如何触发音乐播放器。一般触发音乐播放器有三种方法，$emit、vuex、$bus。
 
-1.$emit：缺点：音乐播放器和要播放的音乐所在组件必须有父子关系，而明显在一个音乐app中这是不现实的。
+1.$emit：缺点：音乐播放器和要播放音乐所在组件必须存在父子关系，而明显在一个音乐app中这是不现实的。
 
 2.vuex：利用vuex的话可以先将要播放的音乐放在vuex中(假设放在state的musiclist中)，然后在音乐播放器组件生命周期函数中监听musiclist的状态，当音乐列表不为空时播放音乐.
 
@@ -108,7 +111,7 @@ export const indexMixin = {
 }
 ```
 
-之所以将其放在mixin中，是因为这样我在任何一个页面都能使用这个方法，降低了代码的重复性。
+之所以将其放在mixin中，是因为这样我在任何一个组件中都能使用这个方法，降低了代码的重复性，也体现了模块化的编程思想。
 
  **在音乐播放器组件中接收时：** 
 
@@ -127,7 +130,7 @@ mounted() {
       this.music = this.music.sort((a, b) => {
         return a.index - b.index;
       });
-      /**在请求歌曲的时候可能有的歌曲不可用，或丢失。导致在播放器中的歌曲列表和页面展示存在差异，可能会出现指定的播放歌曲不服
+      /**在请求歌曲的时候，可能有的歌曲不可用，丢失。导致在播放器中的歌曲列表和页面展示的歌单存在差异，会出现实际的播放歌曲与要播放的歌曲不符的问题。
        * 用一次查找解决问题
        */
       for (let i in this.music) {
@@ -166,9 +169,15 @@ mounted() {
 
 （1)没选params当然是用params传参会报错啦，报错的原因：通过path进行传值的时候，报传的参数过大，而通过name进行传值确实能传，但是因为还有子路由，用name会导致后续无法重定向子路由。
 
-（2）为什么不直接传个id然后再在路由中获取信息，是因为我看了API文档发现并没有根据id获取歌手的基础信息接口。这也是搜索结果页面歌手头像都一样的原因，它给我的数据就是那样的，而且没有歌手基础信息的接口。
+（2）为什么不直接传个id然后再在路由中获取信息？，是因为我看了API文档发现并没有根据id获取歌手的基础信息接口。这也是搜索结果页面歌手头像都一样的原因，它给我的数据就是那样的，而且没有歌手基础信息的接口。
 
 （3）额外用vuex保存歌手信息，是因为我当初测试的时候发现路由直接传参，子路由重定向的时候会存在拿不到传过来的值的问题。
+
+ **项目改进意见** 
+
+1.将MusicItem这个组件放到content中，并将thead和tbody中的td用slot替换。
+
+ **原因** ：在后续的开发中我发现这个组件的复用率特别高，当时将其放在MusicListDetail子组件中现在看来是种欠佳的考虑，并且MusicItem这个组件在使用时它一行多少列是变化的，所以建议对其进行slot改进，由于我目前项目开发主要方向不在这方面，所以先给大家一个改进意见，在做的小伙伴最好改进下，在音乐播放器我开发满意之后会对项目进行次重构。
 
 
  **关于本项目** 
@@ -228,10 +237,11 @@ mounted() {
 
  **歌手详情** 
 
-| 歌手首页简介![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/103906_8419d742_7602838.png "屏幕截图.png")  |歌手详情 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/103936_056a2644_7602838.png "屏幕截图.png")  |
+| 歌手首页，简介![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/103906_8419d742_7602838.png "屏幕截图.png")  |歌手详情 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/103936_056a2644_7602838.png "屏幕截图.png")  |
 |---|---|
 |  相似歌手，需要登陆![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/104058_8f6d2b32_7602838.png "屏幕截图.png")   |歌手MV ![输入图片说明](https://images.gitee.com/uploads/images/2020/0721/165258_126b274d_7602838.png "屏幕截图.png")  |
 |---|---|
+
 
  **最新歌曲** 
 | 点击播放全部或双击单曲播放 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/104226_b125fecd_7602838.png "屏幕截图.png") |可上拉加载更多 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0713/104247_f3913cbb_7602838.png "屏幕截图.png")  |
@@ -241,7 +251,6 @@ mounted() {
 
 | 播放器歌单 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0716/110240_8edcf752_7602838.png "屏幕截图.png") |播放器歌词功能 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0717/090113_4a050b0f_7602838.png "屏幕截图.png")  |
 |---|---|
-
 | **纯净模式上线，听歌看评论**   ![输入图片说明](https://images.gitee.com/uploads/images/2020/0718/095732_be583e10_7602838.png "屏幕截图.png") |  **纯净模式和播放器歌单更配哦**  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0718/100014_0c4fcb10_7602838.png "屏幕截图.png")|
 |---|---|
 
@@ -252,6 +261,10 @@ mounted() {
 
 |MV播放页面  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0721/153156_d3032761_7602838.png "屏幕截图.png") |MV播放页面  ![输入图片说明](https://images.gitee.com/uploads/images/2020/0721/153331_687ce1f3_7602838.png "屏幕截图.png") |
 |---|---|
+
+
+
+
 
  **音乐不能播放问题** 
 
