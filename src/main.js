@@ -5,6 +5,10 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+import VbestUi from 'vbest-ui'
+import 'vbest-ui/dist/vbest-ui.css'
+Vue.use(VbestUi)
+
 new Vue({
   router,
   store,

@@ -1,0 +1,86 @@
+{
+  "id": "2069265",
+  "name": "dance-music",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "12814345",
+      "name": "最大化",
+      "font_class": "zuidahua",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "718863",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "1649166",
+      "name": "最小化",
+      "font_class": "zuixiaohua",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "1365813",
+      "name": "粗线-换肤",
+      "font_class": "icon-huanfu",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "703175",
+      "name": "music-note-eighth",
+      "font_class": "musicnoteeighth",
+      "unicode": "e979",
+      "unicode_decimal": 59769
+    },
+    {
+      "icon_id": "727422",
+      "name": "man-single",
+      "font_class": "mansingle",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
+      "icon_id": "1261752",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e691",
+      "unicode_decimal": 59025
+    },
+    {
+      "icon_id": "1261955",
+      "name": "music",
+      "font_class": "music",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "1847259",
+      "name": "PC播放页_排行榜",
+      "font_class": "PCbofangye_paihangbang",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "11391498",
+      "name": "歌单",
+      "font_class": "gedan",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "13186579",
+      "name": "MV",
+      "font_class": "MV",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --light-bg-color:#f9f9f9;
+    --light-text-color:#16181c;
+    --light-aside-bg-color:#f9f9f9;
+
+
+    --dark-bg-color:#16181c;
+    --dark-aside-bg-color:#191b1f;
+    --dark-header-bg-color:#202023;
+    --dark-text-color:#f9f9f9;
+
+    --green-bg-color:#3eb874;
+    --green-text-color:#f6f6f6;
+    --green-aside-bg-color:#f9f9f9;
+}
