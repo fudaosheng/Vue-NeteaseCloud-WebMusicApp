@@ -107,152 +107,152 @@ export default {
 </script>
 <style lang="less" scoped>
 .dance-music-header {
-  display: flex;
-  align-items: center;
-  height: 58px;
-  width: 100%;
-  &-title {
-    width: 18%;
-    height: 100%;
-    text-align: center;
     display: flex;
-    &-left {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      .item {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        line-height: 18px;
-        overflow: hidden;
-        i {
-          display: inline-block;
-        }
-      }
-      .item:nth-child(1) {
-        background: #ed655a;
-      }
-      .item:nth-child(2) {
-        background: #e0c04c;
-      }
-      .item:nth-child(3) {
-        background: #72be47;
-      }
-    }
-    &-right {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      .item {
-        flex: 1;
-        text-align: center;
-      }
-    }
-  }
-  &-main {
-    width: 82%;
-    height: 100%;
-    display: flex;
-    .left {
-      flex: 2;
+    align-items: center;
+    height: 58px;
+    width: 100%;
+    &-title {
+      width: 18%;
+      height: 100%;
       text-align: center;
-      line-height: 58px;
-    }
-    .right {
-      flex: 7;
       display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      .avatar {
-        margin-right: 60px;
-      }
-      a {
-        text-decoration: none;
-      }
-      .item {
-        width: 60px;
-        text-align: center;
-        font-size: 22px;
-      }
-      .iconfont {
-        font-size: 24px;
-      }
-      .poptip-title {
-        font-size: 16px;
-        text-align: left;
-      }
-      .huanfu {
+      &-left {
+        flex: 1;
         display: flex;
-        height: 60px;
-        width: 100%;
-        cursor: pointer;
-        .theme-item {
-          flex: 1px;
-          line-height: 60px;
+        align-items: center;
+        justify-content: space-around;
+        .item {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          line-height: 18px;
+          overflow: hidden;
+          i {
+            display: inline-block;
+          }
+        }
+        .item:nth-child(1) {
+          background: #ed655a;
+        }
+        .item:nth-child(2) {
+          background: #e0c04c;
+        }
+        .item:nth-child(3) {
+          background: #72be47;
+        }
+      }
+      &-right {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        .item {
+          flex: 1;
           text-align: center;
-          font-size: 13px;
         }
-        .theme-item:nth-child(1) {
-          background: var(--light-bg-color);
-          color: var(--dark-bg-color);
+      }
+    }
+    &-main {
+      width: 82%;
+      height: 100%;
+      display: flex;
+      .left {
+        flex: 2;
+        text-align: center;
+        line-height: 58px;
+      }
+      .right {
+        flex: 7;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .avatar {
+          margin-right: 60px;
         }
-        .theme-item:nth-child(2) {
-          background: #292c32;
-          color: #fff;
+        a {
+          text-decoration: none;
         }
-        .theme-item:nth-child(3) {
-          background: #449e60;
+        .item {
+          width: 60px;
+          text-align: center;
+          font-size: 22px;
+        }
+        .iconfont {
+          font-size: 24px;
+        }
+        .poptip-title {
+          font-size: 16px;
+          text-align: left;
+        }
+        .huanfu {
+          display: flex;
+          height: 60px;
+          width: 100%;
+          cursor: pointer;
+          .theme-item {
+            flex: 1px;
+            line-height: 60px;
+            text-align: center;
+            font-size: 13px;
+          }
+          .theme-item:nth-child(1) {
+            background: var(--light-bg-color);
+            color: var(--dark-bg-color);
+          }
+          .theme-item:nth-child(2) {
+            background: #292c32;
+            color: #fff;
+          }
+          .theme-item:nth-child(3) {
+            background: #449e60;
+          }
         }
       }
     }
   }
-}
-.iconfont {
-  font-size: 12px;
-}
-.header-side-enter-active {
-  animation: slideInDown 0.4s;
-}
-.header-side-leave-active {
-  animation: slideInDown 0.4s reverse;
-}
-// light主题
-.dance-music-light-header {
-  background: var(--light-bg-color);
-}
-// dark主题
-.dance-music-dark-header {
-  background: var(--dark-header-bg-color);
-}
-//green主题
-.dance-music-green-header {
-  background: var(--green-bg-color);
-}
-// 换肤图标主题
-.light-huanfu-icon {
-  color: var(--dark-bg-color) !important;
-}
-.dark-huanfu-icon {
-  color: #ccc !important;
-}
-// header 右边图标主题
-.light-item{
-  color: var(--light-text-color);
-}
-.dark-item {
-  color: #ccc;
-}
-.green-item {
-  color: #f6f6f6;
-}
-// header 左边图标主题
-.header-dark-title-icon{
-  color: #ccc;
-}
-.header-green-title-icon{
-  color:  #f6f6f6;
-}
+  .iconfont {
+    font-size: 12px;
+  }
+  .header-side-enter-active {
+    animation: slideInDown 0.4s;
+  }
+  .header-side-leave-active {
+    animation: slideInDown 0.4s reverse;
+  }
+  // light主题
+  .dance-music-light-header {
+    background: var(--light-bg-color);
+  }
+  // dark主题
+  .dance-music-dark-header {
+    background: var(--dark-header-bg-color);
+  }
+  //green主题
+  .dance-music-green-header {
+    background: var(--green-bg-color);
+  }
+  // 换肤图标主题
+  .light-huanfu-icon {
+    color: var(--dark-bg-color) !important;
+  }
+  .dark-huanfu-icon {
+    color: #ccc !important;
+  }
+  // header 右边图标主题
+  .light-item{
+    color: var(--light-text-color);
+  }
+  .dark-item {
+    color: #ccc;
+  }
+  .green-item {
+    color: #f6f6f6;
+  }
+  // header 左边图标主题
+  .header-dark-title-icon{
+    color: #ccc;
+  }
+  .header-green-title-icon{
+    color:  #f6f6f6;
+  }
 </style>
