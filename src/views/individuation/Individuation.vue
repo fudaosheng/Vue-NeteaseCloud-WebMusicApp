@@ -1,9 +1,10 @@
 <template>
   <div :class="indiviClass">
-    <b-scroll ref="scroll" class="scroll">
-      <swiper :banner="banner" />
-      <h4 :class="[`${program+'indivi-h4-'+theme}`]">推荐歌单</h4>
-    </b-scroll>
+    <scroll :theme="getTheme" ref="scroll" class="scroll">
+      <swiper :banner="banner" class="swiper"/>
+      <h4 :class="[`${program+'indivi-h4'}`,`${program+'indivi-h4-'+theme}`]">推荐歌单</h4>
+      <music-list :personalized="personalized"/>
+    </scroll>
   </div>
 </template>
 <script>
@@ -15,10 +16,14 @@ import {
   _getBanner,
   _getRecommendResource,
 } from "network/discover";
-import Swiper from "components/common/swiper/Swiper";
+
+import Swiper from "common/swiper/Swiper";
+import Scroll from "common/scroll/Scroll";
+import MusicList from "content/musiclist/MusicList";
 export default {
   name: "Individuation",
   mixins: [theme],
+  components: { Swiper, Scroll, MusicList },
   computed: {
     indiviClass() {
       return [
@@ -30,15 +35,12 @@ export default {
   data() {
     return {
       banner: null, //轮播图数据
-      limit: 12, //一次获取的歌单数量
+      limit: 10, //一次获取的歌单数量
       personalized: null, //保存获取到的推荐歌单
       privateContent: null, //独家放送
       songList: null, //每日新歌
       musiclist: [],
     };
-  },
-  components: {
-    Swiper,
   },
   created() {
     if (this.$store.state.cookie != null && this.$store.state.cookie != "") {
@@ -47,17 +49,16 @@ export default {
     /**轮播图数据 */
     _getBanner().then((res) => {
       this.banner = res.data.banners.slice(0, 6);
-      console.log(this.banner);
     });
     /**推荐歌单*/
     _getPersonalized(this.limit).then((res) => {
       this.personalized = res.data.result;
+      console.log(this.personalized);
     });
 
     /**独家放送*/
     _getPrivateContent().then((res) => {
       this.privateContent = res.data;
-      console.log(this.privateContent);
     });
 
     _getNewSong().then((res) => {
@@ -91,9 +92,16 @@ export default {
   width: 100%;
   height: 100%;
   border: 1px solid black;
+  padding: 0px 10px;
   .scroll {
     height: 100%;
     border: 1px solid red;
+  }
+  .swiper{
+    padding: 0px 10px;
+  }
+  &-h4{
+    padding-left: 10px;
   }
   &-h4-dark {
     color: var(--dark-text-color);

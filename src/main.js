@@ -9,6 +9,10 @@ import VbestUi from 'vbest-ui'
 import 'vbest-ui/dist/vbest-ui.css'
 Vue.use(VbestUi)
 
+import global from './utils/global'
+
+Vue.use(global)
+
 new Vue({
   router,
   store,

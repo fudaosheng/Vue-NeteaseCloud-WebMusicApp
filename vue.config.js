@@ -9,7 +9,8 @@ module.exports = {
         'network': '@/network',
         'views': '@/views',
         'layout':'@/layout',
-        'mixin' : '@/mixin'
+        'mixin' : '@/mixin',
+        'utils' : '@/utils'
       }
     }
   }
