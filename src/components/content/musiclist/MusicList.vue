@@ -17,7 +17,7 @@
             {{item.playCount}}
           </div>
         </div>
-        <img :src="item.picUrl || item.coverImgUrl" />
+        <img v-lazy="item.picUrl || item.coverImgUrl" />
         <div class="title" :class="[`${program+'musiclist-title-'+theme}`]">{{item.name}}</div>
       </div>
     </div>

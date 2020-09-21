@@ -9,6 +9,9 @@ import VbestUi from 'vbest-ui'
 import 'vbest-ui/dist/vbest-ui.css'
 Vue.use(VbestUi)
 
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad,{})
+
 import global from './utils/global'
 
 Vue.use(global)

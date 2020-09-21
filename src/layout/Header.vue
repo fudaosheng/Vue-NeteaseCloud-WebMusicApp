@@ -6,17 +6,17 @@
         @mouseenter="handleMouseEnter"
         @mouseleave="handleMouseLeave"
       >
-        <div class="item">
+        <div class="item" @click="handleHomeButton">
           <transition name="header-side">
             <i class="iconfont icon-home" v-show="isShow" />
           </transition>
         </div>
-        <div class="item">
+        <div class="item" @click="handleExistMaxScreen">
           <transition name="header-side">
             <i class="iconfont icon-zuixiaohua" v-show="isShow" />
           </transition>
         </div>
-        <div class="item">
+        <div class="item" @click="handleMaxScreen">
           <transition name="header-side">
             <i class="iconfont icon-zuidahua" v-show="isShow" />
           </transition>
@@ -32,7 +32,7 @@
         <b-input search></b-input>
       </div>
       <div class="right">
-        <b-avatar size="35px" class="avatar"></b-avatar>
+        <b-avatar size="35px" class="avatar" :src="getAvatar" @click.native="handleAvatarClick" />
         <div class="item">
           <b-poptip max-length="180px" placement="bottom-start">
             <b-button
@@ -64,16 +64,21 @@
         </a>
       </div>
     </div>
+    <transition name="login"><login v-show="isLogin" class="login" /></transition>
   </div>
 </template>
 <script>
 import { theme } from "mixin/global/theme.js";
+import {requestFullScreen,exitFullscreen} from "utils/window.js"
+import Login from "content/user/Login";
 export default {
   name: "LayoutHeader",
   mixins: [theme],
+  components: { Login },
   data() {
     return {
       isShow: false,
+      isLogin: false,
     };
   },
   computed: {
@@ -85,6 +90,9 @@ export default {
       this.theme != "dark" ? (theme = "light") : (theme = "dark");
       return theme;
     },
+    getAvatar() {
+      return this.$store.getters.getAvatar;
+    },
   },
   methods: {
     handleMouseEnter() {
@@ -93,6 +101,7 @@ export default {
     handleMouseLeave() {
       this.isShow = false;
     },
+    /**主题 */
     handleThemeLight() {
       this.$store.commit("setTheme", "light");
     },
@@ -102,157 +111,191 @@ export default {
     handleThemeGreen() {
       this.$store.commit("setTheme", "green");
     },
+    handleAvatarClick() {
+      this.isLogin = true;
+    },
+    hiddleLogin() {
+      this.isLogin = false;
+    },
+    /**窗口 */
+    handleMaxScreen(){
+      requestFullScreen();
+    },
+    handleExistMaxScreen(){
+      exitFullscreen();
+      this.$Toast.info('您已退出全屏模式');
+    },
+    /**返回主页面 */
+    handleHomeButton(){
+      this.$router.push('/individuation');
+    }
   },
 };
 </script>
 <style lang="less" scoped>
 .dance-music-header {
+  display: flex;
+  align-items: center;
+  height: 58px;
+  width: 100%;
+  &-title {
+    width: 18%;
+    height: 100%;
+    text-align: center;
     display: flex;
-    align-items: center;
-    height: 58px;
-    width: 100%;
-    &-title {
-      width: 18%;
-      height: 100%;
-      text-align: center;
+    &-left {
+      flex: 1;
       display: flex;
-      &-left {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        .item {
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          line-height: 18px;
-          overflow: hidden;
-          i {
-            display: inline-block;
-          }
-        }
-        .item:nth-child(1) {
-          background: #ed655a;
-        }
-        .item:nth-child(2) {
-          background: #e0c04c;
-        }
-        .item:nth-child(3) {
-          background: #72be47;
+      align-items: center;
+      justify-content: space-around;
+      .item {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        line-height: 18px;
+        overflow: hidden;
+        cursor: pointer;
+        i {
+          display: inline-block;
         }
       }
-      &-right {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        .item {
-          flex: 1;
-          text-align: center;
-        }
+      .item:nth-child(1) {
+        background: #ed655a;
+      }
+      .item:nth-child(2) {
+        background: #e0c04c;
+      }
+      .item:nth-child(3) {
+        background: #72be47;
       }
     }
-    &-main {
-      width: 82%;
-      height: 100%;
+    &-right {
+      flex: 1;
       display: flex;
-      .left {
-        flex: 2;
+      align-items: center;
+      justify-content: space-around;
+      .item {
+        flex: 1;
         text-align: center;
-        line-height: 58px;
       }
-      .right {
-        flex: 7;
+    }
+  }
+  &-main {
+    width: 82%;
+    height: 100%;
+    display: flex;
+    .left {
+      flex: 2;
+      text-align: center;
+      line-height: 58px;
+    }
+    .right {
+      flex: 7;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .avatar {
+        margin-right: 60px;
+        cursor: pointer;
+      }
+      a {
+        text-decoration: none;
+      }
+      .item {
+        width: 60px;
+        text-align: center;
+        font-size: 22px;
+      }
+      .iconfont {
+        font-size: 24px;
+      }
+      .poptip-title {
+        font-size: 16px;
+        text-align: left;
+      }
+      .huanfu {
         display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        .avatar {
-          margin-right: 60px;
-        }
-        a {
-          text-decoration: none;
-        }
-        .item {
-          width: 60px;
+        height: 60px;
+        width: 100%;
+        cursor: pointer;
+        .theme-item {
+          flex: 1px;
+          line-height: 60px;
           text-align: center;
-          font-size: 22px;
+          font-size: 13px;
         }
-        .iconfont {
-          font-size: 24px;
+        .theme-item:nth-child(1) {
+          background: var(--light-bg-color);
+          color: var(--dark-bg-color);
         }
-        .poptip-title {
-          font-size: 16px;
-          text-align: left;
+        .theme-item:nth-child(2) {
+          background: #292c32;
+          color: #fff;
         }
-        .huanfu {
-          display: flex;
-          height: 60px;
-          width: 100%;
-          cursor: pointer;
-          .theme-item {
-            flex: 1px;
-            line-height: 60px;
-            text-align: center;
-            font-size: 13px;
-          }
-          .theme-item:nth-child(1) {
-            background: var(--light-bg-color);
-            color: var(--dark-bg-color);
-          }
-          .theme-item:nth-child(2) {
-            background: #292c32;
-            color: #fff;
-          }
-          .theme-item:nth-child(3) {
-            background: #449e60;
-          }
+        .theme-item:nth-child(3) {
+          background: #449e60;
         }
       }
     }
   }
-  .iconfont {
-    font-size: 12px;
-  }
-  .header-side-enter-active {
-    animation: slideInDown 0.4s;
-  }
-  .header-side-leave-active {
-    animation: slideInDown 0.4s reverse;
-  }
-  // light主题
-  .dance-music-light-header {
-    background: var(--light-bg-color);
-  }
-  // dark主题
-  .dance-music-dark-header {
-    background: var(--dark-header-bg-color);
-  }
-  //green主题
-  .dance-music-green-header {
-    background: var(--green-bg-color);
-  }
-  // 换肤图标主题
-  .light-huanfu-icon {
-    color: var(--dark-bg-color) !important;
-  }
-  .dark-huanfu-icon {
-    color: #ccc !important;
-  }
-  // header 右边图标主题
-  .light-item{
-    color: var(--light-text-color);
-  }
-  .dark-item {
-    color: #ccc;
-  }
-  .green-item {
-    color: #f6f6f6;
-  }
-  // header 左边图标主题
-  .header-dark-title-icon{
-    color: #ccc;
-  }
-  .header-green-title-icon{
-    color:  #f6f6f6;
-  }
+}
+.iconfont {
+  font-size: 12px;
+}
+.header-side-enter-active {
+  animation: slideInDown 0.4s;
+}
+.header-side-leave-active {
+  animation: slideInDown 0.4s reverse;
+}
+// light主题
+.dance-music-light-header {
+  background: var(--light-bg-color);
+}
+// dark主题
+.dance-music-dark-header {
+  background: var(--dark-header-bg-color);
+}
+//green主题
+.dance-music-green-header {
+  background: var(--green-bg-color);
+}
+// 换肤图标主题
+.light-huanfu-icon {
+  color: var(--dark-bg-color) !important;
+}
+.dark-huanfu-icon {
+  color: #ccc !important;
+}
+// header 右边图标主题
+.light-item {
+  color: var(--light-text-color);
+}
+.dark-item {
+  color: #ccc;
+}
+.green-item {
+  color: #f6f6f6;
+}
+// header 左边图标主题
+.header-dark-title-icon {
+  color: #ccc;
+}
+.header-green-title-icon {
+  color: #f6f6f6;
+}
+.login {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+}
+.login-enter-active{
+  animation: fadeInDown var(--animation-base-time);
+}
+.login-leave-active{
+  animation: zoomOutUp var(--animation-base-time);
+}
 </style>

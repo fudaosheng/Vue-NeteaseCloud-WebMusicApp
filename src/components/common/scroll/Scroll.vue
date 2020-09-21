@@ -1,6 +1,6 @@
 <template>
     <div class="scroll">
-        <b-scroll :theme="theme" :speed="speed" class="b-scroll">
+        <b-scroll ref="scroll" :theme="theme" :speed="speed" class="b-scroll">
             <slot></slot>
         </b-scroll>
     </div>
@@ -15,7 +15,12 @@ export default {
         },
         speed:{
             type:Number,
-            default:20
+            default:30
+        }
+    },
+    methods:{
+        refresh(){
+            this.$refs.scroll.refresh();
         }
     }
 }

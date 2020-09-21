@@ -4,6 +4,8 @@
       <swiper :banner="banner" class="swiper"/>
       <h4 :class="[`${program+'indivi-h4'}`,`${program+'indivi-h4-'+theme}`]">推荐歌单</h4>
       <music-list :personalized="personalized"/>
+      <private-content :pri="privateContent"/>
+      <new-songs :songList="songList" @newSongImgLoad="newSongImgLoad" @playMusic="playMusic" />
     </scroll>
   </div>
 </template>
@@ -20,10 +22,12 @@ import {
 import Swiper from "common/swiper/Swiper";
 import Scroll from "common/scroll/Scroll";
 import MusicList from "content/musiclist/MusicList";
+import PrivateContent from "./childsComps/PrivateContent"
+import NewSongs from "./childsComps/newSongs"
 export default {
   name: "Individuation",
   mixins: [theme],
-  components: { Swiper, Scroll, MusicList },
+  components: { Swiper, Scroll, MusicList ,PrivateContent,NewSongs},
   computed: {
     indiviClass() {
       return [
@@ -53,12 +57,12 @@ export default {
     /**推荐歌单*/
     _getPersonalized(this.limit).then((res) => {
       this.personalized = res.data.result;
-      console.log(this.personalized);
     });
 
     /**独家放送*/
     _getPrivateContent().then((res) => {
       this.privateContent = res.data;
+      console.log(this.privateContent);
     });
 
     _getNewSong().then((res) => {
@@ -66,24 +70,22 @@ export default {
     });
   },
   methods: {
-    // priImgLoad() {
-    //   this.$refs.scroll.refresh();
-    // },
-    // newSongImgLoad() {
-    //   this.$refs.scroll.refresh();
-    // },
-    // playMusic(index) {
-    //   this.musiclist = [];
-    //   for (let i in this.songList) {
-    //     _getSongsDetail(this.songList[i].id).then(res => {
-    //       let song = new songDetail(res.data.songs);
-    //       this.musiclist.push(song);
-    //       if (i == this.songList.length - 1) {
-    //         this.PlayMusic(index);
-    //       }
-    //     });
-    //   }
-    // }
+    newSongImgLoad() {
+      this.$refs.scroll.refresh();
+      console.log('--');
+    },
+    playMusic(index) {
+      this.musiclist = [];
+      for (let i in this.songList) {
+        _getSongsDetail(this.songList[i].id).then(res => {
+          let song = new songDetail(res.data.songs);
+          this.musiclist.push(song);
+          if (i == this.songList.length - 1) {
+            this.PlayMusic(index);
+          }
+        });
+      }
+    }
   },
 };
 </script>
@@ -91,11 +93,9 @@ export default {
 .dance-music-indivi {
   width: 100%;
   height: 100%;
-  border: 1px solid black;
   padding: 0px 10px;
   .scroll {
     height: 100%;
-    border: 1px solid red;
   }
   .swiper{
     padding: 0px 10px;

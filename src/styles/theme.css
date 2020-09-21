@@ -7,6 +7,7 @@
     --light-bg-color:#f9f9f9;
     --light-text-color:#16181c;
     --light-aside-bg-color:#f9f9f9;
+    --light-main-color:#e83c3c;
 
 
     --dark-bg-color:#16181c;
@@ -14,10 +15,13 @@
     --dark-header-bg-color:#202023;
     --dark-text-color:#ccc;
     --dark-border-active-color:#b82525;
+    --dark-article-color:#ffffff;
 
     --green-bg-color:#3eb874;
     --green-text-color:#f6f6f6;
     --green-aside-bg-color:#f9f9f9;
+
+    --animation-base-time:.4s;
 }
 h4{
     padding: 10px 0px;
