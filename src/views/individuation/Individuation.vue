@@ -62,7 +62,6 @@ export default {
     /**独家放送*/
     _getPrivateContent().then((res) => {
       this.privateContent = res.data;
-      console.log(this.privateContent);
     });
 
     _getNewSong().then((res) => {
@@ -72,7 +71,6 @@ export default {
   methods: {
     newSongImgLoad() {
       this.$refs.scroll.refresh();
-      console.log('--');
     },
     playMusic(index) {
       this.musiclist = [];

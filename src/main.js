@@ -10,7 +10,9 @@ import 'vbest-ui/dist/vbest-ui.css'
 Vue.use(VbestUi)
 
 import VueLazyLoad from 'vue-lazyload'
-Vue.use(VueLazyLoad,{})
+Vue.use(VueLazyLoad,{
+  loading: './assets/img/loading.png',
+})
 
 import global from './utils/global'
 

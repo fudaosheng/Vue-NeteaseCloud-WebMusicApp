@@ -1,12 +1,20 @@
 <template>
   <div :class="asideClass">
-    <b-menu
+    <div class="menu">
+      <b-menu
       :menu="menuList"
       vertical
       item-width="100%"
       :text-color="theme=='dark'?'var(--dark-text-color)':''"
       :active-color="getActiveColor"
     ></b-menu>
+    <div class="my-music-list" v-if="false">
+      <p class="title">创建的歌单</p>
+      <ul class="my-music-list-main">
+        <li></li>
+      </ul>
+    </div>
+    </div>
   </div>
 </template>
 <script>
@@ -42,16 +50,6 @@ export default {
         `${this.program + "aside-" + this.theme}`,
       ];
     },
-    getActiveColor() {
-      let color = "";
-      color =
-        this.theme == "dark"
-          ? "var( --dark-border-active-color)"
-          : this.theme == "green"
-          ? "var(--green-bg-color)"
-          : "var(--primary)";
-      return color;
-    },
   },
 };
 </script>
@@ -69,6 +67,24 @@ export default {
   }
   &-green {
     background: var(--green-aside-bg-color);
+  }
+}
+.menu{
+  height: 420px;
+}
+.my-music-list{
+  height: calc(100% - 420px);
+  padding: 10px 0px;
+  .title{
+    font-size: 13px;
+  }
+  &-main{
+    list-style-type: none;
+    padding-left: 20px ;
+    li{
+      height: 60px;
+      border: 1px solid red;
+    }
   }
 }
 </style>

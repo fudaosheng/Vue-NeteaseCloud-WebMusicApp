@@ -28,6 +28,7 @@ export default {
   float: left;
   &-dark {
     background: var(--dark-bg-color);
+    color: var(--dark-article-color);
   }
 }
 </style>

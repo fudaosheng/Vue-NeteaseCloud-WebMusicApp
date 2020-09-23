@@ -6,6 +6,7 @@
       :key="index"
       @mouseenter="handleEnter(index)"
       @mouseleave="handleLeave(index)"
+      @click="enterMusicListDetail(index)"
     >
       <div class="group">
         <transition name="musiclist-slide">
@@ -45,6 +46,9 @@ export default {
     },
     handleLeave(index) {
       this.currentIndex = null;
+    },
+    enterMusicListDetail(index) {
+      this.$router.push("/musiclistdetail/" + this.personalized[index].id+'/'+new Date().getTime());
     },
   },
 };

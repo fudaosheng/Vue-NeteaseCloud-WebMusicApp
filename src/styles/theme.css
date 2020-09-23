@@ -4,6 +4,9 @@
     box-sizing: border-box;
 }
 :root{
+    --main-color:#e83c3c;
+    --tag-color:#0c73c2;
+
     --light-bg-color:#f9f9f9;
     --light-text-color:#16181c;
     --light-aside-bg-color:#f9f9f9;
@@ -22,7 +25,15 @@
     --green-aside-bg-color:#f9f9f9;
 
     --animation-base-time:.4s;
+
+    /* table斑马线颜色 */
+    --dark-table-stripe-color:#232529;
+    --table-stripe-color:#f9f9f9;
 }
 h4{
     padding: 10px 0px;
+}
+
+.scroll{
+    height:100%;
 }

@@ -23,8 +23,8 @@
         </div>
       </div>
       <div :class="program+'header-title-right'">
-        <div :class="[`item vbestui-iconfont icon-hou`,`${'header-'+theme+'-title-icon'}`]"></div>
-        <div :class="[`item vbestui-iconfont icon-qian`,`${'header-'+theme+'-title-icon'}`]"></div>
+        <div :class="[`item vbestui-iconfont icon-hou`,`${'header-'+theme+'-title-icon'}`]" @click="go(-1)"></div>
+        <div :class="[`item vbestui-iconfont icon-qian`,`${'header-'+theme+'-title-icon'}`]" @click="go(1)"></div>
       </div>
     </div>
     <div :class="program+'header-main'">
@@ -34,7 +34,7 @@
       <div class="right">
         <b-avatar size="35px" class="avatar" :src="getAvatar" @click.native="handleAvatarClick" />
         <div class="item">
-          <b-poptip max-length="180px" placement="bottom-start">
+          <b-poptip max-length="180px" placement="bottom-start" :theme="getTheme">
             <b-button
               :class="[`iconfont icon-icon-huanfu`,`${theme+'-huanfu-icon'}`]"
               width="60px"
@@ -128,6 +128,10 @@ export default {
     /**返回主页面 */
     handleHomeButton(){
       this.$router.push('/individuation');
+    },
+    /**路由 */
+    go(index){
+      this.$router.go(index);
     }
   },
 };
@@ -177,6 +181,7 @@ export default {
       .item {
         flex: 1;
         text-align: center;
+        cursor: pointer;
       }
     }
   }
