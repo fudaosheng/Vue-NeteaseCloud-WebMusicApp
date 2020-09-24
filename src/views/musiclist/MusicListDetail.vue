@@ -10,13 +10,19 @@
       <div :class="program + 'detail-container'">
         <table-list
           :music-list="musiclist"
-          @refresh="handleRefresh"
           v-show="isShow == 'music'"
+          @refresh="handleRefresh"
         />
         <recommends
           :recommends="recommends"
           :id="id"
           v-show="isShow == 'recommend'"
+          @refresh="handleRefresh"
+        />
+        <music-list-live
+          :subs="subs"
+          v-show="isShow == 'sub'"
+          @refresh="handleRefresh"
         />
       </div>
     </scroll>
@@ -37,10 +43,11 @@ import Scroll from "common/scroll/Scroll";
 import BaseInfo from "./childsComps/baseInfo";
 import TableList from "common/table/TableList";
 import Recommends from "./childsComps/Recommends";
+import MusicListLive from "./childsComps/MusicListLive";
 export default {
   name: "MusicListDetail",
   mixins: [theme],
-  components: { Scroll, BaseInfo, TableList, Recommends },
+  components: { Scroll, BaseInfo, TableList, Recommends, MusicListLive },
   computed: {
     detailClass() {
       return [
@@ -57,8 +64,8 @@ export default {
       baseInfo: {},
       musiclist: [],
       isShow: "music", //控制显示歌单、评论、收藏者
-      recommends:null,
-      subs:null
+      recommends: null,
+      subs: null,
     };
   },
   created() {
@@ -116,7 +123,7 @@ export default {
   height: 100%;
   &-container {
     padding-top: 10px;
-    border-top:1px solid var(--border);
+    border-top: 1px solid var(--border);
   }
 }
 </style>

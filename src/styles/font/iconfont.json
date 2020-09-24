@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "400964",
+      "name": "next",
+      "font_class": "next",
+      "unicode": "e7cd",
+      "unicode_decimal": 59341
+    },
+    {
+      "icon_id": "1159896",
+      "name": "单曲循环",
+      "font_class": "danqu",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "1207794",
+      "name": "保存顺序",
+      "font_class": "shunxu",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "1402621",
+      "name": "292-previous2",
+      "font_class": "-previous",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "5330418",
+      "name": "随机",
+      "font_class": "suiji",
+      "unicode": "e788",
+      "unicode_decimal": 59272
+    },
+    {
+      "icon_id": "6282731",
+      "name": "播放",
+      "font_class": "bofang1",
+      "unicode": "e6a6",
+      "unicode_decimal": 59046
+    },
+    {
+      "icon_id": "6282792",
+      "name": "暂停",
+      "font_class": "zanting",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "13137519",
+      "name": "歌词未点击",
+      "font_class": "lyric",
+      "unicode": "e727",
+      "unicode_decimal": 59175
+    },
+    {
       "icon_id": "11755889",
       "name": "音量",
       "font_class": "V",

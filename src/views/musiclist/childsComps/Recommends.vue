@@ -28,7 +28,7 @@
         class="list-item"
       >
         <div class="left">
-          <img v-lazy="item.user.avatarUrl" alt="" />
+          <img v-lazy="item.user.avatarUrl" alt="" @load="handleImgLoad"/>
         </div>
         <div class="right">
           <div class="desc">
@@ -45,9 +45,10 @@
 import { formatDate } from "utils/tool";
 import { _pushCommend } from "network/detail";
 import { theme } from "mixin/global/theme";
+import {imgLoadMixin} from "mixin/global/imgLoad"
 export default {
   name: "Recommends",
-  mixins: [theme],
+  mixins: [theme,imgLoadMixin],
   props: {
     recommends: {
       type: Array,
@@ -86,6 +87,10 @@ export default {
       }
       this.content = "";
     },
+    handleImgLoad(){
+      if(this.imgCount==this.recommends.length)this.$emit('refresh');
+      this.imgCount++;
+    }
   },
 };
 </script>
@@ -123,6 +128,7 @@ export default {
 }
 .list-item {
   display: flex;
+  font-size: 13px;
   .left {
     width: 40px;
     height: 40px;

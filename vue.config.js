@@ -10,7 +10,8 @@ module.exports = {
         'views': '@/views',
         'layout':'@/layout',
         'mixin' : '@/mixin',
-        'utils' : '@/utils'
+        'utils' : '@/utils',
+        'player' : '@/player'
       }
     }
   }
