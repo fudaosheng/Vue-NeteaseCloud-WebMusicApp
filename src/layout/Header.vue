@@ -85,11 +85,6 @@ export default {
     headClass() {
       return [`${this.program + this.theme + "-header"}`, "dance-music-header"];
     },
-    getTheme() {
-      let theme = "";
-      this.theme != "dark" ? (theme = "light") : (theme = "dark");
-      return theme;
-    },
     getAvatar() {
       return this.$store.getters.getAvatar;
     },

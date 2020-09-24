@@ -37,7 +37,13 @@ export default new Vuex.Store({
       }
       avatar=state.user&&state.user.profile.avatarUrl;
       return avatar;
-    }
+    },
+    getCookie(state){
+      if(localStorage.getItem('cookie')){
+        state.cookie=localStorage.getItem('cookie');
+      }
+      return state.cookie;
+    },
   },
   actions: {
   },

@@ -24,5 +24,11 @@ export const theme = {
                         : "";
             return color;
         },
+        /**全局斑马线背景颜色 */
+        getStripeColor(){
+            let stripeColor="";
+            stripeColor=this.theme=="dark"?"var(--dark-table-stripe-color)":"var(--table-stripe-color)";
+            return stripeColor;
+          },
     }
 }

@@ -2,8 +2,23 @@
   <div :class="detailClass">
     <scroll class="scroll" ref="scroll" :theme="getTheme">
       <base-info :base-info="baseInfo" />
-      <b-menu :menu="list" :active-color="getActiveColor"></b-menu>
-      <table-list class="music-list" :music-list="musiclist"></table-list>
+      <b-menu
+        :menu="list"
+        :active-color="getActiveColor"
+        @click="handleMenuClick"
+      ></b-menu>
+      <div :class="program + 'detail-container'">
+        <table-list
+          :music-list="musiclist"
+          @refresh="handleRefresh"
+          v-show="isShow == 'music'"
+        />
+        <recommends
+          :recommends="recommends"
+          :id="id"
+          v-show="isShow == 'recommend'"
+        />
+      </div>
     </scroll>
   </div>
 </template>
@@ -21,10 +36,11 @@ import { theme } from "mixin/global/theme.js";
 import Scroll from "common/scroll/Scroll";
 import BaseInfo from "./childsComps/baseInfo";
 import TableList from "common/table/TableList";
+import Recommends from "./childsComps/Recommends";
 export default {
   name: "MusicListDetail",
   mixins: [theme],
-  components: { Scroll, BaseInfo, TableList },
+  components: { Scroll, BaseInfo, TableList, Recommends },
   computed: {
     detailClass() {
       return [
@@ -40,6 +56,9 @@ export default {
       list: [],
       baseInfo: {},
       musiclist: [],
+      isShow: "music", //控制显示歌单、评论、收藏者
+      recommends:null,
+      subs:null
     };
   },
   created() {
@@ -60,16 +79,44 @@ export default {
           this.musiclist.push(song);
         });
       }
-      console.log(this.musiclist);
+      /**获取歌单评论 */
+      _getRecommends(this.id, this.limit).then((res) => {
+        this.recommends = res.data.comments;
+      });
+
+      /**获取歌单收藏者 */
+      _getSub(this.id, 30).then((res) => {
+        this.subs = res.data.subscribers;
+      });
     });
+  },
+  methods: {
+    /**musiclist数据加载完刷新scroll */
+    handleRefresh() {
+      this.$refs.scroll.refresh();
+    },
+    /**根据导航切换 */
+    handleMenuClick(index) {
+      switch (index) {
+        case 0:
+          this.isShow = "music";
+          break;
+        case 1:
+          this.isShow = "recommend";
+          break;
+        case 2:
+          this.isShow = "sub";
+      }
+    },
   },
 };
 </script>
 <style lang="less" scoped>
 .dance-music-detail {
   height: 100%;
-}
-.music-list {
-  padding-top: 10px;
+  &-container {
+    padding-top: 10px;
+    border-top:1px solid var(--border);
+  }
 }
 </style>

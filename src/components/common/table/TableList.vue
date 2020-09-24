@@ -1,7 +1,7 @@
 <template>
   <div class="table-list" v-if="musicList.length">
     <b-table show-border stripe :stripe-background-color="getStripeColor">
-      <b-table-head slot="head" split>
+      <b-table-head slot="head" split :split-color="getSplitColor">
         <b-table-tr>
           <b-table-td width="50px"></b-table-td>
           <b-table-td width="60px">操作</b-table-td>
@@ -36,18 +36,21 @@ export default {
     },
   },
   computed:{
-    /**获取table 斑马线颜色 */
-    getStripeColor(){
-      let stripeColor="";
-      stripeColor=this.theme=="dark"?"var(--dark-table-stripe-color)":"var(--table-stripe-color)";
-      return stripeColor;
-    }
+    /**table-head split 颜色 */
+    getSplitColor(){
+      let splitColor="";
+      splitColor=this.theme=="dark"?"var(--border-tt)":"var(--border)";
+      return splitColor;
+    },
   },
   methods:{
     /**获取音乐列表下标 */
     getListIndex(index){
       let currentIndex=0;
       currentIndex=index<9?'0'+(index+1):index+1;
+      if(currentIndex==this.musicList.length){
+        this.$emit('refresh');
+      }
       return currentIndex;
     }
   }
