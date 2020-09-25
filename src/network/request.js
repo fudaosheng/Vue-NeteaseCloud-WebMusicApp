@@ -1,8 +1,8 @@
 import axios from 'axios'
-// import $store from '@/store/index' 
-let ajaxTimer=0; 
+import $store from '@/store/index'
+let ajaxTimer = 0;
 export function request(config) {
-    // $store.commit('showLoading');
+    $store.commit('showLoading');
     const install = axios.create({
         baseURL: 'http://localhost:3000',
         timeOut: 5000
@@ -15,9 +15,10 @@ export function request(config) {
     });
     install.interceptors.response.use(data => {
         ajaxTimer--;
-        // if(ajaxTimer==0)$store.commit('hiddenLoading');
+        if (ajaxTimer == 0) $store.commit('hiddenLoading');
         return data;
     }, err => {
+        $store.commit('hiddenLoading');
         return err;
     });
     return install(config);

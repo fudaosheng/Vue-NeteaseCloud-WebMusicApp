@@ -15,8 +15,9 @@ Vue.use(VueLazyLoad,{
 })
 
 import global from './utils/global'
-
 Vue.use(global)
+
+Vue.prototype.$bus=new Vue()
 
 new Vue({
   router,

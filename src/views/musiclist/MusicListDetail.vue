@@ -1,7 +1,7 @@
 <template>
   <div :class="detailClass">
     <scroll class="scroll" ref="scroll" :theme="getTheme">
-      <base-info :base-info="baseInfo" />
+      <base-info :base-info="baseInfo" @playMusic="PlayMusic"/>
       <b-menu
         :menu="list"
         :active-color="getActiveColor"
@@ -9,7 +9,7 @@
       ></b-menu>
       <div :class="program + 'detail-container'">
         <table-list
-          :music-list="musiclist"
+          :music-list="musicList"
           v-show="isShow == 'music'"
           @refresh="handleRefresh"
         />
@@ -39,6 +39,8 @@ import {
 } from "network/detail";
 
 import { theme } from "mixin/global/theme.js";
+import {playMusic} from "mixin/global/play-music"
+
 import Scroll from "common/scroll/Scroll";
 import BaseInfo from "./childsComps/baseInfo";
 import TableList from "common/table/TableList";
@@ -46,7 +48,8 @@ import Recommends from "./childsComps/Recommends";
 import MusicListLive from "./childsComps/MusicListLive";
 export default {
   name: "MusicListDetail",
-  mixins: [theme],
+  /**Vue中最好别全大写 */
+  mixins: [theme,playMusic],
   components: { Scroll, BaseInfo, TableList, Recommends, MusicListLive },
   computed: {
     detailClass() {
@@ -62,7 +65,7 @@ export default {
       limit: 20,
       list: [],
       baseInfo: {},
-      musiclist: [],
+      musicList: [],
       isShow: "music", //控制显示歌单、评论、收藏者
       recommends: null,
       subs: null,
@@ -72,8 +75,6 @@ export default {
     this.id = this.$route.params.id;
 
     _getMusicListDetail(this.id).then((res) => {
-      //   this.musicListDetail = res.data;
-      console.log(res.data);
       /**保存歌单基础信息 */
       this.baseInfo = new baseInfo(res.data.playlist);
       let str = "评论(" + res.data.playlist.commentCount + ")";
@@ -83,7 +84,7 @@ export default {
       for (let i of res.data.playlist.trackIds) {
         _getSongsDetail(i.id).then((res) => {
           let song = new songDetail(res.data.songs);
-          this.musiclist.push(song);
+          this.musicList.push(song);
         });
       }
       /**获取歌单评论 */

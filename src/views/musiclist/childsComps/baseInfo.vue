@@ -20,6 +20,7 @@
           :style="{border:`none`}"
           round
           class="button"
+          @click="handlePlayMusic"
         >
           <i class="iconfont icon-bofang" />播放全部
         </b-button>
@@ -78,6 +79,11 @@ export default {
       );
     },
   },
+  methods:{
+    handlePlayMusic(){
+      this.$emit('playMusic');
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

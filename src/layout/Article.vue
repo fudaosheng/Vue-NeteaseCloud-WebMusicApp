@@ -3,6 +3,13 @@
     <keep-alive include="AllMV">
       <router-view />
     </keep-alive>
+    <b-loading
+      icon="vbestui-iconfont icon-loading2"
+      size="large"
+      fix
+      v-show="isLoading"
+      :color="getLoadingColor"
+    />
   </div>
 </template>
 <script>
@@ -16,6 +23,19 @@ export default {
         `${this.program + "article"}`,
         `${this.program + "article-" + this.theme}`,
       ];
+    },
+    isLoading() {
+      return this.$store.state.isloading;
+    },
+    getLoadingColor() {
+      let color = "";
+      color =
+        this.theme == "dark"
+          ? "var(--main-color)"
+          : this.theme == "green"
+          ? "var(--green-main-color)"
+          : "";
+      return color;
     },
   },
 };

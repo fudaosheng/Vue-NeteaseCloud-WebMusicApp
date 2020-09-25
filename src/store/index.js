@@ -9,6 +9,7 @@ export default new Vuex.Store({
     user: null,
     uid: null,
     cookie: null,
+    isloading:false,
   },
   mutations: {
     setTheme(state, theme) {
@@ -21,6 +22,13 @@ export default new Vuex.Store({
       state.uid = state.user.profile.userId;
       state.cookie = obj.cookie;
     },
+    /**显示隐藏loading */
+    showLoading(state){
+      state.isloading=true;
+    },
+    hiddenLoading(state){
+      state.isloading=false;
+    }
   },
   getters: {
     getTheme(state) {
