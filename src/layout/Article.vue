@@ -44,7 +44,6 @@ export default {
 .dance-music-article {
   width: 82%;
   height: calc(100% - 58px - 60px);
-  padding: 0px 80px;
   float: left;
   &-dark {
     background: var(--dark-bg-color);

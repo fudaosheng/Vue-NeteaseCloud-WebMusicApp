@@ -36,9 +36,12 @@
     --table-stripe-color:#f9f9f9;
 }
 h4{
-    padding: 10px 0px;
+    padding: 10px 10px;
 }
 
 .scroll{
     height:100%;
+}
+.dance-music-group{
+    padding:10px 100px 0px 100px;
 }

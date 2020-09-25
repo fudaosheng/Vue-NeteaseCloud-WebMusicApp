@@ -2,7 +2,7 @@ export class Song{
     constructor(index,song,url='',id) {
       this.index=index;
       this.name=song.name;
-      this.artist=song.song;
+      this.artist=song.artist;
       this.src=url;
       this.pic=song.pic;
       this.id=id;

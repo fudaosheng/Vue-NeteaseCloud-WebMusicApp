@@ -1,6 +1,6 @@
 <template>
   <div class="newSongs" :class="[`${program+'newsongs-'+theme}`]">
-    <div class="top">最新音乐</div>
+    <h4 class="top">最新音乐</h4>
     <div class="content">
       <div class="item" v-for="(item,index) in songList" :key="index" @dblclick="playMusic(index)">
         <div class="number">{{index+1}}</div>
@@ -55,7 +55,6 @@ export default {
   width: 100%;
 }
 .top {
-  font-size: 20px;
   border-bottom: 1px solid #b8b6b6;
 }
 .content {
@@ -64,8 +63,8 @@ export default {
   flex-wrap: wrap;
 }
 .item {
-  padding: 10px 10px;
-  width: 45%;
+  padding: 10px 0px;
+  width: 50%;
   height: 70px;
   display: flex;
 }

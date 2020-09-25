@@ -1,11 +1,24 @@
 <template>
   <div :class="indiviClass">
     <scroll :theme="getTheme" ref="scroll" class="scroll">
-      <swiper :banner="banner" class="swiper"/>
-      <h4 :class="[`${program+'indivi-h4'}`,`${program+'indivi-h4-'+theme}`]">推荐歌单</h4>
-      <music-list :personalized="personalized"/>
-      <private-content :pri="privateContent"/>
-      <new-songs :songList="songList" @newSongImgLoad="newSongImgLoad" @playMusic="playMusic" />
+      <div class="dance-music-group">
+        <swiper :banner="banner" class="swiper" />
+        <h4
+          :class="[
+            `${program + 'indivi-h4'}`,
+            `${program + 'indivi-h4-' + theme}`,
+          ]"
+        >
+          推荐歌单
+        </h4>
+        <music-list :personalized="personalized" />
+        <private-content :pri="privateContent" />
+        <new-songs
+          :songList="songList"
+          @newSongImgLoad="newSongImgLoad"
+          @playMusic="playMusic"
+        />
+      </div>
     </scroll>
   </div>
 </template>
@@ -22,12 +35,12 @@ import {
 import Swiper from "common/swiper/Swiper";
 import Scroll from "common/scroll/Scroll";
 import MusicList from "content/musiclist/MusicList";
-import PrivateContent from "./childsComps/PrivateContent"
-import NewSongs from "./childsComps/newSongs"
+import PrivateContent from "./childsComps/PrivateContent";
+import NewSongs from "./childsComps/newSongs";
 export default {
   name: "Individuation",
   mixins: [theme],
-  components: { Swiper, Scroll, MusicList ,PrivateContent,NewSongs},
+  components: { Swiper, Scroll, MusicList, PrivateContent, NewSongs },
   computed: {
     indiviClass() {
       return [
@@ -75,7 +88,7 @@ export default {
     playMusic(index) {
       this.musiclist = [];
       for (let i in this.songList) {
-        _getSongsDetail(this.songList[i].id).then(res => {
+        _getSongsDetail(this.songList[i].id).then((res) => {
           let song = new songDetail(res.data.songs);
           this.musiclist.push(song);
           if (i == this.songList.length - 1) {
@@ -83,7 +96,7 @@ export default {
           }
         });
       }
-    }
+    },
   },
 };
 </script>
@@ -91,15 +104,12 @@ export default {
 .dance-music-indivi {
   width: 100%;
   height: 100%;
-  padding: 0px 10px;
   .scroll {
     height: 100%;
   }
-  .swiper{
-    padding: 0px 10px;
-  }
-  &-h4{
-    padding-left: 10px;
+  .swiper {
+    width: calc(100% - 20px);
+    margin-left: 10px;
   }
   &-h4-dark {
     color: var(--dark-text-color);

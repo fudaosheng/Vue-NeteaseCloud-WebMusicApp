@@ -1,8 +1,11 @@
 import { Carousel, CarouselItem } from 'element-ui'
 
+import BMask from 'common/mask/BMask'
+
 const components = [
     Carousel,
     CarouselItem,
+    BMask
 ];
 
 export default {

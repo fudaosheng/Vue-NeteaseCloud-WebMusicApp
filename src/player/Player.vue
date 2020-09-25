@@ -1,8 +1,9 @@
 <template>
   <div :class="playerClass">
+    <player-cover  :song="playList[currentIndex]"/>
     <audio
-      v-if="playList[this.currentIndex].src"
-      :src="playList[this.currentIndex].src"
+      v-if="playList[currentIndex].src"
+      :src="playList[currentIndex].src"
       autoplay
       ref="audio"
       @timeupdate="audioTimeUpdate()"
@@ -31,7 +32,7 @@
           :percent.sync="percent"
           pro-width="4px"
           :base-color="getProgressBaseColor"
-          :stroke-color="getProgressColor"
+          :stroke-color="iconActiveColor"
           show-loadbar
           allow-click
           allow-drag
@@ -47,7 +48,7 @@
           :percent.sync="volumnProgress"
           pro-width="3px"
           :base-color="getProgressBaseColor"
-          :stroke-color="getProgressColor"
+          :stroke-color="iconActiveColor"
           show-loadbar
           allow-click
           allow-drag
@@ -83,9 +84,14 @@
 <script>
 const prefixCls = "player";
 import { theme } from "mixin/global/theme";
+import { _getLyric } from "network/detail";
+import { formatDate } from "utils/tool";
+
+import PlayerCover from "./player-cover"
 export default {
   name: "Player",
   mixins: [theme],
+  components:{PlayerCover},
   data() {
     return {
       prefixCls: prefixCls,
@@ -95,39 +101,48 @@ export default {
       currentTime: "00:00", //当前音乐播放时间
       duration: "00:00", //音乐总时间
       schemaIndex: 0, //音乐播放方式--0:顺序、1：随机、2：单曲
-      playList:[
-                {
+      playList: [
+        {
           name: "爱存在（抖音版）（翻自 魏奇奇）",
           artist: "如懿",
           index: "0",
           lyric: "",
-          src:"",
-          pic:"",
-        }
-      ],//播放列表
-      currentIndex:0,//当前播放音乐
+          src: "",
+          pic: "",
+        },
+      ], //播放列表
+      currentIndex: 0, //当前播放音乐
     };
   },
   computed: {
+    /**播放器class样式 */
     playerClass() {
       return [`${this.prefixCls}`];
     },
-    /**进度条活跃颜色 */
-    getProgressColor() {
-      let color = "";
-      color =
-        this.theme == "dark"
-          ? "var(--main-color)"
-          : this.theme == "green"
-          ? "var(--green-main-color)"
-          : "";
-      return color;
-    },
+    /**进度条背景颜色 */
     getProgressBaseColor() {
       let color = "";
       color = this.theme == "dark" ? "#171719" : "";
       return color;
     },
+  },
+  mounted() {
+    /**list是音乐列表，index是要播放的音乐在列表中的位置，path是当前播放音乐的路由路径,musicList是歌单信息*/
+    this.$bus.$on("playMusic", (playList, index, musicList) => {
+      /**初始化播放列表 */
+      this.playList = [];
+      /**对playList进行处理 */
+      let transferList = [];
+      /**过滤掉没有音乐地址的歌曲 */
+      transferList = playList.filter((item) => {
+        return item.src;
+      });
+      /**对数组进行排序 */
+      transferList = transferList.sort((a, b) => {
+        return a.index - b.index;
+      });
+      this.playList = transferList;
+    });
   },
   methods: {
     /**设置要播放的音乐 */
@@ -151,30 +166,32 @@ export default {
     /**返回当前的播放时间 */
     audioTimeUpdate() {
       if (this.$refs.audio != null) {
-        //     /**new Date()传入的是毫秒，而$refs.audio.currentTime返回的是秒*/
-        this.currentTime = formatDate(
-          new Date(this.$refs.audio.currentTime * 1000),
-          "mm:ss"
-        );
+        /**获取currentTime和duration */
+        let currentTime = this.$refs.audio.currentTime;
+        let duration = this.$refs.audio.duration;
+
+        /**格式化currentTime和duration
+         * new Date()传入的是毫秒，而$refs.audio.currentTime返回的是秒*/
+        this.currentTime = formatDate(new Date(currentTime * 1000), "mm:ss");
         this.duration = formatDate(
           new Date(this.$refs.audio.duration * 1000),
           "mm:ss"
         );
-        let scale = this.$refs.audio.currentTime / this.$refs.audio.duration;
-        this.$refs.music_pro.setProgress(scale);
+        /**计算音乐播放进度百分比 */
+        this.percent = (currentTime / duration) * 100;
 
         /**歌词滚动 */
-        if (this.$refs.audio.currentTime !== null) {
-          this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime);
-          this.$refs.player.$refs.playerLyric.maxScroll(
-            this.$refs.audio.currentTime
-          );
-        }
+        // if (this.$refs.audio.currentTime !== null) {
+        //   this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime);
+        //   this.$refs.player.$refs.playerLyric.maxScroll(
+        //     this.$refs.audio.currentTime
+        //   );
+        // }
       }
     },
     /**监听音乐加载 */
     playLoad() {
-      _getLyric(this.playList[this.currentIndex].id).then(res => {
+      _getLyric(this.playList[this.currentIndex].id).then((res) => {
         this.lyric = res.data.lrc.lyric;
       });
       // console.log(this.$refs.player.refs);
@@ -183,10 +200,15 @@ export default {
     musicPlaying() {
       this.isPlay = true;
       /**currentIndex并不等于歌单里音乐，music数组里每个属性index才对应歌单里的顺序 */
+
+      /**音乐播放时发射playing事件
+       * @param1 对应歌单正在播放音乐的歌曲下标
+       * @param2 正在播放歌曲的音乐名字
+       */
       this.$bus.$emit(
         "Playing",
         this.playList[this.currentIndex].index,
-        this.path
+        this.playList[this.currentIndex].name
       );
       if (this.$refs.player != null) this.$refs.player.isPlay = true;
     },
@@ -233,9 +255,13 @@ export default {
       this.$refs.audio.src = this.playList[this.currentIndex].src;
     },
 
+    /**设置浏览器音量 */
     setVolume(scale) {
       this.$refs.audio.volume = scale;
     },
+    /**设置音乐进度
+     * @param 设置的百分比
+     */
     setMusicCurrent(scale) {
       this.$refs.audio.currentTime = scale * this.$refs.audio.duration;
     },
@@ -256,7 +282,7 @@ export default {
     },
     PlayerRouter() {
       this.isPlayerShow = !this.isPlayerShow;
-    }
+    },
   },
 };
 </script>

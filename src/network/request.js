@@ -18,6 +18,7 @@ export function request(config) {
         if (ajaxTimer == 0) $store.commit('hiddenLoading');
         return data;
     }, err => {
+        console.log('request error');
         $store.commit('hiddenLoading');
         return err;
     });

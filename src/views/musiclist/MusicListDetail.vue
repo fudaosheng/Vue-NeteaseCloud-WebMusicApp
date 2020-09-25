@@ -1,7 +1,7 @@
 <template>
-  <div :class="detailClass">
-    <scroll class="scroll" ref="scroll" :theme="getTheme">
-      <base-info :base-info="baseInfo" @playMusic="PlayMusic"/>
+  <scroll class="scroll" ref="scroll" :theme="getTheme">
+    <div :class="detailClass">
+      <base-info :base-info="baseInfo" @playMusic="PlayMusic" />
       <b-menu
         :menu="list"
         :active-color="getActiveColor"
@@ -25,8 +25,8 @@
           @refresh="handleRefresh"
         />
       </div>
-    </scroll>
-  </div>
+    </div>
+  </scroll>
 </template>
 <script>
 import {
@@ -39,7 +39,7 @@ import {
 } from "network/detail";
 
 import { theme } from "mixin/global/theme.js";
-import {playMusic} from "mixin/global/play-music"
+import { playMusic } from "mixin/global/play-music";
 
 import Scroll from "common/scroll/Scroll";
 import BaseInfo from "./childsComps/baseInfo";
@@ -49,7 +49,7 @@ import MusicListLive from "./childsComps/MusicListLive";
 export default {
   name: "MusicListDetail",
   /**Vue中最好别全大写 */
-  mixins: [theme,playMusic],
+  mixins: [theme, playMusic],
   components: { Scroll, BaseInfo, TableList, Recommends, MusicListLive },
   computed: {
     detailClass() {
@@ -122,6 +122,7 @@ export default {
 <style lang="less" scoped>
 .dance-music-detail {
   height: 100%;
+  padding: 10px 30px 0px 30px;
   &-container {
     padding-top: 10px;
     border-top: 1px solid var(--border);
