@@ -1,6 +1,6 @@
 <template>
     <div class="scroll">
-        <b-scroll ref="scroll" :theme="theme" :speed="speed" class="b-scroll">
+        <b-scroll ref="scroll" :theme="theme" :speed="speed" :disable-bar="disableBar" class="b-scroll">
             <slot></slot>
         </b-scroll>
     </div>
@@ -16,12 +16,19 @@ export default {
         speed:{
             type:Number,
             default:30
+        },
+        disableBar:{
+            type:Boolean,
+            default:false,
         }
     },
     methods:{
         refresh(){
             this.$refs.scroll.refresh();
-        }
+        },
+        scrollTo(y,duration,judge=true){
+            this.$refs.scroll.scrollTo(y,duration,judge)
+        },
     }
 }
 </script>

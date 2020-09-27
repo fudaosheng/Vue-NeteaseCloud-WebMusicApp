@@ -1,10 +1,20 @@
 <template>
   <div :class="playerClass">
-    <player-cover  :song="playList[currentIndex]"/>
+    <!-- 播放器歌曲封面 -->
+    <player-cover :song="playList[currentIndex]" />
+    <lyric
+      :lyric="lyric"
+      :disable-bar="true"
+      :currentTime="currentTime"
+      height="40px"
+      ref="lyric"
+      class="player-lyric-simple"
+      v-show="isShowLyric"
+    />
     <audio
-      v-if="playList[currentIndex].src"
-      :src="playList[currentIndex].src"
+      :src="getSongSrc"
       autoplay
+      :loop="schemaIndex === 2 ? true : false"
       ref="audio"
       @timeupdate="audioTimeUpdate()"
       @pause="musicPause()"
@@ -14,19 +24,19 @@
       @error="musicErr()"
     ></audio>
     <div class="player-toggle" :class="[`${'player-toggle-' + theme}`]">
-      <div class="player-pre player-toggle-item">
+      <div class="player-pre player-toggle-item" @click="preMusic">
         <i class="player-icon iconfont icon--previous"></i>
       </div>
       <div class="player-player-type player-toggle-item" @click="toggle()">
         <i class="player-icon-type iconfont icon-bofang1" v-show="!isPlay"></i>
         <i class="player-icon-type iconfont icon-zanting" v-show="isPlay"></i>
       </div>
-      <div class="player-next player-toggle-item">
+      <div class="player-next player-toggle-item" @click="nextMusic">
         <i class="player-icon iconfont icon-next"></i>
       </div>
     </div>
     <div class="player-progress">
-      <div class="player-progress-current-time">{{ currentTime }}</div>
+      <div class="player-progress-current-time">{{ getCurrentTime }}</div>
       <div class="player-progress-main">
         <b-progress
           :percent.sync="percent"
@@ -37,15 +47,21 @@
           allow-click
           allow-drag
           is-active
+          @click="handleAudioProgress"
+          @dragend="handleAudioDragEnd"
+          @dragbegin="handleAudioBeginDrag"
         />
       </div>
-      <div class="player-progress-time">{{ duration }}</div>
+      <div class="player-progress-time">{{ getDurationTime }}</div>
     </div>
     <div class="player-volumn">
-      <i class="player-small-icon iconfont icon-V"></i>
+      <span @click="toggleVolume">
+        <i class="player-small-icon iconfont icon-V" v-show="!isVolume" />
+        <i class="player-small-icon iconfont icon-jingyin" v-show="isVolume" />
+      </span>
       <div class="player-volumn-progress">
         <b-progress
-          :percent.sync="volumnProgress"
+          :percent.sync="volumnPercent"
           pro-width="3px"
           :base-color="getProgressBaseColor"
           :stroke-color="iconActiveColor"
@@ -53,6 +69,8 @@
           allow-click
           allow-drag
           is-active
+          @click="handleVolumn"
+          @dragend="handleVolumn"
         />
       </div>
     </div>
@@ -68,9 +86,11 @@
           ><i class="player-small-icon iconfont icon-danqu"
         /></a>
       </div>
-      <div class="player-tool-lyric">
+      <div class="player-tool-lyric" @click="toggleLyric">
         <a href="#" title="歌词"
-          ><i class="player-small-icon iconfont icon-lyric"
+          ><i
+            class="player-small-icon iconfont icon-lyric"
+            :class="[this.isShowLyric ? `${'player-icon-' + theme}` : '']"
         /></a>
       </div>
       <div class="player-tool-list">
@@ -87,19 +107,20 @@ import { theme } from "mixin/global/theme";
 import { _getLyric } from "network/detail";
 import { formatDate } from "utils/tool";
 
-import PlayerCover from "./player-cover"
+import PlayerCover from "./player-cover";
+import Lyric from "./Lyric";
 export default {
   name: "Player",
   mixins: [theme],
-  components:{PlayerCover},
+  components: { PlayerCover, Lyric },
   data() {
     return {
       prefixCls: prefixCls,
       isPlay: false, //true正在播放
-      percent: 10, //音乐进度百分比
-      volumnProgress: 20, //音量百分比
-      currentTime: "00:00", //当前音乐播放时间
-      duration: "00:00", //音乐总时间
+      percent: 0, //音乐进度百分比
+      volumnPercent: 100, //音量百分比
+      currentTime: 0, //当前音乐播放时间
+      duration: 0, //音乐总时间
       schemaIndex: 0, //音乐播放方式--0:顺序、1：随机、2：单曲
       playList: [
         {
@@ -112,9 +133,31 @@ export default {
         },
       ], //播放列表
       currentIndex: 0, //当前播放音乐
+      isMusicDrag: false, //是否音乐进度条正在拖拽正在拖拽
+      isVolume: false, //是否静音true静音
+      preVolumnPercent: 0, //在设置音量切换时暂时保存之前音量百分比
+      lyric: null, //歌词
+      isShowLyric: false,
     };
   },
   computed: {
+    /**获取歌词播放地址 */
+    getSongSrc() {
+      return (
+        (this.playList[this.currentIndex] &&
+          this.playList[this.currentIndex].src) ||
+        ""
+      );
+    },
+    /**格式化audio currentTime => 'MM:dd' */
+    getCurrentTime() {
+      /* new Date()传入的是毫秒，而$refs.audio.currentTime返回的是秒*/
+      return formatDate(new Date(this.currentTime * 1000), "mm:ss") || "00:00";
+    },
+    /**格式化duration => 'mm:dd' */
+    getDurationTime() {
+      return (formatDate(new Date(this.duration * 1000), "mm:ss") || "00:00" );
+    },
     /**播放器class样式 */
     playerClass() {
       return [`${this.prefixCls}`];
@@ -145,6 +188,25 @@ export default {
     });
   },
   methods: {
+    /**音乐进度条正在拖拽
+     * isMusicDrag设置为true,关闭audio的timeupdate设置进度
+     */
+    handleAudioBeginDrag() {
+      this.isMusicDrag = true;
+    },
+    /**音乐进度条拖拽结束 */
+    handleAudioDragEnd() {
+      this.isMusicDrag = false;
+      this.setMusicCurrent();
+    },
+    /**处理音乐进度条点击 */
+    handleAudioProgress() {
+      this.setMusicCurrent();
+    },
+    /**音量进度条点击、拖拽事件 */
+    handleVolumn() {
+      this.setVolume();
+    },
     /**设置要播放的音乐 */
     setCurrentIndex(index) {
       for (let i in this.playList) {
@@ -166,35 +228,30 @@ export default {
     /**返回当前的播放时间 */
     audioTimeUpdate() {
       if (this.$refs.audio != null) {
-        /**获取currentTime和duration */
-        let currentTime = this.$refs.audio.currentTime;
-        let duration = this.$refs.audio.duration;
-
-        /**格式化currentTime和duration
-         * new Date()传入的是毫秒，而$refs.audio.currentTime返回的是秒*/
-        this.currentTime = formatDate(new Date(currentTime * 1000), "mm:ss");
-        this.duration = formatDate(
-          new Date(this.$refs.audio.duration * 1000),
-          "mm:ss"
-        );
-        /**计算音乐播放进度百分比 */
-        this.percent = (currentTime / duration) * 100;
+        /**获取currentTime */
+        this.currentTime = this.$refs.audio.currentTime;
+        /**计算音乐播放进度百分比
+         * 在拖拽时不设置
+         */
+        if (!this.isMusicDrag)
+          this.percent = (this.currentTime / this.duration) * 100;
 
         /**歌词滚动 */
-        // if (this.$refs.audio.currentTime !== null) {
-        //   this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime);
-        //   this.$refs.player.$refs.playerLyric.maxScroll(
-        //     this.$refs.audio.currentTime
-        //   );
-        // }
+        if (this.$refs.audio.currentTime !== null) {
+          this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime, 2);
+          // this.$refs.player.$refs.playerLyric.maxScroll(
+          //   this.$refs.audio.currentTime
+          // );
+        }
       }
     },
     /**监听音乐加载 */
     playLoad() {
+      /**获取歌曲时长 */
+      this.duration = this.$refs.audio.duration;
       _getLyric(this.playList[this.currentIndex].id).then((res) => {
         this.lyric = res.data.lrc.lyric;
       });
-      // console.log(this.$refs.player.refs);
     },
     /**监听音乐已开始播放 */
     musicPlaying() {
@@ -229,7 +286,9 @@ export default {
       if (this.schemaIndex >= 2) this.schemaIndex = 0;
       else this.schemaIndex++;
     },
+    /**监听音乐播放结束、并判断播放方式 */
     musicEnded() {
+      console.log("end:" + this.schemaIndex);
       switch (this.schemaIndex) {
         case 0:
           this.currentIndex >= this.playList.length - 1
@@ -239,7 +298,8 @@ export default {
         case 1:
           this.currentIndex = Math.floor(Math.random() * this.playList.length); //随机播放
           break;
-        case 3: //单曲循环
+        case 2: //单曲循环
+          this.currentIndex = this.currentIndex;
           break;
       }
     },
@@ -256,26 +316,36 @@ export default {
     },
 
     /**设置浏览器音量 */
-    setVolume(scale) {
-      this.$refs.audio.volume = scale;
+    setVolume() {
+      if (this.$refs.audio) this.$refs.audio.volume = this.volumnPercent / 100;
     },
     /**设置音乐进度
      * @param 设置的百分比
      */
-    setMusicCurrent(scale) {
-      this.$refs.audio.currentTime = scale * this.$refs.audio.duration;
+    setMusicCurrent() {
+      this.$refs.audio.currentTime =
+        (this.percent / 100) * this.$refs.audio.duration;
+      this.percent =
+        (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100;
     },
+    /**切换音量
+     * 静音--恢复
+     */
     toggleVolume() {
       this.isVolume = !this.isVolume;
+      /**设置静音 */
       if (this.isVolume) {
+        /**保存之前音量 */
+        this.preVolumnPercent = this.volumnPercent;
         this.$refs.audio.volume = 0.0;
+        this.volumnPercent = 0;
       } else {
-        this.$refs.audio.volume = 0.8;
-        this.$refs.volume_pro && this.$refs.volume_pro.setProgress(0.8);
+        this.$refs.audio.volume = this.preVolumnPercent / 100;
+        this.volumnPercent = this.preVolumnPercent;
       }
     },
     toggleLyric() {
-      this.isLyric = !this.isLyric;
+      this.isShowLyric = !this.isShowLyric;
     },
     toggleMusicList() {
       this.isMusicList = !this.isMusicList;
@@ -291,9 +361,19 @@ export default {
   width: 100%;
   height: 60px;
   display: flex;
+  position: relative;
   a {
     text-decoration: none;
     color: inherit;
+  }
+  &-icon-light {
+    color: var(--light-icon-active-color);
+  }
+  &-icon-dark {
+    color: var(--dark-icon-active-color);
+  }
+  &-icon-green {
+    color: var(--green-icon-active-color);
   }
 }
 .player-toggle {
@@ -305,6 +385,7 @@ export default {
   &-item {
     padding: 0px 20px;
     text-align: center;
+    cursor: pointer;
   }
   &-light {
     color: var(--light-main-color);
@@ -339,6 +420,7 @@ export default {
   padding: 0px 10px;
   display: flex;
   align-items: center;
+  cursor: pointer;
   &-progress {
     flex: 1;
     padding: 0px 0px 0px 15px;
@@ -364,11 +446,21 @@ export default {
 .player-icon {
   font-size: 26px;
 }
+/**toggle图标 */
 .player-icon-type {
   font-size: 30px;
 }
 // 右侧小图标
 .player-icon {
   font-size: 24px;
+}
+
+// 歌词
+.player-lyric-simple {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 70px;
+  margin: auto;
 }
 </style>

@@ -9,6 +9,7 @@ export class Song{
     }
 }
 
+// 用于格式化歌词
 export class lyricItem{
   constructor(time,lyric){
     this.time=time;

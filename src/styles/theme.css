@@ -12,6 +12,7 @@
     --light-text-color:#16181c;
     --light-aside-bg-color:#f9f9f9;
     --light-footer-bg-color:#f9f9f9;
+    --light-icon-active-color:#2d8cf0 ;
 
 
     --dark-bg-color:#16181c;
@@ -22,12 +23,14 @@
     --dark-text-color:#ccc;
     --dark-border-active-color:#b82525;
     --dark-article-color:#ffffff;
+    --dark-icon-active-color:#b82525;
 
     --green-bg-color:#3eb874;
     --green-main-color:#3eb874;
     --green-text-color:#f6f6f6;
     --green-aside-bg-color:#f9f9f9;
     --green-footer-bg-color:#f6f6f8;
+    --green-icon-active-color:#3eb874;
 
     --animation-base-time:.4s;
 

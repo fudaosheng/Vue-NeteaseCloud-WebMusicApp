@@ -1,5 +1,5 @@
 <template>
-  <div class="player-cover">
+  <div class="player-cover" v-if="song">
     <div
       class="player-cover-left"
       @mouseenter="isShade = true"
@@ -22,7 +22,7 @@ export default {
   props: {
     song: {
       type: Object,
-      default: {},
+      default:() => {},
     },
   },
   data(){
@@ -30,9 +30,6 @@ export default {
           isShade:false,//是否是纯净模式
       }
   },
-  mounted(){
-      console.log(this.song);
-  }
 };
 </script>
 <style lang="less" scoped>
