@@ -1,5 +1,7 @@
     /**格式化歌词
      * @param lyric 一个歌词字符串
+     * 
+     * @return [] item.0=time，item.i=相对应时间的歌词
      */
     export function parseLyric(lyric) {
       let RegExp = /\[(\d*:\d*\.\d*)\]/;
@@ -40,6 +42,5 @@
         // return a.time - b.time;
         return a[0]-b[0];
       });
-      console.log(mergeArr);
       return mergeArr;
     }

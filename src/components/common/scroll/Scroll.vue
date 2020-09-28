@@ -1,6 +1,7 @@
 <template>
     <div class="scroll">
-        <b-scroll ref="scroll" :theme="theme" :speed="speed" :disable-bar="disableBar" class="b-scroll">
+        <b-scroll ref="scroll" :theme="theme" :speed="speed" :disable-bar="disableBar" class="b-scroll"
+        @pullingUp="pullingUp">
             <slot></slot>
         </b-scroll>
     </div>
@@ -29,6 +30,10 @@ export default {
         scrollTo(y,duration,judge=true){
             this.$refs.scroll.scrollTo(y,duration,judge)
         },
+        /**上拉加载更多 */
+        pullingUp(){
+            this.$emit('pullingUp');
+        }
     }
 }
 </script>

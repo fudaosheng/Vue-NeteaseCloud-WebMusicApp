@@ -32,11 +32,11 @@
     --green-footer-bg-color:#f6f6f8;
     --green-icon-active-color:#3eb874;
 
-    --animation-base-time:.4s;
-
     /* table斑马线颜色 */
     --dark-table-stripe-color:#232529;
     --table-stripe-color:#f9f9f9;
+
+    --animation-base-time:.4s;
 }
 h4{
     padding: 10px 10px;

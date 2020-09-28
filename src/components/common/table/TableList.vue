@@ -1,19 +1,19 @@
 <template>
   <div class="table-list" v-if="musicList.length">
-    <b-table show-border stripe :stripe-background-color="getStripeColor">
+    <b-table show-border stripe :stripe-background-color="getStripeColor" :height="height">
       <b-table-head slot="head" split :split-color="getSplitColor">
         <b-table-tr>
-          <b-table-td width="50px"></b-table-td>
-          <b-table-td width="60px">操作</b-table-td>
-          <b-table-td>音乐标题</b-table-td>
-          <b-table-td>歌手</b-table-td>
-          <b-table-td>专辑</b-table-td>
-          <b-table-td width="120px">时长</b-table-td>
+          <b-table-td width="50px" v-if="lines[0]"></b-table-td>
+          <b-table-td width="60px" v-if="lines[1]">操作</b-table-td>
+          <b-table-td v-if="lines[2]">音乐标题</b-table-td>
+          <b-table-td v-if="lines[3]">歌手</b-table-td>
+          <b-table-td v-if="lines[4]">专辑</b-table-td>
+          <b-table-td width="120px" v-if="lines[5]">时长</b-table-td>
         </b-table-tr>
       </b-table-head>
       <b-table-body slot="body">
         <b-table-tr v-for="(item, index) in musicList" :key="index">
-          <b-table-td width="50px">
+          <b-table-td width="50px" v-if="lines[0]">
             <span v-show="!(index == playIndex && item.name == playName)">{{
               getListIndex(index)
             }}</span>
@@ -23,13 +23,13 @@
               :class="`${'v-' + theme}`"
             ></i>
           </b-table-td>
-          <b-table-td width="60px"
+          <b-table-td width="60px" v-if="lines[1]"
             ><i class="iconfont icon-xihuan"></i
           ></b-table-td>
-          <b-table-td>{{ item.name }}</b-table-td>
-          <b-table-td>{{ item.artist }}</b-table-td>
-          <b-table-td>{{ item.album }}</b-table-td>
-          <b-table-td width="120px">{{ item.time }}</b-table-td>
+          <b-table-td v-if="lines[2]">{{ item.name }}</b-table-td>
+          <b-table-td v-if="lines[3]">{{ item.artist }}</b-table-td>
+          <b-table-td v-if="lines[4]">{{ item.album }}</b-table-td>
+          <b-table-td width="120px" v-if="lines[5]">{{ item.time }}</b-table-td>
         </b-table-tr>
       </b-table-body>
     </b-table>
@@ -46,6 +46,14 @@ export default {
       type: Array,
       default: [],
     },
+    height:{
+      type:String,
+      default:""
+    },
+    lines:{
+      type:Array,
+      default:()=> [true,true,true,true,true,true]
+    }
   },
   computed: {
     /**table-head split 颜色 */

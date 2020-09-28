@@ -11,6 +11,21 @@
       class="player-lyric-simple"
       v-show="isShowLyric"
     />
+    <transition name="player-side">
+      <player-list
+        class="player-list"
+        :music-list="musicList"
+        v-show="isShowList"
+      />
+    </transition>
+    <transition name="player-pure-side">
+      <player-pure
+        :song="playList[currentIndex]"
+        :lyric="lyric"
+        :current-time="currentTime"
+        v-show="isPure"
+      />
+    </transition>
     <audio
       :src="getSongSrc"
       autoplay
@@ -47,6 +62,7 @@
           allow-click
           allow-drag
           is-active
+          :disable-transition="currentTime == 0"
           @click="handleAudioProgress"
           @dragend="handleAudioDragEnd"
           @dragbegin="handleAudioBeginDrag"
@@ -93,9 +109,11 @@
             :class="[this.isShowLyric ? `${'player-icon-' + theme}` : '']"
         /></a>
       </div>
-      <div class="player-tool-list">
+      <div class="player-tool-list" @click="toggleMusicList">
         <a href="#" title="歌单"
-          ><i class="player-small-icon iconfont icon-gedan"
+          ><i
+            class="player-small-icon iconfont icon-gedan"
+            :class="[this.isShowList ? `${'player-icon-' + theme}` : '']"
         /></a>
       </div>
     </div>
@@ -108,11 +126,13 @@ import { _getLyric } from "network/detail";
 import { formatDate } from "utils/tool";
 
 import PlayerCover from "./player-cover";
-import Lyric from "./Lyric";
+import Lyric from "./player-lyric";
+import PlayerList from "./player-list";
+import PlayerPure from "./player-pure";
 export default {
   name: "Player",
   mixins: [theme],
-  components: { PlayerCover, Lyric },
+  components: { PlayerCover, Lyric, PlayerList, PlayerPure },
   data() {
     return {
       prefixCls: prefixCls,
@@ -122,22 +142,25 @@ export default {
       currentTime: 0, //当前音乐播放时间
       duration: 0, //音乐总时间
       schemaIndex: 0, //音乐播放方式--0:顺序、1：随机、2：单曲
-      playList: [
-        {
-          name: "爱存在（抖音版）（翻自 魏奇奇）",
-          artist: "如懿",
-          index: "0",
-          lyric: "",
-          src: "",
-          pic: "",
-        },
-      ], //播放列表
+      playList: [] /**播放列表
+      @params {
+      this.index=index;
+      this.name=song.name;
+      this.artist=song.artist;
+      this.src=url;
+      this.pic=song.pic;
+      this.id=id;
+      }
+      */,
       currentIndex: 0, //当前播放音乐
+      musicList: [], //歌单
       isMusicDrag: false, //是否音乐进度条正在拖拽正在拖拽
       isVolume: false, //是否静音true静音
       preVolumnPercent: 0, //在设置音量切换时暂时保存之前音量百分比
       lyric: null, //歌词
-      isShowLyric: false,
+      isShowLyric: false, //是否显示歌词,
+      isShowList: false, //是否显示播放列表
+      isPure: false, //是否是纯净模式
     };
   },
   computed: {
@@ -156,7 +179,7 @@ export default {
     },
     /**格式化duration => 'mm:dd' */
     getDurationTime() {
-      return (formatDate(new Date(this.duration * 1000), "mm:ss") || "00:00" );
+      return formatDate(new Date(this.duration * 1000), "mm:ss") || "00:00";
     },
     /**播放器class样式 */
     playerClass() {
@@ -172,6 +195,7 @@ export default {
   mounted() {
     /**list是音乐列表，index是要播放的音乐在列表中的位置，path是当前播放音乐的路由路径,musicList是歌单信息*/
     this.$bus.$on("playMusic", (playList, index, musicList) => {
+      this.musicList = musicList;
       /**初始化播放列表 */
       this.playList = [];
       /**对playList进行处理 */
@@ -235,14 +259,6 @@ export default {
          */
         if (!this.isMusicDrag)
           this.percent = (this.currentTime / this.duration) * 100;
-
-        /**歌词滚动 */
-        if (this.$refs.audio.currentTime !== null) {
-          this.$refs.lyric.scrollLyric(this.$refs.audio.currentTime, 2);
-          // this.$refs.player.$refs.playerLyric.maxScroll(
-          //   this.$refs.audio.currentTime
-          // );
-        }
       }
     },
     /**监听音乐加载 */
@@ -250,7 +266,7 @@ export default {
       /**获取歌曲时长 */
       this.duration = this.$refs.audio.duration;
       _getLyric(this.playList[this.currentIndex].id).then((res) => {
-        this.lyric = res.data.lrc.lyric;
+        this.lyric = (res.data.lrc && res.data.lrc.lyric) || "暂无歌词";
       });
     },
     /**监听音乐已开始播放 */
@@ -348,7 +364,7 @@ export default {
       this.isShowLyric = !this.isShowLyric;
     },
     toggleMusicList() {
-      this.isMusicList = !this.isMusicList;
+      this.isShowList = !this.isShowList;
     },
     PlayerRouter() {
       this.isPlayerShow = !this.isPlayerShow;
@@ -462,5 +478,23 @@ export default {
   right: 0px;
   bottom: 70px;
   margin: auto;
+}
+.player-list {
+  position: absolute;
+  right: 0px;
+  bottom: 60px;
+  z-index: 1;
+}
+.player-side-enter-active {
+  animation: slideInRight var(--animation-base-time);
+}
+.player-side-leave-active {
+  animation: slideInRight var(--animation-base-time) reverse;
+}
+.player-pure-side-enter-active {
+  animation: slideInUp var(--animation-base-time);
+}
+.player-pure-side-leave-active {
+  animation: slideInUp var(--animation-base-time) reverse;
 }
 </style>

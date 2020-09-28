@@ -4,10 +4,11 @@
       class="player-cover-left"
       @mouseenter="isShade = true"
       @mouseleave="isShade = false"
+      @click="togglePlayerPure"
     >
       <b-avatar shape="square" size="60px" class="avatar">
-        <img v-lazy="song.pic" alt=""/>
-        <b-mask icon="iconfont icon-zuidahua" size="36px" v-show="isShade"/>
+        <img v-lazy="song.pic" alt="" />
+        <b-mask icon="iconfont icon-zuidahua" size="36px" v-show="isShade" />
       </b-avatar>
     </div>
     <div class="player-cover-right">
@@ -22,13 +23,18 @@ export default {
   props: {
     song: {
       type: Object,
-      default:() => {},
+      default: () => {},
     },
   },
-  data(){
-      return{
-          isShade:false,//是否是纯净模式
-      }
+  data() {
+    return {
+      isShade: false, //是否是纯净模式
+    };
+  },
+  methods: {
+    togglePlayerPure() {
+      this.$parent.isPure = !this.$parent.isPure;
+    },
   },
 };
 </script>
@@ -37,14 +43,15 @@ export default {
   width: 18%;
   height: 100%;
   position: absolute;
+  z-index: 1;
   top: -100%;
   left: 0px;
   display: flex;
   &-left {
     padding: 0px 10px 0px 5px;
     height: 60px;
-    .avatar{
-        position:relative;
+    .avatar {
+      position: relative;
     }
   }
   &-right {

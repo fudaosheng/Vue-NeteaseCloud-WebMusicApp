@@ -5,7 +5,10 @@
         <li
           v-for="(line, index) in lyricArray"
           :key="index"
-          :class="[index == lyricIndex ? `${'player-action-' + theme}` : '']"
+          :class="[
+            index == lyricIndex ? `${'player-action-' + theme}` : '',
+            middle ? 'player-action-middle' : '',
+          ]"
         >
           {{ line[1] }}
         </li>
@@ -41,22 +44,33 @@ export default {
       type: Number,
       default: 0,
     },
+    /**列表还是一行
+     * 列表当前歌词在中间时才滚动
+     */
+    middle: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       lyricArray: [], //转换后的歌词数组
       lyricIndex: -1, //活跃的歌词行数
-      maxIndex: 0,
+      midIndex: 0,
       length: 0,
     };
   },
   watch: {
     lyric() {
       this.lyricIndex = -1;
-      this.maxIndex = 0;
-      this.$refs.scroll.scrollTo(0, 0, true)
+      this.midIndex = 0;
+      this.$refs.scroll.scrollTo(0, 0, true);
       /**格式化歌词 */
       this.lyricArray = parseLyric(this.lyric);
+      /**歌词改变，歌词列表刷新后重新计算刷新滚动条 */
+      this.$nextTick(() => {
+        this.refresh();
+      });
     },
     currentTime(currentTime) {
       /**歌词对应时间判断 */
@@ -69,35 +83,25 @@ export default {
           (!nextLine || currentTime < nextLine[0])
         ) {
           this.lyricIndex = i;
-          this.$refs.scroll.scrollTo(-30 * this.lyricIndex, 0, false);
+          /**如果歌词展示形式为列表，需要活跃歌词在中间时才滚动 */
+          if (this.middle) {
+            /**list形式时，活跃歌词不到中间不滚动 */
+            if (
+              this.lyricIndex < 6 ||
+              this.lyricIndex > this.lyricArray.length - 6
+            )
+              return;
+            this.$refs.scroll.scrollTo(-30 * (this.lyricIndex - 6), 2, false);
+          } else {
+            this.$refs.scroll.scrollTo(-30 * this.lyricIndex, 0, false);
+          }
         }
       }
     },
   },
   methods: {
-    /**利用currentTime和格式化后歌词时间对比滚动
-     * @param time 播放歌曲的currentTime
-     * @param duration 滚动时间
-     */
-    scrollLyric(time = 0, duration) {
-      if (this.lyricIndex > this.length - 2) return;
-      if (time >= this.lyricArray[this.lyricIndex + 1].time) {
-        this.lyricIndex++;
-        this.$refs.scroll.scrollTo(-30 * this.lyricIndex, duration, false);
-      }
-    },
-    maxScroll(time = 0) {
-      if (this.lyricIndex > this.length - 2) return;
-      if (time >= this.lyricArray[this.lyricIndex + 1].time) {
-        this.lyricIndex++;
-        if (
-          this.lyricIndex < 5 ||
-          this.lyricIndex >= this.lyricArray.length - 5
-        )
-          return;
-        this.maxIndex++;
-        this.$refs.scroll.scrollTo(-30 * this.lyricIndex, 2, false);
-      }
+    refresh() {
+      this.$refs.scroll.refresh();
     },
   },
   computed: {
@@ -111,7 +115,6 @@ export default {
 </script>
 <style scoped>
 .player-lyric {
-  display: inline-block;
   padding: 0px 20px;
   overflow: hidden;
 }
@@ -123,10 +126,12 @@ export default {
   height: 30px;
   line-height: 30px;
   padding: 5px 0px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .player-action-light {
   font-size: 28px;
-  color:var(--primary);
+  color: var(--primary);
 }
 .player-action-dark {
   font-size: 28px;
@@ -135,5 +140,9 @@ export default {
 .player-action-green {
   font-size: 28px;
   color: var(--green-main-color);
+}
+/* list 形式时middle为true--改变字号 */
+.player-action-middle {
+  font-size: initial;
 }
 </style>

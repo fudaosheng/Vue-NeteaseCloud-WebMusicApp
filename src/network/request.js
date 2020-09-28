@@ -5,7 +5,7 @@ export function request(config) {
     $store.commit('showLoading');
     const install = axios.create({
         baseURL: 'http://localhost:3000',
-        timeOut: 5000
+        timeOut: 2000
     });
     install.interceptors.request.use(data => {
         ajaxTimer++;
