@@ -1,7 +1,7 @@
 <template>
   <scroll class="scroll" ref="scroll" :theme="getTheme">
     <div :class="detailClass">
-      <base-info :base-info="baseInfo" @playMusic="PlayMusic" />
+      <base-info :base-info="baseInfo" @playMusic="playMusic" />
       <b-menu
         :menu="list"
         :active-color="getActiveColor"

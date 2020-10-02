@@ -1,6 +1,9 @@
 <template>
-  <div :class="['player-pure', `${'player-pure-' + theme}`]">
-    <scroll ref="scroll" class="scroll" @pullingUp="pullingUp">
+  <div
+    :class="['player-pure', `${'player-pure-' + theme}`]"
+    @mouseenter="handleRefresh"
+  >
+    <scroll class="scroll" ref="scroll" @pullingUp="pullingUp">
       <div class="player-pure-container">
         <b-button
           type="warning"
@@ -29,22 +32,23 @@
             />
           </div>
         </div>
-        <recommends :recommends="recommends" class="player-pure-recommends"/>
+        <recommends :recommends="recommends" class="player-pure-recommends" />
       </div>
     </scroll>
   </div>
 </template>
 <script>
 import { theme } from "mixin/global/theme";
+import {forcible} from "mixin/components/forcible-refresh"
 import { _musicRecommend } from "network/detail";
-import {debounce} from "utils/tool"
-import Recommends from "views/musiclist/childsComps/Recommends";
+import { debounce } from "utils/tool";
+import Recommends from "views/list-detail/childsComps/Recommends";
 import Scroll from "common/scroll/Scroll";
 
 import Lyric from "./player-lyric";
 export default {
   name: "PlayerPure",
-  mixins: [theme],
+  mixins: [theme,forcible],
   components: {
     Lyric,
     Recommends,
@@ -97,19 +101,18 @@ export default {
       this.$parent.isPure = false;
     },
     /**上拉加载更多 */
-    async pullingUp(){
-        console.log('pullingup');
-        this.limit+=20;
-        await debounce(this.getRecom(),1000);
-        this.$nextTick(()=>{
-          this.$refs.scroll.refresh();
-        })
+    async pullingUp() {
+      this.limit += 20;
+      await debounce(this.getRecom(), 1000);
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh();
+      });
     },
     /**获取歌曲评论 */
     getRecom() {
       _musicRecommend(this.song.id, this.limit).then((res) => {
-          console.log('--');
         this.recommends = res.data.comments;
+        this.$refs.scroll.refresh();
       });
     },
   },
@@ -117,7 +120,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .scroll {
-  width: 100%;
   height: calc(100vh - 58px - 60px);
 }
 .player-pure {
@@ -137,7 +139,7 @@ export default {
   &-container {
     padding: 0px 250px;
   }
-  &-recommends{
+  &-recommends {
     margin-top: 20px;
   }
 }

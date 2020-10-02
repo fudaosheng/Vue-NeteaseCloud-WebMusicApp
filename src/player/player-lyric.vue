@@ -1,6 +1,6 @@
 <template>
   <div class="player-lyric" :style="lyricStyle">
-    <scroll :disable-bar="disableBar" :height="height" ref="scroll">
+    <scroll :disable-bar="disableBar" :height="height" disable-wheel ref="scroll">
       <ul>
         <li
           v-for="(line, index) in lyricArray"

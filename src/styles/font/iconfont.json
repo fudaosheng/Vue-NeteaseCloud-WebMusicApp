@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "120191",
+      "name": "咖啡",
+      "font_class": "kafei",
+      "unicode": "e6aa",
+      "unicode_decimal": 59050
+    },
+    {
+      "icon_id": "554437",
+      "name": "地球",
+      "font_class": "global",
+      "unicode": "e71a",
+      "unicode_decimal": 59162
+    },
+    {
+      "icon_id": "2559829",
+      "name": "表情",
+      "font_class": "biaoqing",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "17189322",
+      "name": "话题主题",
+      "font_class": "huatizhuti",
+      "unicode": "e692",
+      "unicode_decimal": 59026
+    },
+    {
       "icon_id": "680377",
       "name": "最小化",
       "font_class": "min",

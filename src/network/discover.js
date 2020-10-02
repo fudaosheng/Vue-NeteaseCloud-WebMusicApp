@@ -41,24 +41,6 @@ export function _getRecommendResource(cookie,uid){
     })
 }
 
-/**获取热门歌单 */
-export function _getMusicListHot(){
-    return request({
-        url:'/playlist/hot',
-    })
-}
-
-/**获取不同tag的精品歌单 */
-export function _getHighquality(cat,limit){
-    return request({
-        url:'/top/playlist/highquality',
-        params:{
-            cat:cat,
-            limit:limit,
-            time:new Date().getTime()
-        }
-    })
-}
 
 /**获取排行榜数据 */
 export function _getRankList(){

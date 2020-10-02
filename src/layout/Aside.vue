@@ -26,7 +26,7 @@ export default {
     return {
       menuList: [
         { link: "/individuation", icon: "iconfont icon-music", content: "个性推荐" },
-        { link: "", icon: "iconfont icon-gedan", content: "歌单" },
+        { link: "/allmusiclist", icon: "iconfont icon-gedan", content: "歌单" },
         {
           link: "",
           icon: "iconfont icon-PCbofangye_paihangbang",

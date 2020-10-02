@@ -24,6 +24,8 @@
     --dark-border-active-color:#b82525;
     --dark-article-color:#ffffff;
     --dark-icon-active-color:#b82525;
+    /* dark主题一些小区域元素背景颜色 */
+    --dark-block-bg-color:#26282c;
 
     --green-bg-color:#3eb874;
     --green-main-color:#3eb874;

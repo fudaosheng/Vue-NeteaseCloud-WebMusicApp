@@ -2,28 +2,33 @@
   <div
     :class="['player-list', `${'player-list-' + theme}`]"
     v-if="musicList && musicList.length"
+    @mouseenter="handleRefresh"
   >
-    <div class="player-list-top">
-      <h4>播放列表</h4>
-      <b-button
-        type="text"
-        class="vbestui-iconfont icon-close"
-        width="30px"
-        color="var(--text-main-color)"
-        transparent
-        @click="closePlayerList"
-      ></b-button>
-    </div>
-    <table-list :music-list="musicList" height="calc(500px - 40px)" :lines="lines" />
+    <scroll class="scroll" ref="scroll">
+      <div class="player-list-top">
+        <h4>播放列表</h4>
+        <b-button
+          type="text"
+          class="vbestui-iconfont icon-close"
+          width="30px"
+          color="var(--text-main-color)"
+          transparent
+          @click="closePlayerList"
+        ></b-button>
+      </div>
+      <table-list :music-list="musicList" :lines="lines" player />
+    </scroll>
   </div>
 </template>
 <script>
 import { theme } from "mixin/global/theme";
+import {forcible} from "mixin/components/forcible-refresh"
 import TableList from "common/table/TableList";
+import Scroll from "common/scroll/Scroll";
 export default {
   name: "PlayerList",
-  mixins: [theme],
-  components: { TableList },
+  mixins: [theme,forcible],
+  components: { TableList, Scroll },
   props: {
     musicList: {
       type: Array,
@@ -38,6 +43,13 @@ export default {
   methods: {
     closePlayerList() {
       this.$parent.isShowList = false;
+    },
+  },
+  watch: {
+    musicList() {
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh();
+      });
     },
   },
 };
@@ -60,13 +72,16 @@ export default {
   h4 {
     text-align: center;
   }
-  &-top{
-    height:35px;
+  &-top {
+    height: 35px;
   }
 }
 .icon-close {
   position: absolute;
   right: 0px;
   top: 0px;
+}
+.scroll {
+  height: 500px;
 }
 </style>

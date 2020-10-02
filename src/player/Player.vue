@@ -209,6 +209,16 @@ export default {
         return a.index - b.index;
       });
       this.playList = transferList;
+
+      /**在请求歌曲的时候可能有的歌曲不可用，或丢失。导致在播放器中的歌曲列表和页面展示存在差异，可能会出现指定的播放歌曲不服
+       * 用一次查找解决问题
+       */
+      this.setCurrentIndex(index);
+    });
+
+    /**监听子组件播放列表双击切换歌曲 */
+    this.$bus.$on("PlayMusicListItem", index => {
+      this.setCurrentIndex(index);
     });
   },
   methods: {
@@ -368,6 +378,13 @@ export default {
     },
     PlayerRouter() {
       this.isPlayerShow = !this.isPlayerShow;
+    },
+  },
+  watch: {
+    $route() {
+      /**路由切换关闭一些播放器选项 */
+      this.isPure = false;
+      this.isShowList = false;
     },
   },
 };

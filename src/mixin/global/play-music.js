@@ -8,7 +8,7 @@ export const playMusic = {
          * musicList 暂存音乐列表
          * playList  处理后的音乐播放列表
          */
-        PlayMusic(index = 0) {
+        playMusic(index = 0) {
 
             let musicList;
             if (this.musicList.length >= 200) {
