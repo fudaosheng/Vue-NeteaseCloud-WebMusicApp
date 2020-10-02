@@ -8,6 +8,7 @@
       class="b-scroll"
       @pullingUp="pullingUp"
       :height="height"
+      :disable-wheel="disableWheel"
     >
       <slot></slot>
     </b-scroll>
@@ -30,6 +31,10 @@ export default {
     height:{
         type:String,
         default:""
+    },
+    disableWheel:{
+      type:Boolean,
+      default:false
     }
   },
   methods: {

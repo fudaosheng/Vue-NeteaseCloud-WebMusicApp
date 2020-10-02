@@ -23,7 +23,7 @@ export const theme = {
                     ? "var( --dark-border-active-color)"
                     : this.theme == "green"
                         ? "var(--green-bg-color)"
-                        : "";
+                        : "var(--primary)";
             return color;
         },
         /**全局斑马线背景颜色 */

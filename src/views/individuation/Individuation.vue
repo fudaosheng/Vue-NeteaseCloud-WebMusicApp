@@ -11,7 +11,7 @@
         >
           推荐歌单
         </h4>
-        <music-list :personalized="personalized" />
+        <music-list :music-list="personalized"/>
         <private-content :pri="privateContent" />
         <new-songs
           :songList="songList"
@@ -34,13 +34,13 @@ import {
 
 import Swiper from "common/swiper/Swiper";
 import Scroll from "common/scroll/Scroll";
-import MusicList from "content/musiclist/MusicList";
+import MusicList from "content/musiclist/MusicList"
 import PrivateContent from "./childsComps/PrivateContent";
 import NewSongs from "./childsComps/newSongs";
 export default {
   name: "Individuation",
   mixins: [theme],
-  components: { Swiper, Scroll, MusicList, PrivateContent, NewSongs },
+  components: { Swiper, Scroll, PrivateContent, NewSongs ,MusicList},
   computed: {
     indiviClass() {
       return [

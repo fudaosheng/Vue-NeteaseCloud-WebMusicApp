@@ -2,7 +2,7 @@
   <div :class="program+'musiclist'">
     <div
       class="list-item"
-      v-for="(item,index) in personalized"
+      v-for="(item,index) in musicList"
       :key="index"
       @mouseenter="handleEnter(index)"
       @mouseleave="handleLeave(index)"
@@ -18,7 +18,7 @@
             {{item.playCount}}
           </div>
         </div>
-        <img v-lazy="item.picUrl || item.coverImgUrl" />
+        <img v-lazy="item.picUrl || item.coverImgUrl" @load="handleRefresh"/>
         <div class="title" :class="[`${program+'musiclist-title-'+theme}`]">{{item.name}}</div>
       </div>
     </div>
@@ -26,11 +26,12 @@
 </template>
 <script>
 import { theme } from "mixin/global/theme.js";
+import { imgLoadMixin } from "mixin/global/imgLoad.js";
 export default {
   name: "MusicList",
-  mixins: [theme],
+  mixins: [theme,imgLoadMixin],
   props: {
-    personalized: {
+    musicList: {
       type: Array,
       default: [],
     },
@@ -48,7 +49,12 @@ export default {
       this.currentIndex = null;
     },
     enterMusicListDetail(index) {
-      this.$router.push("/musiclistdetail/" + this.personalized[index].id+'/'+new Date().getTime());
+      this.$router.push("/musiclistdetail/" + this.musicList[index].id+'/'+new Date().getTime());
+    },
+    /**处理图片加载刷新 */
+    handleRefresh(){
+      if(this.imgCount==this.musicList.length)this.$emit('refresh');
+      this.imgCount++;
     },
   },
 };

@@ -1,7 +1,13 @@
 <template>
-  <scroll class="scroll">
+  <scroll class="scroll" ref="scroll2" :disable-wheel="isWheel">
     <div :class="[`${program + 'all-musiclist'}`]">
-      <b-poptip placement="bottom-start" :theme="getTheme" max-length="520px">
+      <b-poptip
+        placement="bottom-start"
+        :theme="getTheme"
+        max-length="520px"
+        @show="handlePoptipShow"
+        @hidden="handlePoptipHidden"
+      >
         <div
           :class="[
             `${program + 'musiclist-poptip'}`,
@@ -16,12 +22,15 @@
         </template>
         <template v-slot:content>
           <scroll class="pop-scroll" ref="scroll">
-            <div :class="['pop-container',`${'pop-container-'+theme}`]" @mouseenter="handleRefresh">
+            <div
+              :class="['pop-container', `${'pop-container-' + theme}`]"
+              @mouseenter="handleRefresh"
+            >
               <d-button size="long" height="35px" round>全部歌单</d-button>
               <div class="cate-item" v-for="(item, index) in list" :key="index">
                 <div class="cate-item-left">
                   <i :class="['iconfont', `${iconList[index]}`]"></i>
-                                    <span>{{ categories[index] }}</span>
+                  <span>{{ categories[index] }}</span>
                 </div>
                 <div class="cate-item-right">
                   <d-button
@@ -38,7 +47,19 @@
         </template>
       </b-poptip>
       <div class="menu">
-        <span>热门标签：</span>
+        <div class="menu-title">热门标签：</div>
+        <div class="menu-main">
+          <b-menu
+            :menu="hotTags"
+            item-height="30px"
+            item-width="80px"
+            :active-show-border="false"
+            :active-color="getActiveColor"
+          />
+        </div>
+      </div>
+      <div class="all-musiclist">
+        <music-list :music-list="playList" @refresh="refresh" />
       </div>
     </div>
   </scroll>
@@ -47,14 +68,19 @@
 import { theme } from "mixin/global/theme";
 import { forcible } from "mixin/components/forcible-refresh";
 
-import { _getCatList } from "network/music-list";
+import {
+  _getCatList,
+  _getMusicListHot,
+  _getHighquality,
+} from "network/music-list";
 
 import DButton from "common/button/Button";
 import Scroll from "common/scroll/Scroll";
+import MusicList from "content/musiclist/MusicList";
 export default {
   name: "AllMusicList",
   mixins: [theme, forcible],
-  components: { Scroll, DButton, Scroll },
+  components: { Scroll, DButton, Scroll, MusicList },
   data() {
     return {
       categories: [],
@@ -73,6 +99,11 @@ export default {
         "icon-biaoqing",
         "icon-huatizhuti",
       ],
+      hotTags: [],
+      playList: [],
+      limit: 20,
+      cat: "全部",
+      isWheel: false,
     };
   },
   created() {
@@ -90,6 +121,34 @@ export default {
         });
       }
     });
+    /**获取热门标签 */
+    _getMusicListHot().then((res) => {
+      this.hotTags = res.data.tags.map((item) => {
+        return item.name;
+      });
+      this.getHighquality(this.cat, this.limit);
+    });
+  },
+  methods: {
+    /**获取分类歌单 */
+    getHighquality(cat, limit) {
+      _getHighquality(cat, limit).then((res) => {
+        console.log(res.data);
+        this.playList = res.data.playlists;
+      });
+    },
+    /**scroll刷新 */
+    refresh() {
+      this.$refs.scroll2.refresh();
+    },
+    /**poptip提示显示，禁用父级mousewheel滚动 */
+    handlePoptipShow(){
+      this.isWheel=true;
+    },
+    /**poptip提示显示，重新启用父级mousewheel滚动 */
+    handlePoptipHidden(){
+      this.isWheel=false;
+    }
   },
 };
 </script>
@@ -133,8 +192,8 @@ export default {
 }
 .pop-container {
   padding: 10px 10px;
-  &-dark{
-    background:#2d2f33;
+  &-dark {
+    background: #2d2f33;
   }
   .cate-item {
     padding: 10px 0px;
@@ -156,12 +215,26 @@ export default {
     }
   }
 }
-::v-deep .vbestui-bubble-theme-dark{
-  background:#2d2f33;
+::v-deep .vbestui-bubble-theme-dark {
+  background: #2d2f33;
 }
-.menu{
+.menu {
   padding: 10px 0px;
-  font-size:13px;
-  border:1px solid red;
+  font-size: 13px;
+  display: flex;
+  &-title {
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  &-main {
+    flex: 1;
+  }
+}
+.all-musiclist {
+  padding-top: 10px;
 }
 </style>
