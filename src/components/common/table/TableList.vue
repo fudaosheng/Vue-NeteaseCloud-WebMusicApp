@@ -4,9 +4,8 @@
       show-border
       stripe
       :stripe-background-color="getStripeColor"
-      :height="height"
     >
-      <b-table-head slot="head" split :split-color="getSplitColor">
+      <b-table-head slot="head" split :split-color="getSplitColor" v-if="showHead">
         <b-table-tr>
           <b-table-td width="50px" v-if="lines[0]"></b-table-td>
           <b-table-td width="60px" v-if="lines[1]">操作</b-table-td>
@@ -36,7 +35,7 @@
             ><i class="iconfont icon-xihuan"></i
           ></b-table-td>
           <b-table-td v-if="lines[2]">{{ item.name }}</b-table-td>
-          <b-table-td v-if="lines[3]">{{ item.artist }}</b-table-td>
+          <b-table-td v-if="lines[3]" class="table-list-body-artist">{{ item.artist }}</b-table-td>
           <b-table-td v-if="lines[4]">{{ item.album }}</b-table-td>
           <b-table-td width="120px" v-if="lines[5]">{{ item.time }}</b-table-td>
         </b-table-tr>
@@ -56,14 +55,14 @@ export default {
       type: Array,
       default: [],
     },
-    height: {
-      type: String,
-      default: "",
-    },
     /**判断显示哪几列 */
     lines: {
       type: Array,
       default: () => [true, true, true, true, true, true],
+    },
+    showHead:{
+      type:Boolean,
+      default:true,
     },
     /**如果是播放器内使用双击时只设置index，不提供musicList节省性能 */
     player: {

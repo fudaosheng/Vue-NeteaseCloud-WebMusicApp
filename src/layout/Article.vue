@@ -1,6 +1,6 @@
 <template>
   <div :class="articleClass">
-    <keep-alive include="AllMV">
+    <keep-alive>
       <router-view />
     </keep-alive>
     <b-loading

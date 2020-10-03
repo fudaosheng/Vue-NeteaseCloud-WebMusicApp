@@ -26,6 +26,7 @@
     --dark-icon-active-color:#b82525;
     /* dark主题一些小区域元素背景颜色 */
     --dark-block-bg-color:#26282c;
+    --dark-table-stripe-color:#1a1c20;
 
     --green-bg-color:#3eb874;
     --green-main-color:#3eb874;
@@ -35,7 +36,7 @@
     --green-icon-active-color:#3eb874;
 
     /* table斑马线颜色 */
-    --dark-table-stripe-color:#232529;
+    /* --dark-table-stripe-color:#232529; */
     --table-stripe-color:#f9f9f9;
 
     --animation-base-time:.4s;

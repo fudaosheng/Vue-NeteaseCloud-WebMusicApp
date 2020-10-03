@@ -35,6 +35,10 @@ export default {
       type: Array,
       default: [],
     },
+    disableSlide:{
+      type:Boolean,
+      default:false
+    }
   },
   data() {
     return {
@@ -43,9 +47,11 @@ export default {
   },
   methods: {
     handleEnter(index) {
+      if(this.disableSlide)return;
       this.currentIndex = index;
     },
     handleLeave(index) {
+      if(this.disableSlide)return;
       this.currentIndex = null;
     },
     enterMusicListDetail(index) {
@@ -57,6 +63,11 @@ export default {
       this.imgCount++;
     },
   },
+  watch:{
+    musicList(){
+      this.imgCount=1;
+    },
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -66,7 +77,7 @@ export default {
   flex-wrap: wrap;
   .list-item {
     width: calc(20%);
-    padding: 0px 10px;
+    padding: 5px 10px;
     img {
       width: 100%;
     }

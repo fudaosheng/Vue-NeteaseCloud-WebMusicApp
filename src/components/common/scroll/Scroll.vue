@@ -15,10 +15,10 @@
   </div>
 </template>
 <script>
-import {theme} from "mixin/global/theme"
+import { theme } from "mixin/global/theme";
 export default {
   name: "Scroll",
-  mixins:[theme],
+  mixins: [theme],
   props: {
     speed: {
       type: Number,
@@ -28,14 +28,14 @@ export default {
       type: Boolean,
       default: false,
     },
-    height:{
-        type:String,
-        default:""
+    height: {
+      type: String,
+      default: "",
     },
-    disableWheel:{
-      type:Boolean,
-      default:false
-    }
+    disableWheel: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     refresh() {
@@ -47,6 +47,16 @@ export default {
     /**上拉加载更多 */
     pullingUp() {
       this.$emit("pullingUp");
+    },
+  },
+  computed: {
+    getSlotDefault() {
+      return this.$slots.default;
+    },
+  },
+  watch: {
+    $slots() {
+      console.log("slot fault");
     },
   },
 };

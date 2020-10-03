@@ -500,7 +500,7 @@ export default {
   position: absolute;
   right: 0px;
   bottom: 60px;
-  z-index: 1;
+  z-index: 9;
 }
 .player-side-enter-active {
   animation: slideInRight var(--animation-base-time);

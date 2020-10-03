@@ -1,5 +1,5 @@
 <template>
-  <scroll class="scroll" ref="scroll2" :disable-wheel="isWheel">
+  <scroll class="scroll" ref="scroll2" :disable-wheel="isWheel" @pullingUp="handlePullingUp">
     <div :class="[`${program + 'all-musiclist'}`]">
       <b-poptip
         placement="bottom-start"
@@ -7,6 +7,7 @@
         max-length="520px"
         @show="handlePoptipShow"
         @hidden="handlePoptipHidden"
+        class="poptip"
       >
         <div
           :class="[
@@ -14,7 +15,7 @@
             `${program + 'musiclist-poptip-' + theme}`,
           ]"
         >
-          <span>全部歌单</span>
+          <span>{{cat}}</span>
           <i class="vbestui-iconfont icon-qian"></i>
         </div>
         <template v-slot:title>
@@ -26,7 +27,7 @@
               :class="['pop-container', `${'pop-container-' + theme}`]"
               @mouseenter="handleRefresh"
             >
-              <d-button size="long" height="35px" round>全部歌单</d-button>
+              <d-button size="long" height="35px" round @click.native="handleAllPlayList">全部歌单</d-button>
               <div class="cate-item" v-for="(item, index) in list" :key="index">
                 <div class="cate-item-left">
                   <i :class="['iconfont', `${iconList[index]}`]"></i>
@@ -38,6 +39,7 @@
                     :key="index2"
                     width="80px"
                     height="35px"
+                    @click.native="handleButtonClick(index,index2)"
                     >{{ cate.name }}</d-button
                   >
                 </div>
@@ -55,6 +57,7 @@
             item-width="80px"
             :active-show-border="false"
             :active-color="getActiveColor"
+            @click="handleMenuClick"
           />
         </div>
       </div>
@@ -71,7 +74,7 @@ import { forcible } from "mixin/components/forcible-refresh";
 import {
   _getCatList,
   _getMusicListHot,
-  _getHighquality,
+  _getPlayList,
 } from "network/music-list";
 
 import DButton from "common/button/Button";
@@ -99,11 +102,12 @@ export default {
         "icon-biaoqing",
         "icon-huatizhuti",
       ],
-      hotTags: [],
+      hotTags: [],//热门标签
       playList: [],
-      limit: 20,
+      limit: 50,
       cat: "全部",
       isWheel: false,
+      isPoptip:false,//控制poptip打开关闭
     };
   },
   created() {
@@ -126,19 +130,42 @@ export default {
       this.hotTags = res.data.tags.map((item) => {
         return item.name;
       });
-      this.getHighquality(this.cat, this.limit);
+      this.getPlayList();
     });
   },
   methods: {
+    /**上拉加载更多 */
+    handlePullingUp(){
+      this.limit+=50;
+      this.getPlayList();
+    },
+    /**全部歌单 */
+    handleAllPlayList(){
+      this.limit=50;
+      this.cat="全部";
+      this.getPlayList();
+    },
+    /**标签里面按钮点击 */
+    handleButtonClick(index,index2){
+      this.limit=50;
+      this.cat=this.list[index][index2].name;
+      this.getPlayList();
+    },
+    /**menu点击 */
+    handleMenuClick(index){
+      this.limit=50;
+      this.cat=this.hotTags[index];
+      this.getPlayList()
+    },
     /**获取分类歌单 */
-    getHighquality(cat, limit) {
-      _getHighquality(cat, limit).then((res) => {
-        console.log(res.data);
+    getPlayList() {
+      _getPlayList(this.cat, this.limit).then((res) => {
         this.playList = res.data.playlists;
       });
     },
     /**scroll刷新 */
     refresh() {
+      console.log('refresh');
       this.$refs.scroll2.refresh();
     },
     /**poptip提示显示，禁用父级mousewheel滚动 */
@@ -165,6 +192,9 @@ export default {
   transform: rotate(90deg);
   margin-left: 3px;
   font-size: 13px;
+}
+.poptip{
+  margin-left: 10px;
 }
 .dance-music-musiclist-poptip {
   width: 90px;
@@ -219,7 +249,7 @@ export default {
   background: #2d2f33;
 }
 .menu {
-  padding: 10px 0px;
+  padding: 10px 10px;
   font-size: 13px;
   display: flex;
   &-title {
@@ -235,6 +265,6 @@ export default {
   }
 }
 .all-musiclist {
-  padding-top: 10px;
+  padding: 10px 0px 0px 0px;
 }
 </style>
