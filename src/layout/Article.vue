@@ -37,7 +37,18 @@ export default {
           : "";
       return color;
     },
+    getRequestType(){
+      return this.$store.getters.getRequestType;
+    }
   },
+  watch:{
+    getRequestType(){
+      this.$Notice.error({
+        title:'系统提示',
+        desc:'网络错误，请重新打开网站，给您带来的不便敬请谅解。'
+      })
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

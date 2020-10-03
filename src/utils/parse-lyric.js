@@ -1,46 +1,46 @@
-    /**格式化歌词
-     * @param lyric 一个歌词字符串
-     * 
-     * @return [] item.0=time，item.i=相对应时间的歌词
-     */
-    export function parseLyric(lyric) {
-      let RegExp = /\[(\d*:\d*\.\d*)\]/;
-      /**暂存数组 */
-      let arr = [],
-      /**存放时间的数组 */
-        timeArr = [],
-      /**存放歌词的锁足 */
-        lyricArr = [],
-      /**time数组、lyric数组合并之后的数组 */
-        mergeArr = [];
+/**
+ * Parse lrc, suppose multiple time tag
+ * @param {String} lrc_s - Format:
+ * [mm:ss]lyric
+ * [mm:ss.xx]lyric
+ * [mm:ss.xxx]lyric
+ * [mm:ss.xx][mm:ss.xx][mm:ss.xx]lyric
+ * [mm:ss.xx]<mm:ss.xx>lyric
+ *
+ * @return {String} [[time, text], [time, text], [time, text], ...]
+ */
 
-      /**将歌词转换成数组 */
-      arr = lyric.split("\n");
+/**格式化歌词 */
+export function parseLyric (lrc_s) {
+  if (lrc_s) {
+    lrc_s = lrc_s.replace(/([^\]^\n])\[/g, (match, p1) => p1 + '\n[')
+    const lyric = lrc_s.split('\n')
+    const lrc = []
+    const lyricLen = lyric.length
+    for (let i = 0; i < lyricLen; i++) {
+      // match lrc time
+      const lrcTimes = lyric[i].match(/\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/g)
+      // match lrc text
+      const lrcText = lyric[i].replace(/.*\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/g, '').replace(/<(\d{2}):(\d{2})(\.(\d{2,3}))?>/g, '').replace(/^\s+|\s+$/g, '')
 
-      for (let i of arr) {
-        /**获取歌词 */
-        let lrc = i.split("]")[1];
-        if (lrc == "" || lrc == undefined) continue;
-        lyricArr.push(lrc);
-
-        /**处理时间 */
-        let resTime = RegExp.exec(i)[1];
-        let resTime2 = resTime.split(":");
-        let min = parseInt(resTime2[0]) * 60;
-        let sec = parseFloat(resTime2[1]);
-        let time = parseFloat(Number(min + sec).toFixed(2)); //toFixed返回值是String
-        timeArr.push(time);
+      if (lrcTimes) {
+        // handle multiple time tag
+        const timeLen = lrcTimes.length
+        for (let j = 0; j < timeLen; j++) {
+          const oneTime = /\[(\d{2}):(\d{2})(\.(\d{2,3}))?]/.exec(lrcTimes[j])
+          const min2sec = oneTime[1] * 60
+          const sec2sec = parseInt(oneTime[2])
+          const msec2sec = oneTime[4] ? parseInt(oneTime[4]) / ((oneTime[4] + '').length === 2 ? 100 : 1000) : 0
+          const lrcTime = min2sec + sec2sec + msec2sec
+          lrc.push([lrcTime, lrcText])
+        }
       }
-      /**合并数组 */
-      for (let i = 0, length = timeArr.length; i < length; i++) {
-        let lrc=[timeArr[i],lyricArr[i]]
-        // let obj = new lyricItem(timeArr[i], lyricArr[i]);
-        mergeArr.push(lrc);
-      }
-      /**排序 */
-      mergeArr = mergeArr.sort((a, b) => {
-        // return a.time - b.time;
-        return a[0]-b[0];
-      });
-      return mergeArr;
     }
+    // sort by time
+    lrc.sort((a, b) => a[0] - b[0])
+    return lrc
+  }
+  else {
+    return []
+  }
+}

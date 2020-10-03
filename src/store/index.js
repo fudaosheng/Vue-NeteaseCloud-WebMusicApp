@@ -10,6 +10,7 @@ export default new Vuex.Store({
     uid: null,
     cookie: null,
     isloading:false,
+    requestErr:false,
   },
   mutations: {
     setTheme(state, theme) {
@@ -28,6 +29,10 @@ export default new Vuex.Store({
     },
     hiddenLoading(state){
       state.isloading=false;
+    },
+    /**修改网络状态 */
+    setRequestErr(state){
+      state.requestErr=true;
     }
   },
   getters: {
@@ -52,6 +57,10 @@ export default new Vuex.Store({
       }
       return state.cookie;
     },
+    /**获取网络请求状态 */
+    getRequestType(state){
+      return state.requestErr;
+    }
   },
   actions: {
   },

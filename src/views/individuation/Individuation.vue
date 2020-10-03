@@ -11,11 +11,11 @@
         >
           推荐歌单
         </h4>
-        <music-list :music-list="personalized"/>
+        <music-list :music-list="personalized" @refersh="handleRefresh"/>
         <private-content :pri="privateContent" />
         <new-songs
           :songList="songList"
-          @newSongImgLoad="newSongImgLoad"
+          @newSongImgLoad="handleRefresh"
           @playMusic="playMusic"
         />
       </div>
@@ -82,7 +82,7 @@ export default {
     });
   },
   methods: {
-    newSongImgLoad() {
+    handleRefresh() {
       this.$refs.scroll.refresh();
     },
     playMusic(index) {

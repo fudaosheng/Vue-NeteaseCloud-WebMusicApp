@@ -93,31 +93,31 @@ export default {
       }
     },
     /**获取歌单详情网络数据 */
-    getDetailRequestDate() {
+    async getDetailRequestDate() {
       this.id = this.$route.params.id;
 
-      _getMusicListDetail(this.id).then((res) => {
-        /**保存歌单基础信息 */
-        this.baseInfo = new baseInfo(res.data&&res.data.playlist);
-        let str = "评论(" + res.data.playlist.commentCount + ")";
-        this.list = ["歌曲列表", str, "收藏者"];
+      const res = await _getMusicListDetail(this.id);
+      /**保存歌单基础信息 */
 
-        /**遍历查询歌单所有歌曲详情 */
-        for (let i of res.data.playlist.trackIds) {
-          _getSongsDetail(i.id).then((res) => {
-            let song = new songDetail(res.data.songs);
-            this.musicList.push(song);
-          });
-        }
-        /**获取歌单评论 */
-        _getRecommends(this.id, this.limit).then((res) => {
-          this.recommends = res.data.comments;
-        });
+      this.baseInfo = new baseInfo(res.data && res.data.playlist);
+      let str = "评论(" + res.data.playlist.commentCount + ")";
+      this.list = ["歌曲列表", str, "收藏者"];
 
-        /**获取歌单收藏者 */
-        _getSub(this.id, 30).then((res) => {
-          this.subs = res.data.subscribers;
+      /**遍历查询歌单所有歌曲详情 */
+      for (let i of res.data.playlist.trackIds) {
+        _getSongsDetail(i.id).then((res) => {
+          let song = new songDetail(res.data.songs);
+          this.musicList.push(song);
         });
+      }
+      /**获取歌单评论 */
+      _getRecommends(this.id, this.limit).then((res) => {
+        this.recommends = res.data.comments;
+      });
+
+      /**获取歌单收藏者 */
+      _getSub(this.id, 30).then((res) => {
+        this.subs = res.data.subscribers;
       });
     },
   },

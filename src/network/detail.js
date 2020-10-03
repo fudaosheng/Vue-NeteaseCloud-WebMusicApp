@@ -101,7 +101,7 @@ export class songDetail{
 /**歌单基础信息 */
 export class baseInfo{
     constructor(playlist){
-        this.img=playlist.coverImgUrl;
+        this.img=playlist.coverImgUrl||'';
         this.title=playlist.description;
         this.name=playlist.name;
         this.shareCount=playlist.shareCount;

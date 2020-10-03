@@ -62,7 +62,6 @@ export default {
   created() {
     _getRankList().then((res) => {
       this.ranklist = res.data.list;
-      console.log(this.ranklist);
     });
   },
   methods: {

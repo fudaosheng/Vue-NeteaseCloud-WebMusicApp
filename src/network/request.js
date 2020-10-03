@@ -1,5 +1,6 @@
 import axios from 'axios'
 import $store from '@/store/index'
+import vue from '@/main'
 let ajaxTimer = 0;
 export function request(config) {
     $store.commit('showLoading');
@@ -11,6 +12,7 @@ export function request(config) {
         ajaxTimer++;
         return data;
     }, err => {
+        $store.commit('hiddenLoading');
         return err
     });
     install.interceptors.response.use(data => {
@@ -18,7 +20,7 @@ export function request(config) {
         if (ajaxTimer == 0) $store.commit('hiddenLoading');
         return data;
     }, err => {
-        console.log('request error');
+        $store.commit('setRequestErr');
         $store.commit('hiddenLoading');
         return err;
     });
