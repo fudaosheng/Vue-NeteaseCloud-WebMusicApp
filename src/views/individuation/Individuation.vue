@@ -11,7 +11,7 @@
         >
           推荐歌单
         </h4>
-        <music-list :music-list="personalized" @refersh="handleRefresh"/>
+        <music-list :music-list="personalized" @refresh="handleRefresh"/>
         <private-content :pri="privateContent" />
         <new-songs
           :songList="songList"
@@ -97,6 +97,12 @@ export default {
         });
       }
     },
+  },
+  mounted(){
+    /**解决图片懒加载不发射refresh事件，滚动无法刷新 */
+    this.$nextTick(()=>{
+      this.$refs.scroll.refresh();
+    })
   },
 };
 </script>

@@ -69,6 +69,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    length:{
+      type:Number,
+      default:null,
+    }
   },
   computed: {
     /**table-head split 颜色 */
@@ -77,6 +81,14 @@ export default {
       splitColor = this.theme == "dark" ? "var(--border-tt)" : "var(--border)";
       return splitColor;
     },
+    getLength(){
+      return this.length;
+    }
+  },
+  data(){
+    return{
+      refreshTag:0,//判断什么时候发送刷新标记
+    }
   },
   methods: {
     /**处理双击事件 */
@@ -91,8 +103,9 @@ export default {
     getListIndex(index) {
       let currentIndex = 0;
       currentIndex = index < 9 ? "0" + (index + 1) : index + 1;
-      if (currentIndex == this.musicList.length) {
-        this.$emit("refresh");
+      if(currentIndex==this.getLength){
+        this.$emit('refresh');
+        console.log('refresh:'+this.length);
       }
       return currentIndex;
     },

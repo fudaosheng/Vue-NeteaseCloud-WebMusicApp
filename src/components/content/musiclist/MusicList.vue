@@ -59,7 +59,9 @@ export default {
     },
     /**处理图片加载刷新 */
     handleRefresh(){
-      if(this.imgCount==this.musicList.length)this.$emit('refresh');
+      if(this.imgCount==this.musicList.length){
+        this.$emit('refresh')
+      };
       this.imgCount++;
     },
   },

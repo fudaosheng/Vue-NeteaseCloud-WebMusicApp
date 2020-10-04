@@ -49,16 +49,6 @@ export default {
       this.$emit("pullingUp");
     },
   },
-  computed: {
-    getSlotDefault() {
-      return this.$slots.default;
-    },
-  },
-  watch: {
-    $slots() {
-      console.log("slot fault");
-    },
-  },
 };
 </script>
 <style scoped>

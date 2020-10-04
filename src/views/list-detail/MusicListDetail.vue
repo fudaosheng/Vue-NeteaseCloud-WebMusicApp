@@ -10,8 +10,8 @@
       <div :class="program + 'detail-container'">
         <table-list
           :music-list="musicList"
+          :length="length"
           v-show="isShow == 'music'"
-          @refresh="handleRefresh"
         />
         <recommends
           :recommends="recommends"
@@ -69,6 +69,7 @@ export default {
       isShow: "music", //控制显示歌单、评论、收藏者
       recommends: null,
       subs: null,
+      length:null,//获取歌曲列表长度，用于刷新scroll
     };
   },
   created() {
@@ -92,10 +93,21 @@ export default {
           this.isShow = "sub";
       }
     },
+    init() {
+      this.limit = 20;
+      this.list = [];
+      this.baseInfo = {};
+      this.musicList = [];
+      this.isShow = "music"; //控制显示歌单、评论、收藏者
+      this.recommends = null;
+      this.subs = null;
+    },
     /**获取歌单详情网络数据 */
     async getDetailRequestDate() {
       this.id = this.$route.params.id;
+      if (!this.id) return;
 
+      this.init();
       const res = await _getMusicListDetail(this.id);
       /**保存歌单基础信息 */
 
@@ -104,8 +116,11 @@ export default {
       this.list = ["歌曲列表", str, "收藏者"];
 
       /**遍历查询歌单所有歌曲详情 */
-      for (let i of res.data.playlist.trackIds) {
-        _getSongsDetail(i.id).then((res) => {
+      const trackIds = res.data.playlist.trackIds;
+      /**获取歌曲列表长度 */
+      this.length=trackIds.length;
+      for (let i=0,length=trackIds.length;i<length;i++) {
+        _getSongsDetail(trackIds[i].id).then((res) => {
           let song = new songDetail(res.data.songs);
           this.musicList.push(song);
         });

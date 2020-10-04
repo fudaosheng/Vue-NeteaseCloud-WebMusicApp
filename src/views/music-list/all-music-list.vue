@@ -1,7 +1,13 @@
 <template>
-  <scroll class="scroll" ref="scroll2" :disable-wheel="isWheel" @pullingUp="handlePullingUp">
+  <scroll
+    class="scroll"
+    ref="scroll2"
+    :disable-wheel="isWheel"
+    @pullingUp="handlePullingUp"
+  >
     <div :class="[`${program + 'all-musiclist'}`]">
       <b-poptip
+        ref="poptip"
         placement="bottom-start"
         :theme="getTheme"
         max-length="520px"
@@ -15,7 +21,7 @@
             `${program + 'musiclist-poptip-' + theme}`,
           ]"
         >
-          <span>{{cat}}</span>
+          <span>{{ cat }}</span>
           <i class="vbestui-iconfont icon-qian"></i>
         </div>
         <template v-slot:title>
@@ -27,7 +33,13 @@
               :class="['pop-container', `${'pop-container-' + theme}`]"
               @mouseenter="handleRefresh"
             >
-              <d-button size="long" height="35px" round @click.native="handleAllPlayList">全部歌单</d-button>
+              <d-button
+                size="long"
+                height="35px"
+                round
+                @click.native="handleAllPlayList"
+                >全部歌单</d-button
+              >
               <div class="cate-item" v-for="(item, index) in list" :key="index">
                 <div class="cate-item-left">
                   <i :class="['iconfont', `${iconList[index]}`]"></i>
@@ -39,7 +51,7 @@
                     :key="index2"
                     width="80px"
                     height="35px"
-                    @click.native="handleButtonClick(index,index2)"
+                    @click.native="handleButtonClick(index, index2)"
                     >{{ cate.name }}</d-button
                   >
                 </div>
@@ -102,12 +114,12 @@ export default {
         "icon-biaoqing",
         "icon-huatizhuti",
       ],
-      hotTags: [],//热门标签
+      hotTags: [], //热门标签
       playList: [],
       limit: 50,
       cat: "全部",
       isWheel: false,
-      isPoptip:false,//控制poptip打开关闭
+      isPoptip: false, //控制poptip打开关闭
     };
   },
   created() {
@@ -135,27 +147,29 @@ export default {
   },
   methods: {
     /**上拉加载更多 */
-    handlePullingUp(){
-      this.limit+=50;
+    handlePullingUp() {
+      this.limit += 50;
       this.getPlayList();
     },
     /**全部歌单 */
-    handleAllPlayList(){
-      this.limit=50;
-      this.cat="全部";
+    handleAllPlayList() {
+      this.limit = 50;
+      this.cat = "全部";
       this.getPlayList();
+      this.$refs.poptip.hidden();
     },
     /**标签里面按钮点击 */
-    handleButtonClick(index,index2){
-      this.limit=50;
-      this.cat=this.list[index][index2].name;
+    handleButtonClick(index, index2) {
+      this.limit = 50;
+      this.cat = this.list[index][index2].name;
       this.getPlayList();
+      this.$refs.poptip.hidden();
     },
     /**menu点击 */
-    handleMenuClick(index){
-      this.limit=50;
-      this.cat=this.hotTags[index];
-      this.getPlayList()
+    handleMenuClick(index) {
+      this.limit = 50;
+      this.cat = this.hotTags[index];
+      this.getPlayList();
     },
     /**获取分类歌单 */
     getPlayList() {
@@ -165,17 +179,17 @@ export default {
     },
     /**scroll刷新 */
     refresh() {
-      console.log('refresh');
+      console.log("refresh");
       this.$refs.scroll2.refresh();
     },
     /**poptip提示显示，禁用父级mousewheel滚动 */
-    handlePoptipShow(){
-      this.isWheel=true;
+    handlePoptipShow() {
+      this.isWheel = true;
     },
     /**poptip提示显示，重新启用父级mousewheel滚动 */
-    handlePoptipHidden(){
-      this.isWheel=false;
-    }
+    handlePoptipHidden() {
+      this.isWheel = false;
+    },
   },
 };
 </script>
@@ -193,7 +207,7 @@ export default {
   margin-left: 3px;
   font-size: 13px;
 }
-.poptip{
+.poptip {
   margin-left: 10px;
 }
 .dance-music-musiclist-poptip {
