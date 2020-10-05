@@ -32,7 +32,7 @@ export default {
           icon: "iconfont icon-PCbofangye_paihangbang",
           content: "排行榜",
         },
-        { link: "", icon: "iconfont icon-mansingle", content: "歌手" },
+        { link: "/artist-list", icon: "iconfont icon-mansingle", content: "歌手" },
         {
           link: "",
           icon: "iconfont icon-musicnoteeighth",

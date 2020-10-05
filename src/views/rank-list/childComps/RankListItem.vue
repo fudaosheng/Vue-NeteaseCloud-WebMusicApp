@@ -99,6 +99,10 @@ export default {
           _getSongsDetail(i.id).then((res) => {
             let song = new songDetail(res.data.songs);
             this.musiclist.push(song);
+            /**刷新scroll */
+            if(this.musiclist.length==8&&this.getTitleString.indexOf('热')==0){
+              this.$emit('refresh')
+            }
           });
         }
       });
@@ -109,6 +113,9 @@ export default {
       let time = this.musicListDetail.playlist.updateTime;
       return formatDate(new Date(time), "MM月dd日");
     },
+    getTitleString(){
+      return this.title.toString();
+    }
   },
   methods: {
     enterDetail() {

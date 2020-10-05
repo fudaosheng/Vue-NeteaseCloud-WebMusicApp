@@ -21,7 +21,6 @@ export function request(config) {
         return data;
     }, err => {
         $store.commit('hiddenLoading');
-        confirm(err.message,'出错啦~');
         throw err;
         return err;
     });

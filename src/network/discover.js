@@ -1,72 +1,74 @@
-import {request} from './request'
+import { request } from './request'
 
 /**获取轮播图数据 */
-export function _getBanner(){
+export function _getBanner() {
     return request({
-        url:'/banner'
+        url: '/banner'
     })
 }
 /**推荐歌单 */
-export function _getPersonalized(config){
+export function _getPersonalized(config) {
     return request({
-        url:'/personalized',
-        params:{
-            limit:config
+        url: '/personalized',
+        params: {
+            limit: config
         }
     })
 }
 
 /**独家放送 */
-export function _getPrivateContent(){
+export function _getPrivateContent() {
     return request({
-        url:"/personalized/privatecontent"
+        url: "/personalized/privatecontent"
     })
 }
 
 /**获取每日新歌 */
-export function _getNewSong(){
+export function _getNewSong() {
     return request({
-        url:'/personalized/newsong',
+        url: '/personalized/newsong',
     })
 }
 
 /**获取每日推荐歌单  需要登陆*/
-export function _getRecommendResource(cookie,uid){
+export function _getRecommendResource(cookie, uid) {
     return request({
-        url:'/recommend/songs',
-        params:{
-            cookie:cookie,
-            uid:uid
+        url: '/recommend/songs',
+        params: {
+            cookie: cookie,
+            uid: uid
         }
     })
 }
 
 
 /**获取排行榜数据 */
-export function _getRankList(){
+export function _getRankList() {
     return request({
-        url:'/toplist',
+        url: '/toplist',
     })
 }
 
 /**歌手 */
-export function _getArtist(area,type,limit){
+export function _getArtist(area, type, name = -1,limit,offset=1) {
     return request({
-        url:'/artist/list',
-        params:{
-            area:area,
-            type:type,
-            limit:limit
+        url: '/artist/list',
+        params: {
+            area: area,
+            type: type,
+            limit: limit,
+            initial:name,
+            offset:offset
         }
     })
 }
 
 /**最新歌曲 */
-export function _getTopSongs(type){
+export function _getTopSongs(type) {
     return request({
-        url:'/top/song',
-        params:{
-            type:type
+        url: '/top/song',
+        params: {
+            type: type
         }
     })
 }

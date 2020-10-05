@@ -8,32 +8,34 @@
         <rank-list-item
           v-if="ranklist[0] && ranklist[0].id"
           :rank-id="ranklist[0].id"
-          :title="['飙', '升', '榜']"
+          :title="ranklist[0].name.slice(-3).split('')"
           :bg-color="['#56a1e3', '#5a8beb']"
         />
         <rank-list-item
           v-if="ranklist[1] && ranklist[1].id"
           :rank-id="ranklist[1].id"
-          :title="['新', '歌', '榜']"
+          :title="ranklist[1].name.slice(-3).split('')"
           :bg-color="['#34aabe', '#56c2cd']"
         />
         <rank-list-item
           v-if="ranklist[2] && ranklist[2].id"
           :rank-id="ranklist[2].id"
-          :title="['原', '创', '榜']"
+          :title="ranklist[2].name.slice(-3).split('')"
           :bg-color="['#d53d6a', '#eb638d']"
         />
         <rank-list-item
           v-if="ranklist[3] && ranklist[3].id"
           :rank-id="ranklist[3].id"
-          :title="['热', '歌', '榜']"
+          :title="ranklist[3].name.slice(-3).split('')"
           :bg-color="['#c7523c', '#cc7455']"
+          @refresh="refresh"
         />
         <rank-list-item
           v-if="ranklist[4] && ranklist[4].id"
           :rank-id="ranklist[4].id"
-          :title="['歌', '手', '榜']"
+          :title="ranklist[4].name.slice(-3).split('')"
           :bg-color="['#9455ce', '#9946c9']"
+          @refresh="refresh"
         />
       </div>
       <h4>全球榜</h4>
