@@ -113,7 +113,6 @@ export default {
         this.offset
       );
       this.artistlist = res.data.artists;
-      console.log(this.artistlist);
       this.$nextTick(()=>{
         this.refresh();
       })

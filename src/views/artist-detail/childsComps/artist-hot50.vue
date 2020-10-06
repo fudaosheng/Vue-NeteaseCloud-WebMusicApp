@@ -1,28 +1,29 @@
 <template>
-  <div class="artist-album-detail">
-    <div class="artist-album-detail-left">
-      <img v-lazy="album.picUrl" />
+  <scroll ref="scroll" class="scroll">
+    <div class="artist-hot50">
+      <div class="artist-hot50-left">
+        <img v-lazy="getPic" alt="" />
+      </div>
+      <div class="artist-hot50-right">
+        <p>热门50首</p>
+        <song-list :music-list="musicList" :lines="lines" :show-head="false" />
+      </div>
     </div>
-    <div class="artist-album-detail-right">
-      <p>{{ album.name }}</p>
-      <song-list :music-list="musicList" :lines="lines" :show-head="false" />
-    </div>
-  </div>
+  </scroll>
 </template>
 <script>
+import { _getArtistHot50 } from "network/artist";
 import { _getSongsDetail, songDetail } from "network/detail";
-import { _getAlbum } from "network/artist";
 
 import SongList from "common/song-list/song-list";
+import Scroll from "common/scroll/Scroll";
 export default {
-  name: "AlbumDetail",
-  components: { SongList },
+  name: "ArtistHot50",
+  components: { SongList, Scroll },
   props: {
-    album: {
-      type: Object,
-      default() {
-        return {};
-      },
+    id: {
+      type: [Number, String],
+      default: 0,
     },
   },
   data() {
@@ -32,20 +33,26 @@ export default {
     };
   },
   created() {
-    if (Object.keys(this.album).length) {
-      this.initRequest();
-    }
+    this.initRequest();
+  },
+  computed: {
+    getPic() {
+      if (this.musicList.length) return this.musicList[0].pic;
+    },
   },
   methods: {
     initRequest() {
-      _getAlbum(this.album.id).then((res) => {
+      _getArtistHot50(this.id).then((res) => {
         let songs = res.data.songs;
         for (let i in songs) {
           _getSongsDetail(songs[i].id).then((res) => {
             let song = new songDetail(res.data.songs);
             this.musicList.push(song);
             if (i == songs.length - 1) {
-            //   console.log(this.musicList);
+              this.$emit("refresh");
+              this.$nextTick(() => {
+                this.$refs.scroll.refresh();
+              });
             }
           });
         }
@@ -53,17 +60,20 @@ export default {
     },
   },
   watch: {
-    album(){
+    id() {
       this.initRequest();
     },
   },
 };
 </script>
 <style lang="less" scoped>
-.artist-album-detail {
+.scroll {
+  height: 350px;
+  margin: 10px 0px;
+}
+.artist-hot50 {
   display: flex;
   align-items: flex-start;
-  padding: 10px 0px;
   &-left {
     width: 150px;
     padding-right: 10px;

@@ -59,10 +59,8 @@ import {
 } from "network/detail";
 import { formatDate } from "utils/tool";
 
-import TableList from "common/table/TableList";
 export default {
   name: "RankListItem",
-  components: { TableList },
   mixins: [theme],
   props: {
     rankId: {

@@ -8,7 +8,7 @@
         @click="handleMenuClick"
       ></b-menu>
       <div :class="program + 'detail-container'">
-        <table-list
+        <song-list
           :music-list="musicList"
           :length="length"
           v-show="isShow == 'music'"
@@ -43,14 +43,14 @@ import { playMusic } from "mixin/global/play-music";
 
 import Scroll from "common/scroll/Scroll";
 import BaseInfo from "./childsComps/baseInfo";
-import TableList from "common/table/TableList";
+import SongList from "common/song-list/song-list";
 import Recommends from "./childsComps/Recommends";
 import MusicListLive from "./childsComps/MusicListLive";
 export default {
   name: "MusicListDetail",
   /**Vue中最好别全大写 */
   mixins: [theme, playMusic],
-  components: { Scroll, BaseInfo, TableList, Recommends, MusicListLive },
+  components: { Scroll, BaseInfo, SongList, Recommends, MusicListLive },
   computed: {
     detailClass() {
       return [
@@ -139,7 +139,9 @@ export default {
   watch: {
     /**监听导航变化重新发送请求 */
     $route() {
-      this.getDetailRequestDate();
+         if(this.$route.path.indexOf('musiclistdetail')>0){
+           this.getDetailRequestDate();
+         }
     },
   },
 };

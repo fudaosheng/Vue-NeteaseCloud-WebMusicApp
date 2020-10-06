@@ -16,19 +16,19 @@
           @click="closePlayerList"
         ></b-button>
       </div>
-      <table-list :music-list="musicList" :lines="lines" player />
+      <song-list :music-list="musicList" :lines="lines" player />
     </scroll>
   </div>
 </template>
 <script>
 import { theme } from "mixin/global/theme";
 import {forcible} from "mixin/components/forcible-refresh"
-import TableList from "common/table/TableList";
+import SongList from "common/song-list/song-list";
 import Scroll from "common/scroll/Scroll";
 export default {
   name: "PlayerList",
   mixins: [theme,forcible],
-  components: { TableList, Scroll },
+  components: { SongList, Scroll },
   props: {
     musicList: {
       type: Array,
