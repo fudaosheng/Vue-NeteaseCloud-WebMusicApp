@@ -35,8 +35,8 @@ export default {
     },
     enterArtistDetail(item) {
       this.$router.push({
-        name: "artist-detail",
-        params: {
+        path: "/artist-detail",
+        query: {
           id: item.id,
           name:item.name,
           musicSize: item.musicSize,

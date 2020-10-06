@@ -6,25 +6,19 @@
     <div class="right">
       <h3>
         <b-tag color="var(--main-color)" plain>歌手</b-tag>
-        {{artist.name}}
+        {{ artist.name }}
       </h3>
       <div class="desc">
-        <p>
-          <span>单曲数：</span>{{artist.musicSize}}
-        </p>
-        <p>
-          <span>专辑数：</span>{{artist.albumSize}}
-        </p>
-        <p>
-          <span>MV数：</span>{{0}}
-        </p>
-        <p class="desc-title"><span>简介：</span>{{desc}}</p>
+        <p><span>单曲数：</span>{{ artist.musicSize }}</p>
+        <p><span>专辑数：</span>{{ artist.albumSize }}</p>
+        <p><span>MV数：</span>{{ mvCount }}</p>
+        <p class="desc-title"><span>简介：</span>{{ desc }}</p>
       </div>
     </div>
   </div>
 </template>
 <script>
-import {_getArtistDesc} from "network/artist"
+import { _getArtistDesc } from "network/artist";
 export default {
   name: "ArtistBaseinfo",
   props: {
@@ -32,30 +26,33 @@ export default {
       type: Object,
       default: {},
     },
+    mvCount: {
+      type: Number,
+      default: 0,
+    },
   },
-  data(){
-      return{
-          desc:''
-      }
+  data() {
+    return {
+      desc: "",
+    };
   },
-  methods:{
+  methods: {},
+  watch: {
+    artist: {
+      handler() {
+        _getArtistDesc(this.artist.id).then((res) => {
+          this.desc = res.data.briefDesc;
+        });
+      },
+      immediate: true,
+    },
   },
-  watch:{
-      artist:{
-          handler(){
-              _getArtistDesc(this.artist.id).then(res=>{
-                  this.desc= res.data.briefDesc;
-              })
-          },
-          immediate:true
-      }
-  }
 };
 </script>
 <style lang="less" scoped>
 .artist-base-info {
   width: 100%;
-  padding: 10px 0px;
+  padding: 10px 20px;
   display: flex;
   position: relative;
   .left {
@@ -75,8 +72,8 @@ export default {
 .desc {
   padding: 10px 0px;
   font-size: 13px;
-  p{
-      padding: 3px 0px;
+  p {
+    padding: 3px 0px;
   }
   span {
     color: var(--tag-color);

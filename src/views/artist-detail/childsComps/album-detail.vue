@@ -45,7 +45,7 @@ export default {
             let song = new songDetail(res.data.songs);
             this.musicList.push(song);
             if (i == songs.length - 1) {
-            //   console.log(this.musicList);
+            this.$emit('refresh');
             }
           });
         }

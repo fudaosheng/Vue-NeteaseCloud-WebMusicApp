@@ -10,6 +10,7 @@
       v-for="(item, index) in hotAlbums"
       :key="index"
       :album="item"
+      @refresh="handleAlbumsRefresh(index)"
     />
   </div>
 </template>
@@ -37,20 +38,25 @@ export default {
   methods: {
     /**鼠标进入热门50首 */
     handleEnter() {
-      this.$parent.isWheel = true;
+      this.$emit('enter');
     },
     handleLeave() {
-      this.$parent.isWheel = false;
+      this.$emit('leave');
     },
     handleRefresh() {
       this.$emit("refresh");
+    },
+    /**专辑列表scroll刷新 */
+    handleAlbumsRefresh(index){
+      if(index==this.hotAlbums.length-1){
+        this.$emit("refresh");
+      }
     },
     /**artist-detail网络请求 */
     initRequest() {
       _getArtistAlbum(this.id).then((res) => {
         /**热门专辑 */
         this.hotAlbums = res.data.hotAlbums;
-        console.log(this.hotAlbums);
       });
     },
   },
@@ -64,6 +70,6 @@ export default {
 <style lang="less" scoped>
 .album-list {
   width: 100%;
-  padding: 10px 0px;
+  padding: 10px 20px;
 }
 </style>

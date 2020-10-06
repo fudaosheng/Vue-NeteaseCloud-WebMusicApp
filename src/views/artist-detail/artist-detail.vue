@@ -1,35 +1,53 @@
 <template>
-  <scroll class="scroll" ref="scroll" :disable-wheel="isWheel">
+  <scroll class="scroll" ref="scroll" :disable-wheel="getIsWheel">
     <div :class="[`${program + 'artist-detail'}`]">
-      <artist-baseinfo :artist="getArtist" />
+      <artist-baseinfo :artist="getArtist" :mv-count="getMvCount" />
       <b-menu
+        :class="[`${program + 'artist-detail-menu'}`]"
         :menu="list"
         :active-color="getActiveColor"
         @click="handleMenuClick"
       ></b-menu>
-      <album-list :id="getArtistId"/>
+      <album-list
+        v-show="isShow === 'album'"
+        :id="getArtistId"
+        @refresh="handleRefresh"
+        @enter="handleEnter"
+        @leave="handleLeave"
+      />
+      <artist-mvs :mv-list="mvList" v-show="isShow==='MV'"/>
+      <artist-desc-detail :id="getArtistId" :name="artist.name" v-show="isShow==='desc'"/>
+      <artist-simi :id="getArtistId" v-show="isShow==='simi'"/>
     </div>
   </scroll>
 </template>
 <script>
 import { theme } from "mixin/global/theme";
+import { _getArtistMv } from "network/artist";
+import { MV } from "network/mv";
 import Scroll from "common/scroll/Scroll";
 
 import ArtistBaseinfo from "./childsComps/artist-baseinfo";
-import AlbumList from "./childsPage/album-list"
+import AlbumList from "./childsPage/album-list";
+import ArtistMvs from "./childsPage/artist-mvs"
+import ArtistDescDetail from "./childsPage/artist-desc-detail"
+import ArtistSimi from "./childsPage/artist-simi"
 export default {
   name: "ArtistDetail",
   mixins: [theme],
-  components: { Scroll, ArtistBaseinfo ,AlbumList},
+  components: { Scroll, ArtistBaseinfo, AlbumList ,ArtistMvs,ArtistDescDetail,ArtistSimi},
   data() {
     return {
       artist: null,
       list: ["专辑", "MV", "歌手详情", "相似歌手"],
-      isWheel:false,//是否禁用wheel
+      isWheel: false, //是否禁用wheel
+      isShow: "album",
+      mvList: [],
     };
   },
   created() {
-    this.artist = this.$route.params;
+    this.artist = this.$route.query;
+    this.initRequest();
   },
   computed: {
     /**获取歌曲初始数据 */
@@ -40,24 +58,81 @@ export default {
     getArtistId() {
       if (this.artist.id) return this.artist.id;
     },
+    getIsWheel() {
+      return this.isWheel;
+    },
+    getMvCount() {
+      return this.mvList.length;
+    },
   },
   methods: {
-    handleMenuClick() {},
+    handleMenuClick(index) {
+      switch (index) {
+        case 0:
+          this.isShow = "album";
+          break;
+        case 1:
+          this.isShow = "MV";
+          break;
+        case 2:
+          this.isShow = "desc";
+          break;
+        case 3:
+          this.isShow = "simi";
+      }
+      this.$nextTick(()=>{
+        this.handleRefresh();
+      })
+    },
+    handleRefresh() {
+      console.log("++");
+      this.$refs.scroll.refresh();
+    },
+    /**鼠标进入热门50首，禁用启用外层wheel */
+    handleEnter() {
+      this.isWheel = true;
+    },
+    handleLeave() {
+      this.isWheel = false;
+    },
+    initRequest() {
+      _getArtistMv(this.artist.id).then((res) => {
+        let mvs = res.data.mvs;
+        for (let i in mvs) {
+          let mv = new MV(
+            mvs[i].id,
+            mvs[i].imgurl,
+            mvs[i].name,
+            mvs[i].artistName,
+            mvs[i].playCount,
+            mvs[i].duration,
+          );
+          this.mvList.push(mv);
+        }
+      });
+    },
   },
   watch: {
     $route() {
-      if(this.$route.path.indexOf('artist-detail')>0){
-        this.artist = this.$route.params;
+      console.log('detail route');
+      if (this.$route.path.indexOf("artist-detail") > 0) {
+        this.artist = this.$route.query;
+        console.log(this.$route.query);
+        this.initRequest();
       }
     },
   },
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
 .scroll {
   height: calc(100vh - 58px - 60px);
 }
 .dance-music-artist-detail {
-  padding: 10px 100px 0px 100px;
+  padding: 10px 30px 0px 30px;
+  &-menu{
+    padding: 0px 20px;
+    margin:0px 0px 10px 0px;
+  }
 }
 </style>

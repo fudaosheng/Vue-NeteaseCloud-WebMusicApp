@@ -1,0 +1,58 @@
+<template>
+  <div class="simi">
+    <artist-list :artist-list="artists" />
+  </div>
+</template>
+<script>
+import ArtistList from "views/artist-list/childsComps/artist-list";
+import { _getSimiArtist } from "network/artist";
+export default {
+  name: "ArtistSimi",
+  data() {
+    return {
+      artists: [],
+    };
+  },
+  props: {
+    id: {
+      type: [Number, String],
+      default: 0,
+    },
+  },
+  components: {
+    ArtistList,
+  },
+  computed: {
+    getCookie() {
+      return this.$store.getters.getCookie;
+    },
+  },
+  methods: {
+    initRequest() {
+      _getSimiArtist(this.getCookie, this.id).then((res) => {
+        this.artists = res.data.artists;
+      });
+    },
+  },
+  created() {
+    if (this.id != 0) {
+      if (this.getCookie) {
+        this.initRequest();
+      } else {
+        this.$Message.warning("请先登陆");
+      }
+    }
+  },
+  watch: {
+    id() {
+      if (this.getCookie) {
+        this.initRequest();
+      } else {
+        this.$Message.warning("请先登陆");
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+</style>

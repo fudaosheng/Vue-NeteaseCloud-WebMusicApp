@@ -1,6 +1,6 @@
 <template>
   <div :class="articleClass">
-    <keep-alive>
+    <keep-alive exclude="artist-detail">
       <router-view />
     </keep-alive>
     <b-loading

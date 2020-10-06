@@ -1,4 +1,5 @@
 import {request} from './request'
+import {formatDate} from "utils/tool"
 
 export function _getNewMV(limit){
     return request({
@@ -11,12 +12,13 @@ export function _getNewMV(limit){
 
 /**封装mv信息 */
 export class MV{
-    constructor(id,cover,name,artist,count){
+    constructor(id,cover,name,artist,count,duration){
         this.id=id;
         this.cover=cover;
         this.name=name;
         this.artist=artist;
         this.count=count;
+        this.duration=formatDate(new Date(duration),'MM:dd');
     }
 }
 
