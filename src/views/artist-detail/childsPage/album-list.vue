@@ -59,9 +59,14 @@ export default {
         this.hotAlbums = res.data.hotAlbums;
       });
     },
+    /**重置数据 */
+    reset(){
+      this.hotAlbums=[]
+    },
   },
   watch:{
     id(){
+      this.reset();
       this.initRequest();
     }
   }

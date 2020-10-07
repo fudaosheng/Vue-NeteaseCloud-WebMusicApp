@@ -51,9 +51,13 @@ export default {
         }
       });
     },
+    reset(){
+      this.musicList=[];
+    }
   },
   watch: {
     album(){
+      this.reset();
       this.initRequest();
     },
   },

@@ -9,6 +9,7 @@
       ></b-menu>
       <div :class="program + 'detail-container'">
         <song-list
+          ref="songList"
           :music-list="musicList"
           :length="length"
           v-show="isShow == 'music'"

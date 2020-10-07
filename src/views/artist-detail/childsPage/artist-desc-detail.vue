@@ -59,7 +59,6 @@ export default {
     initRequest() {
       _getArtistDescDetail(this.id).then((res) => {
         this.descDetail = res.data;
-        console.log(this.descDetail);
       });
     },
   },

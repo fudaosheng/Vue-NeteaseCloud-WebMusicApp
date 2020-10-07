@@ -1,5 +1,4 @@
 import {request} from './request'
-import {formatDate} from "utils/tool"
 
 export function _getNewMV(limit){
     return request({
@@ -18,7 +17,7 @@ export class MV{
         this.name=name;
         this.artist=artist;
         this.count=count;
-        this.duration=formatDate(new Date(duration),'MM:dd');
+        this.duration=duration;
     }
 }
 

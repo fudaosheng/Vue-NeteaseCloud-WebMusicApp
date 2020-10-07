@@ -37,11 +37,12 @@ export default {
       this.$router.push({
         path: "/artist-detail",
         query: {
-          id: item.id,
-          name:item.name,
-          musicSize: item.musicSize,
-          albumSize: item.albumSize,
-          picUrl: item.picUrl,
+          // id: item.id,
+          // name:item.name,
+          // musicSize: item.musicSize,
+          // albumSize: item.albumSize,
+          // picUrl: item.picUrl,
+          artist:item
         },
       });
     },

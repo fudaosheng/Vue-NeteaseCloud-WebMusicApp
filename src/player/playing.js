@@ -3,6 +3,7 @@ export const playing = {
         return {
             playIndex: .5,
             playName: null,
+            playId:null
         }
     },
     mounted() {
@@ -10,9 +11,10 @@ export const playing = {
  * @param1 对应歌单正在播放音乐的歌曲下标
  * @param2 正在播放歌曲的音乐名字
  */
-        this.$bus.$on('Playing', (index, name) => {
+        this.$bus.$on('Playing', (index, name,id) => {
             this.playIndex = index;
             this.playName = name;
+            this.playId=id;
         })
     },
 }

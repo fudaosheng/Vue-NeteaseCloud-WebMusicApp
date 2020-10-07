@@ -1,6 +1,6 @@
 <template>
   <scroll ref="scroll" class="scroll">
-    <div class="artist-hot50">
+    <div class="artist-hot50" @mouseenter="handleRefresh">
       <div class="artist-hot50-left">
         <img v-lazy="getPic" alt="" />
       </div>
@@ -14,12 +14,14 @@
 <script>
 import { _getArtistHot50 } from "network/artist";
 import { _getSongsDetail, songDetail } from "network/detail";
+import {forcible} from "mixin/components/forcible-refresh" 
 
 import SongList from "common/song-list/song-list";
 import Scroll from "common/scroll/Scroll";
 export default {
   name: "ArtistHot50",
-  components: { SongList, Scroll },
+  mixins:[forcible],
+  components: { SongList, Scroll},
   props: {
     id: {
       type: [Number, String],
@@ -58,9 +60,13 @@ export default {
         }
       });
     },
+    reset(){
+      this.musicList=[];
+    }
   },
   watch: {
     id() {
+      this.reset();
       this.initRequest();
     },
   },

@@ -17,11 +17,12 @@
       />
       <artist-mvs :mv-list="mvList" v-show="isShow==='MV'"/>
       <artist-desc-detail :id="getArtistId" :name="artist.name" v-show="isShow==='desc'"/>
-      <artist-simi :id="getArtistId" v-show="isShow==='simi'"/>
+      <artist-simi :id="getArtistId" v-show="isShow==='simi'" @refresh="handleRefresh"/>
     </div>
   </scroll>
 </template>
 <script>
+import {formatDate} from "utils/tool"
 import { theme } from "mixin/global/theme";
 import { _getArtistMv } from "network/artist";
 import { MV } from "network/mv";
@@ -46,7 +47,7 @@ export default {
     };
   },
   created() {
-    this.artist = this.$route.query;
+    this.artist = this.$route.query.artist;
     this.initRequest();
   },
   computed: {
@@ -85,7 +86,6 @@ export default {
       })
     },
     handleRefresh() {
-      console.log("++");
       this.$refs.scroll.refresh();
     },
     /**鼠标进入热门50首，禁用启用外层wheel */
@@ -95,9 +95,14 @@ export default {
     handleLeave() {
       this.isWheel = false;
     },
+    reset(){
+      this.mvList=[];
+      this.isShow="album";
+    },
     initRequest() {
       _getArtistMv(this.artist.id).then((res) => {
         let mvs = res.data.mvs;
+        console.log(mvs);
         for (let i in mvs) {
           let mv = new MV(
             mvs[i].id,
@@ -105,7 +110,7 @@ export default {
             mvs[i].name,
             mvs[i].artistName,
             mvs[i].playCount,
-            mvs[i].duration,
+            formatDate(new Date(mvs[i].duration),'MM:dd'),
           );
           this.mvList.push(mv);
         }
@@ -113,11 +118,11 @@ export default {
     },
   },
   watch: {
+    /**路由变化数据置空 */
     $route() {
-      console.log('detail route');
       if (this.$route.path.indexOf("artist-detail") > 0) {
-        this.artist = this.$route.query;
-        console.log(this.$route.query);
+        this.artist = this.$route.query.artist;
+        this.reset();
         this.initRequest();
       }
     },

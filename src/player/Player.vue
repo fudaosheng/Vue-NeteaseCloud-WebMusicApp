@@ -161,6 +161,7 @@ export default {
       isShowLyric: false, //是否显示歌词,
       isShowList: false, //是否显示播放列表
       isPure: false, //是否是纯净模式
+      id:null,//接收传来的播放列表唯一标识
     };
   },
   computed: {
@@ -194,7 +195,8 @@ export default {
   },
   mounted() {
     /**list是音乐列表，index是要播放的音乐在列表中的位置，path是当前播放音乐的路由路径,musicList是歌单信息*/
-    this.$bus.$on("playMusic", (playList, index, musicList) => {
+    this.$bus.$on("playMusic", (playList, index, musicList,id) => {
+      this.id=id;
       this.musicList = musicList;
       /**初始化播放列表 */
       this.playList = [];
@@ -291,7 +293,8 @@ export default {
       this.$bus.$emit(
         "Playing",
         this.playList[this.currentIndex].index,
-        this.playList[this.currentIndex].name
+        this.playList[this.currentIndex].name,
+        this.id
       );
       if (this.$refs.player != null) this.$refs.player.isPlay = true;
     },

@@ -8,7 +8,7 @@
         </div>
         <img v-lazy="item.cover" alt="" />
         <div class="artist-mvs-item-duration">
-          {{ item.duration }}
+          <!-- {{ item.duration }} -->
         </div>
       </div>
       <div class="artist-mvs-item-desc">

@@ -1,6 +1,6 @@
 <template>
   <div class="simi">
-    <artist-list :artist-list="artists" />
+    <artist-list :artist-list="artists" @refresh="handleRefresh"/>
   </div>
 </template>
 <script>
@@ -33,6 +33,9 @@ export default {
         this.artists = res.data.artists;
       });
     },
+    handleRefresh(){
+      this.$emit('refresh');
+    }
   },
   created() {
     if (this.id != 0) {

@@ -30,7 +30,10 @@ export function distinct(arr){
   return newArr;
 }
 
-/**时间格式化函数 */
+/**时间格式化函数 
+ * @param date          @new Date()一个Date对象
+ * @param fmt           时间格式化时间，'yy-MM-dd'
+*/
 export function formatDate(date, fmt) {
   if (/(y+)/.test(fmt)) {
     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
