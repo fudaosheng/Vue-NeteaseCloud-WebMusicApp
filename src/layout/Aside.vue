@@ -2,18 +2,18 @@
   <div :class="asideClass">
     <div class="menu">
       <b-menu
-      :menu="menuList"
-      vertical
-      item-width="100%"
-      :text-color="theme=='dark'?'var(--dark-text-color)':''"
-      :active-color="getActiveColor"
-    ></b-menu>
-    <div class="my-music-list" v-if="false">
-      <p class="title">创建的歌单</p>
-      <ul class="my-music-list-main">
-        <li></li>
-      </ul>
-    </div>
+        :menu="menuList"
+        vertical
+        item-width="100%"
+        :text-color="theme == 'dark' ? 'var(--dark-text-color)' : ''"
+        :active-color="getActiveColor"
+      ></b-menu>
+      <div class="my-music-list" v-if="false">
+        <p class="title">创建的歌单</p>
+        <ul class="my-music-list-main">
+          <li></li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -25,21 +25,29 @@ export default {
   data() {
     return {
       menuList: [
-        { link: "/individuation", icon: "iconfont icon-music", content: "个性推荐" },
+        {
+          link: "/individuation",
+          icon: "iconfont icon-music",
+          content: "个性推荐",
+        },
         { link: "/allmusiclist", icon: "iconfont icon-gedan", content: "歌单" },
         {
           link: "/ranklist",
           icon: "iconfont icon-PCbofangye_paihangbang",
           content: "排行榜",
         },
-        { link: "/artist-list", icon: "iconfont icon-mansingle", content: "歌手" },
+        {
+          link: "/artist-list",
+          icon: "iconfont icon-mansingle",
+          content: "歌手",
+        },
+        { link: "/mv-list", icon: "iconfont icon-MV", content: "全部MV" },
         {
           link: "",
           icon: "iconfont icon-musicnoteeighth",
           content: "最新音乐",
         },
         { link: "", icon: "iconfont icon-shipin", content: "最新MV" },
-        { link: "", icon: "iconfont icon-MV", content: "全部MV" },
       ],
     };
   },
@@ -69,19 +77,19 @@ export default {
     background: var(--green-aside-bg-color);
   }
 }
-.menu{
+.menu {
   height: 420px;
 }
-.my-music-list{
+.my-music-list {
   height: calc(100% - 420px);
   padding: 10px 0px;
-  .title{
+  .title {
     font-size: 13px;
   }
-  &-main{
+  &-main {
     list-style-type: none;
-    padding-left: 20px ;
-    li{
+    padding-left: 20px;
+    li {
       height: 60px;
       border: 1px solid red;
     }

@@ -15,14 +15,28 @@
         @enter="handleEnter"
         @leave="handleLeave"
       />
-      <artist-mvs :mv-list="mvList" v-show="isShow==='MV'"/>
-      <artist-desc-detail :id="getArtistId" :name="artist.name" v-show="isShow==='desc'"/>
-      <artist-simi :id="getArtistId" v-show="isShow==='simi'" @refresh="handleRefresh"/>
+      <artist-mvs
+        :show-artist="false"
+        :line-num="6"
+        :mv-list="mvList"
+        @refresh="handleRefresh"
+        v-show="isShow === 'MV'"
+      />
+      <artist-desc-detail
+        :id="getArtistId"
+        :name="artist.name"
+        v-show="isShow === 'desc'"
+      />
+      <artist-simi
+        :id="getArtistId"
+        v-show="isShow === 'simi'"
+        @refresh="handleRefresh"
+      />
     </div>
   </scroll>
 </template>
 <script>
-import {formatDate} from "utils/tool"
+import { formatDate } from "utils/tool";
 import { theme } from "mixin/global/theme";
 import { _getArtistMv } from "network/artist";
 import { MV } from "network/mv";
@@ -30,13 +44,20 @@ import Scroll from "common/scroll/Scroll";
 
 import ArtistBaseinfo from "./childsComps/artist-baseinfo";
 import AlbumList from "./childsPage/album-list";
-import ArtistMvs from "./childsPage/artist-mvs"
-import ArtistDescDetail from "./childsPage/artist-desc-detail"
-import ArtistSimi from "./childsPage/artist-simi"
+import ArtistMvs from "content/mv-list/mv-list";
+import ArtistDescDetail from "./childsPage/artist-desc-detail";
+import ArtistSimi from "./childsPage/artist-simi";
 export default {
   name: "ArtistDetail",
   mixins: [theme],
-  components: { Scroll, ArtistBaseinfo, AlbumList ,ArtistMvs,ArtistDescDetail,ArtistSimi},
+  components: {
+    Scroll,
+    ArtistBaseinfo,
+    AlbumList,
+    ArtistMvs,
+    ArtistDescDetail,
+    ArtistSimi,
+  },
   data() {
     return {
       artist: null,
@@ -81,9 +102,9 @@ export default {
         case 3:
           this.isShow = "simi";
       }
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.handleRefresh();
-      })
+      });
     },
     handleRefresh() {
       this.$refs.scroll.refresh();
@@ -95,14 +116,13 @@ export default {
     handleLeave() {
       this.isWheel = false;
     },
-    reset(){
-      this.mvList=[];
-      this.isShow="album";
+    reset() {
+      this.mvList = [];
+      this.isShow = "album";
     },
     initRequest() {
       _getArtistMv(this.artist.id).then((res) => {
         let mvs = res.data.mvs;
-        console.log(mvs);
         for (let i in mvs) {
           let mv = new MV(
             mvs[i].id,
@@ -110,7 +130,7 @@ export default {
             mvs[i].name,
             mvs[i].artistName,
             mvs[i].playCount,
-            formatDate(new Date(mvs[i].duration),'MM:dd'),
+            formatDate(new Date(mvs[i].duration), "MM:dd")
           );
           this.mvList.push(mv);
         }
@@ -135,9 +155,9 @@ export default {
 }
 .dance-music-artist-detail {
   padding: 10px 30px 0px 30px;
-  &-menu{
+  &-menu {
     padding: 0px 20px;
-    margin:0px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
   }
 }
 </style>

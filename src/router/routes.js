@@ -4,6 +4,8 @@ const AllMusicList = () => import('views/music-list/all-music-list')
 const RankList = () => import('views/rank-list/rank-list')
 const ArtistList = () => import('views/artist-list/artist-category')
 const ArtistDetail = () => import('views/artist-detail/artist-detail')
+const MvCategory = () => import('views/mv/mv-category')
+const MvDetail =()=>import('views/mv/mv-detail')
 
 const routes = [
     {
@@ -32,8 +34,16 @@ const routes = [
     },
     {
         path: '/artist-detail',
-        name:'artist-detail',
+        name: 'artist-detail',
         component: ArtistDetail
     },
+    {
+        path: '/mv-list',
+        component: MvCategory
+    },
+    {
+        path:'/mv-detail/:id',
+        component:MvDetail
+      },
 ]
 export default routes

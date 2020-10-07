@@ -1,5 +1,5 @@
 <template>
-  <b-scroll class="scroll" ref="scroll">
+  <scroll class="scroll" ref="scroll">
     <div
       :class="[`${program + 'ranklist'}`, `${program + 'ranklist-' + theme}`]"
     >
@@ -43,7 +43,7 @@
         <music-list :music-list="ranklist.slice(4)" disable-slide @refresh="refresh" />
       </div>
     </div>
-  </b-scroll>
+  </scroll>
 </template>
 <script>
 import { theme } from "mixin/global/theme";

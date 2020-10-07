@@ -1,35 +1,42 @@
 <template>
-  <div class="private" v-if="pri!=null">
-    <h4 class="top">{{pri.name}}</h4>
+  <div class="private" v-if="pri != null">
+    <h4 class="top">{{ pri.name }}</h4>
     <div class="content">
-      <div class="item" v-for="(item,index) in pri.result" :key="index" @click="playMV(item.id)">
+      <div
+        class="item"
+        v-for="(item, index) in pri.result"
+        :key="index"
+        @click="playMV(item.id)"
+      >
         <div class="loco">
           <i class="iconfont icon-shipin"></i>
         </div>
         <img v-lazy="item.picUrl" alt />
-        <div class="bottom" :class="[`${program+'bottom-'+theme}`]">{{item.name}}</div>
+        <div class="bottom" :class="[`${program + 'bottom-' + theme}`]">
+          {{ item.name }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import {theme} from 'mixin/global/theme.js'
+import { theme } from "mixin/global/theme.js";
 export default {
   name: "PrivateContent",
-  mixins:[theme],
+  mixins: [theme],
   props: {
     pri: {
       type: Object,
       default() {
         return {};
-      }
-    }
+      },
+    },
   },
   methods: {
-    playMV(id){
-            this.$router.push('/playmv/'+id)
-        }
-  }
+    playMV(id) {
+      this.$router.push("/mv-detail/" + id);
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -37,7 +44,7 @@ export default {
   width: 100%;
   padding: 20px 0;
 }
-h4{
+h4 {
   padding-left: 10px;
 }
 .content {
@@ -53,7 +60,7 @@ h4{
   margin: 0px 10px;
   overflow: hidden;
 }
-.item img{
+.item img {
   width: 100%;
 }
 .bottom {
@@ -75,12 +82,12 @@ h4{
   width: 20px;
   border: 50%;
 }
-.iconfont{
+.iconfont {
   color: #ffffff;
 }
-.dance-music-bottom{
-  &-dark{
-    color:var(--dark-article-color);
+.dance-music-bottom {
+  &-dark {
+    color: var(--dark-article-color);
   }
 }
 </style>

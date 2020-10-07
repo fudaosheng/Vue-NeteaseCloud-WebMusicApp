@@ -41,12 +41,13 @@ export function _getMVUrl(id){
 }
 
 /**mv评论 */
-export function _getMVComment(id,limit){
+export function _getMVComment(id,limit,offset=1){
     return request({
         url:'/comment/mv',
         params:{
             id:id,
-            limit:limit
+            limit:limit,
+            offset:offset
         }
     })
 }
@@ -72,14 +73,15 @@ export  function _getTopMv(limit=10){
 }
 
 /**mv */
-export function _AllMv(area='全部',type='全部',order='最新',limit){
+export function _AllMv(area='全部',type='全部',order='最新',limit,offset=1){
     return request({
         url:'/mv/all',
         params:{
             area:area,
             type:type,
             order:order,
-            limit:limit
+            limit:limit,
+            offset:offset
         }
     })
 }
