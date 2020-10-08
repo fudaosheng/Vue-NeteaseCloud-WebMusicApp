@@ -43,7 +43,7 @@ export default {
         },
         { link: "/mv-list", icon: "iconfont icon-MV", content: "全部MV" },
         {
-          link: "",
+          link: "/new-songs",
           icon: "iconfont icon-musicnoteeighth",
           content: "最新音乐",
         },

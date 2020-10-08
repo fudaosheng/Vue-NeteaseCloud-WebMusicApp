@@ -15,3 +15,4 @@
 #### mv                      所有MV、MV播放页面
 > mv-category                所有MV的分类页面
 >mv-detail                   MV详情、播放页面
+>mv                          最新MV、推荐MV、MV排行，可以跳转到mv-category页面

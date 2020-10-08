@@ -18,6 +18,7 @@
       </b-table-head>
       <b-table-body slot="body" class="table-body">
         <b-table-tr
+         :class="[newsongs?'dance-music-table-tr-newsongs':'']"
           v-for="(item, index) in musicList"
           :key="index"
           @dblclick.native="handleDbclick(index)"
@@ -41,9 +42,14 @@
               :class="`${'v-' + theme}`"
             ></i>
           </b-table-td>
-          <b-table-td width="60px" v-if="lines[1]"
-            ><i class="iconfont icon-xihuan"></i
-          ></b-table-td>
+          <b-table-td
+            width="60px"
+            v-if="lines[1]"
+            class="dance-music-table-tr-td-two"
+          >
+            <i class="iconfont icon-xihuan" v-if="!newsongs" />
+            <img v-lazy="item.pic" alt="" v-if="newsongs" />
+          </b-table-td>
           <b-table-td v-if="lines[2]">{{ item.name }}</b-table-td>
           <b-table-td v-if="lines[3]" class="table-list-body-artist">{{
             item.artist
@@ -79,6 +85,11 @@ export default {
     },
     /**如果是播放器内使用双击时只设置index，不提供musicList节省性能 */
     player: {
+      type: Boolean,
+      default: false,
+    },
+    /**是否是最新音乐页面使用 */
+    newsongs: {
       type: Boolean,
       default: false,
     },
@@ -143,6 +154,15 @@ export default {
   }
   &-green {
     color: var(--green-main-color);
+  }
+}
+.dance-music-table-tr-newsongs{
+  display: flex;
+  align-items: center;
+}
+.dance-music-table-tr-td-two {
+  img {
+    width: 100%;
   }
 }
 </style>

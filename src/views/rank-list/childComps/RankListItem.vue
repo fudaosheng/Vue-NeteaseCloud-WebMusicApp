@@ -24,9 +24,9 @@
           </div>
           <div class="update">{{ getUpdateTime }}</div>
         </div>
-        <div class="right">
-          <i class="iconfont icon-bofang"></i>
-        </div>
+      </div>
+      <div class="right">
+        <i class="iconfont icon-bofang"></i>
       </div>
     </div>
     <div class="center">
@@ -98,8 +98,11 @@ export default {
             let song = new songDetail(res.data.songs);
             this.musiclist.push(song);
             /**刷新scroll */
-            if(this.musiclist.length==8&&this.getTitleString.indexOf('热')==0){
-              this.$emit('refresh')
+            if (
+              this.musiclist.length == 8 &&
+              this.getTitleString.indexOf("热") == 0
+            ) {
+              this.$emit("refresh");
             }
           });
         }
@@ -111,9 +114,9 @@ export default {
       let time = this.musicListDetail.playlist.updateTime;
       return formatDate(new Date(time), "MM月dd日");
     },
-    getTitleString(){
+    getTitleString() {
       return this.title.toString();
-    }
+    },
   },
   methods: {
     enterDetail() {
@@ -173,6 +176,7 @@ export default {
   top: 0px;
   bottom: 0px;
   margin: auto;
+  color: #fff;
 }
 .iconfont {
   font-size: 42px;
@@ -190,8 +194,9 @@ export default {
     background-color: #2c2e32;
     color: #fff;
   }
-  &-light:hover,&-green:hover{
-    background:#ebeced !important;
+  &-light:hover,
+  &-green:hover {
+    background: #ebeced !important;
   }
 }
 .active {
