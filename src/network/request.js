@@ -12,7 +12,7 @@ export function request(config) {
         ajaxTimer++;
         return data;
     }, err => {
-        // $store.commit('hiddenLoading');
+        $store.commit('hiddenLoading');
         return err
     });
     install.interceptors.response.use(data => {

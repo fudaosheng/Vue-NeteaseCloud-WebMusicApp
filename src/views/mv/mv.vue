@@ -23,10 +23,10 @@
         </div>
       </div>
       <mv-list :mv-list="mvList" />
-      <h4>推荐MV</h4>
+      <h4 class="mv-h4">推荐MV</h4>
       <mv-list :mv-list="perMV" @refresh="handleRefresh" />
       <div class="mv-title">
-        <div class="mv-title">
+        <div class="mv-title-left">
           <h4>MV排行榜</h4>
         </div>
         <div class="mv-right">
@@ -46,7 +46,11 @@
           ></router-link>
         </div>
       </div>
-      <mv-rank-list :top-mv="topMv" @refresh="handleRefresh" />
+      <mv-rank-list
+        class="mv-rank-list"
+        :top-mv="topMv"
+        @refresh="handleRefresh"
+      />
     </div>
   </scroll>
 </template>
@@ -77,6 +81,10 @@ export default {
     this.getNewMv();
     this.Personalized();
     this.getTopMv();
+    this.$Notice.info({
+      title:'系统提示：',
+      desc:'点击更多按钮可查看全部MV哦~'
+    })
   },
   methods: {
     handleAreasClick(index) {
@@ -146,7 +154,7 @@ export default {
 .mv-title {
   display: flex;
   align-items: flex-end;
-  padding: 0px 10px;
+  padding: 0px 20px;
   position: relative;
   h4 {
     padding: 10px 0px;
@@ -164,7 +172,10 @@ a {
   color: inherit;
   text-decoration: none;
 }
-h4 {
+.mv-h4 {
   padding: 10px 20px;
+}
+.mv-rank-list {
+  padding: 0px 20px;
 }
 </style>

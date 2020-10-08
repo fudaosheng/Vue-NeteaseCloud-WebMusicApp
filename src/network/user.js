@@ -28,3 +28,11 @@ export function _getSongList(id){
         }
     })
 }
+
+export class PlayList{
+    constructor(playlist){
+        this.name=playlist.name;//为了方便menu使用
+        this.id=playlist.id;
+        this.cover=playlist.coverImgUrl;
+    }
+}

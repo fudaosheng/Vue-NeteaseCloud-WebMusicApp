@@ -1,6 +1,6 @@
 <template>
   <scroll class="scroll" ref="scroll">
-    <div :class="[`${program + 'artist-category'}`]">
+    <div :class="[`${program + 'artist-category'}`]" @mouseenter="refresh">
       <div class="artist-category-menu">
         <div class="artist-category-menu-item">
           <div class="artist-category-menu-item-title">语种：</div>

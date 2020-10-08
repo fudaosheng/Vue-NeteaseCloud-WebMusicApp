@@ -35,7 +35,7 @@
           <p>{{pwdMessage}}</p>
         </div>
         <div class="from-item">
-          <b-button background="var(--light-main-color)" color="#fff" class="log" @click="login">登陆</b-button>
+          <b-button background="var(--main-color)" color="#fff" class="log" @click="login">登陆</b-button>
         </div>
         <div class="from-item">
           <div class="register">注册</div>
@@ -67,6 +67,7 @@ export default {
           this.$parent.hiddleLogin();
           localStorage.setItem('cookie',res.data.cookie);
           localStorage.setItem('avatar',res.data.profile.avatarUrl);
+          localStorage.setItem('uid',res.data.profile.userId)
           // this.$bus.$emit("pullResource", res.data.cookie);
         }
       });
@@ -130,9 +131,6 @@ export default {
   bottom: 0;
   margin: auto;
 }
-.son img {
-  width: 100%;
-}
 
 .from-item {
   width: 60%;
@@ -164,7 +162,7 @@ p {
   margin-right: 35px;
 }
 .phone {
-  color: var(--light-main-color);
+  color: var(--main-color);
   font-size: 64px;
 }
 </style>

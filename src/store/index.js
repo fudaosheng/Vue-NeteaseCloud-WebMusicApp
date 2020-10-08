@@ -60,7 +60,14 @@ export default new Vuex.Store({
     /**获取网络请求状态 */
     getRequestType(state){
       return state.requestErr;
-    }
+    },
+    /**获取用户id */
+    getUserId(state){
+      if(localStorage.getItem('uid')){
+        state.uid=localStorage.getItem('uid');
+      }
+      return state.uid
+    },
   },
   actions: {
   },
