@@ -47,7 +47,7 @@ export default {
   },
   methods:{
     handleLoad(){
-      if(this.imgCount==this.mvList)this.$emit('refresh');
+      if(this.imgCount==this.mvList.length)this.$emit('refresh');
       this.imgCount++;
     },
     /**跳转到mv播放页面 */

@@ -1,0 +1,13 @@
+@import "./simi-mv.css";
+
+
+/**组件里面iconfont不同主题下样式*/
+.icon-light {
+    color: var(--light-icon-active-color);
+  }
+.icon-dark {
+    color: var(--dark-icon-active-color);
+  }
+.icon-green {
+    color: var(--green-icon-active-color);
+  }

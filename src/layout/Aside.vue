@@ -47,7 +47,7 @@ export default {
           icon: "iconfont icon-musicnoteeighth",
           content: "最新音乐",
         },
-        { link: "", icon: "iconfont icon-shipin", content: "最新MV" },
+        { link: "/mv", icon: "iconfont icon-shipin", content: "最新MV" },
       ],
     };
   },

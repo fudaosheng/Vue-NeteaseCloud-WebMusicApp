@@ -1,10 +1,12 @@
 import {request} from './request'
 
-export function _getNewMV(limit){
+/**最新MV */
+export function _getNewMV(limit,area){
     return request({
         url:'/mv/first',
         params:{
-            limit:limit
+            limit:limit,
+            area:area
         }
     })
 }
@@ -63,16 +65,18 @@ export function _getSimiMv(id){
 }
 
 /**推荐mv */
-export  function _getTopMv(limit=10){
+export  function _getTopMv(limit=10,area,offset){
     return request({
         url:'/top/mv',
         params:{
-            limit:limit
+            limit:limit,
+            area,
+            offset
         }
     })
 }
 
-/**mv */
+/**全部mv */
 export function _AllMv(area='全部',type='全部',order='最新',limit,offset=1){
     return request({
         url:'/mv/all',
@@ -83,5 +87,12 @@ export function _AllMv(area='全部',type='全部',order='最新',limit,offset=1
             limit:limit,
             offset:offset
         }
+    })
+}
+
+/**推荐MV */
+export function _Personalized(){
+    return request({
+        url:'/personalized/mv',
     })
 }
