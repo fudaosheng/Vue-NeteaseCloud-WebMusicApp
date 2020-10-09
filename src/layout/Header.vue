@@ -1,8 +1,8 @@
 <template>
   <div :class="headClass">
-    <div :class="program+'header-title'">
+    <div :class="program + 'header-title'">
       <div
-        :class="program+'header-title-left'"
+        :class="program + 'header-title-left'"
         @mouseenter="handleMouseEnter"
         @mouseleave="handleMouseLeave"
       >
@@ -22,21 +22,50 @@
           </transition>
         </div>
       </div>
-      <div :class="program+'header-title-right'">
-        <div :class="[`item vbestui-iconfont icon-hou`,`${'header-'+theme+'-title-icon'}`]" @click="go(-1)"></div>
-        <div :class="[`item vbestui-iconfont icon-qian`,`${'header-'+theme+'-title-icon'}`]" @click="go(1)"></div>
+      <div :class="program + 'header-title-right'">
+        <div
+          :class="[
+            `item vbestui-iconfont icon-hou`,
+            `${'header-' + theme + '-title-icon'}`,
+          ]"
+          @click="go(-1)"
+        ></div>
+        <div
+          :class="[
+            `item vbestui-iconfont icon-qian`,
+            `${'header-' + theme + '-title-icon'}`,
+          ]"
+          @click="go(1)"
+        ></div>
       </div>
     </div>
-    <div :class="program+'header-main'">
+    <div :class="program + 'header-main'">
       <div class="left">
-        <b-input search></b-input>
+        <b-poptip trigger="focus" :theme="getTheme" placement="bottom-start" max-length="400px">
+          <b-input search></b-input>
+          <template v-slot:content>
+            <search-list/>
+          </template>
+        </b-poptip>
       </div>
       <div class="right">
-        <b-avatar size="35px" class="avatar" :src="getAvatar" @click.native="handleAvatarClick" />
+        <b-avatar
+          size="35px"
+          class="avatar"
+          :src="getAvatar"
+          @click.native="handleAvatarClick"
+        />
         <div class="item">
-          <b-poptip max-length="180px" placement="bottom-start" :theme="getTheme">
+          <b-poptip
+            max-length="180px"
+            placement="bottom-start"
+            :theme="getTheme"
+          >
             <b-button
-              :class="[`iconfont icon-icon-huanfu`,`${theme+'-huanfu-icon'}`]"
+              :class="[
+                `iconfont icon-icon-huanfu`,
+                `${theme + '-huanfu-icon'}`,
+              ]"
               width="60px"
               height="30px"
               type="text"
@@ -52,29 +81,34 @@
         </div>
         <a href="https://gitee.com/fudaosheng">
           <b-tooltip :theme="getTheme">
-            <div :class="['item',`${theme+'-item'}`]">G</div>
+            <div :class="['item', `${theme + '-item'}`]">G</div>
             <div slot="content">作者Gitee主页</div>
           </b-tooltip>
         </a>
         <a href="https://gitee.com/fudaosheng">
           <b-tooltip :theme="getTheme">
-            <div :class="[`${theme+'-item'}`,'item iconfont icon-github']"></div>
+            <div
+              :class="[`${theme + '-item'}`, 'item iconfont icon-github']"
+            ></div>
             <div slot="content">作者Github主页</div>
           </b-tooltip>
         </a>
       </div>
     </div>
-    <transition name="login"><login v-show="isLogin" class="login" /></transition>
+    <transition name="login"
+      ><login v-show="isLogin" class="login"
+    /></transition>
   </div>
 </template>
 <script>
 import { theme } from "mixin/global/theme.js";
-import {requestFullScreen,exitFullscreen} from "utils/window.js"
+import { requestFullScreen, exitFullscreen } from "utils/window.js";
 import Login from "content/user/Login";
+import SearchList from "content/search/hot-search-list"
 export default {
   name: "LayoutHeader",
   mixins: [theme],
-  components: { Login },
+  components: { Login ,SearchList},
   data() {
     return {
       isShow: false,
@@ -113,21 +147,21 @@ export default {
       this.isLogin = false;
     },
     /**窗口 */
-    handleMaxScreen(){
+    handleMaxScreen() {
       requestFullScreen();
     },
-    handleExistMaxScreen(){
+    handleExistMaxScreen() {
       exitFullscreen();
-      this.$Toast.info('您已退出全屏模式');
+      this.$Toast.info("您已退出全屏模式");
     },
     /**返回主页面 */
-    handleHomeButton(){
-      this.$router.push('/individuation');
+    handleHomeButton() {
+      this.$router.push("/individuation");
     },
     /**路由 */
-    go(index){
+    go(index) {
       this.$router.go(index);
-    }
+    },
   },
 };
 </script>
@@ -188,6 +222,10 @@ export default {
       flex: 2;
       text-align: center;
       line-height: 58px;
+      border: 1px solid red;
+      ::v-deep .vbestui-bubble{
+        padding: 0px;
+      }
     }
     .right {
       flex: 7;
@@ -292,10 +330,10 @@ export default {
   right: 0px;
   margin: auto;
 }
-.login-enter-active{
+.login-enter-active {
   animation: fadeInDown var(--animation-base-time);
 }
-.login-leave-active{
+.login-leave-active {
   animation: zoomOutUp var(--animation-base-time);
 }
 </style>

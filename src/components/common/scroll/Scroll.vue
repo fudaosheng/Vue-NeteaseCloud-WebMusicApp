@@ -9,6 +9,8 @@
       @pullingUp="pullingUp"
       :height="height"
       :disable-wheel="disableWheel"
+      :bar-color="barColor"
+      :load-color="loadColor"
     >
       <slot></slot>
     </b-scroll>
@@ -36,6 +38,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    barColor:{
+      type:String,
+      default:"",
+    },
+    loadColor:{
+            type:String,
+      default:"",
+    }
   },
   methods: {
     refresh() {
