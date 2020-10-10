@@ -41,10 +41,16 @@
     </div>
     <div :class="program + 'header-main'">
       <div class="left">
-        <b-poptip trigger="focus" :theme="getTheme" placement="bottom-start" max-length="400px">
-          <b-input search></b-input>
+        <b-poptip
+          trigger="focus"
+          :theme="getTheme"
+          placement="bottom-start"
+          max-length="400px"
+        >
+          <b-input v-model="keyword" search></b-input>
           <template v-slot:content>
-            <search-list/>
+            <hot-search-list v-show="!isSearch"/>
+            <search-suggest :keyword="keyword" v-show="isSearch"/>
           </template>
         </b-poptip>
       </div>
@@ -104,15 +110,18 @@
 import { theme } from "mixin/global/theme.js";
 import { requestFullScreen, exitFullscreen } from "utils/window.js";
 import Login from "content/user/Login";
-import SearchList from "content/search/hot-search-list"
+import HotSearchList from "content/search/hot-search-list";
+import SearchSuggest from "content/search/search-suggest"
 export default {
   name: "LayoutHeader",
   mixins: [theme],
-  components: { Login ,SearchList},
+  components: { Login, HotSearchList ,SearchSuggest},
   data() {
     return {
       isShow: false,
       isLogin: false,
+      keyword: "",
+      isSearch:false,//是否在搜索
     };
   },
   computed: {
@@ -163,6 +172,18 @@ export default {
       this.$router.go(index);
     },
   },
+  watch:{
+    /**监听搜索关键词 ，控制热搜列表显示隐藏*/
+    keyword(){
+      if(this.keyword!=''&&!this.isSearch){
+        this.isSearch=true;
+      }
+      /**搜索关键词为空，并且isSearch为true时设置isSearch为false显示热搜列表 */
+      if(this.keyword==''&&this.isSearch){
+        this.isSearch=false;
+      }
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -223,7 +244,7 @@ export default {
       text-align: center;
       line-height: 58px;
       border: 1px solid red;
-      ::v-deep .vbestui-bubble{
+      ::v-deep .vbestui-bubble {
         padding: 0px;
       }
     }

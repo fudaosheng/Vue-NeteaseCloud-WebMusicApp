@@ -48,7 +48,7 @@ import { forcible } from "mixin/components/forcible-refresh";
 import Scroll from "common/scroll/Scroll";
 import { _hotSearchDetail } from "network/search";
 export default {
-  name: "SearchList",
+  name: "HotSearchList",
   components: { Scroll },
   mixins: [forcible],
   data() {
@@ -78,7 +78,6 @@ export default {
     hotSearchDetail() {
       _hotSearchDetail().then((res) => {
         this.hotlist = res.data.data;
-        console.log(this.hotlist);
       });
     },
   },

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "9566465",
+      "name": "album-line",
+      "font_class": "album-line",
+      "unicode": "e881",
+      "unicode_decimal": 59521
+    },
+    {
       "icon_id": "10292039",
       "name": "删 除",
       "font_class": "shanchu",

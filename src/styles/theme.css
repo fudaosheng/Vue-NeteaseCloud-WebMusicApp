@@ -13,6 +13,8 @@
     --light-aside-bg-color:#f9f9f9;
     --light-footer-bg-color:#f9f9f9;
     --light-icon-active-color:#2d8cf0 ;
+    /* light 活跃时字体颜色 */
+    --light-text-tint:#2d8cf0;
 
 
     --dark-bg-color:#16181c;
@@ -29,6 +31,8 @@
     --dark-table-stripe-color: #1a1c20;
     /** dark边框颜色*/
     --dark-border-color:#23262c;
+    /* dark 活跃时字体颜色 */
+    --dark-text-tint:#b82525;
 
     --green-bg-color:#3eb874;
     --green-main-color:#3eb874;
@@ -36,6 +40,8 @@
     --green-aside-bg-color:#f9f9f9;
     --green-footer-bg-color:#f6f6f8;
     --green-icon-active-color:#3eb874;
+    /* green活跃时字体颜色 */
+    --green-text-tint:#3eb874;
 
     /* table斑马线颜色 */
     /* --dark-table-stripe-color:#232529; */
