@@ -42,6 +42,7 @@
     <div :class="program + 'header-main'">
       <div class="left">
         <b-poptip
+          ref="searchPoptip"
           trigger="focus"
           :theme="getTheme"
           placement="bottom-start"
@@ -49,8 +50,12 @@
         >
           <b-input v-model="keyword" search></b-input>
           <template v-slot:content>
-            <hot-search-list v-show="!isSearch"/>
-            <search-suggest :keyword="keyword" v-show="isSearch"/>
+            <hot-search-list v-show="!isSearch" @hidden="handleSearchPopHidden"/>
+            <search-suggest
+              :keyword="keyword"
+              v-show="isSearch"
+              @hidden="handleSearchPopHidden"
+            />
           </template>
         </b-poptip>
       </div>
@@ -111,17 +116,17 @@ import { theme } from "mixin/global/theme.js";
 import { requestFullScreen, exitFullscreen } from "utils/window.js";
 import Login from "content/user/Login";
 import HotSearchList from "content/search/hot-search-list";
-import SearchSuggest from "content/search/search-suggest"
+import SearchSuggest from "content/search/search-suggest";
 export default {
   name: "LayoutHeader",
   mixins: [theme],
-  components: { Login, HotSearchList ,SearchSuggest},
+  components: { Login, HotSearchList, SearchSuggest },
   data() {
     return {
       isShow: false,
       isLogin: false,
       keyword: "",
-      isSearch:false,//是否在搜索
+      isSearch: false, //是否在搜索
     };
   },
   computed: {
@@ -171,19 +176,23 @@ export default {
     go(index) {
       this.$router.go(index);
     },
+    /**处理搜索建议点击，Poptip隐藏 */
+    handleSearchPopHidden() {
+      this.$refs.searchPoptip.hidden();
+    },
   },
-  watch:{
+  watch: {
     /**监听搜索关键词 ，控制热搜列表显示隐藏*/
-    keyword(){
-      if(this.keyword!=''&&!this.isSearch){
-        this.isSearch=true;
+    keyword() {
+      if (this.keyword != "" && !this.isSearch) {
+        this.isSearch = true;
       }
       /**搜索关键词为空，并且isSearch为true时设置isSearch为false显示热搜列表 */
-      if(this.keyword==''&&this.isSearch){
-        this.isSearch=false;
+      if (this.keyword == "" && this.isSearch) {
+        this.isSearch = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -243,7 +252,6 @@ export default {
       flex: 2;
       text-align: center;
       line-height: 58px;
-      border: 1px solid red;
       ::v-deep .vbestui-bubble {
         padding: 0px;
       }

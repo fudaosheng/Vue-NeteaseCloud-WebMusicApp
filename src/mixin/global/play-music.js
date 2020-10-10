@@ -12,7 +12,7 @@ export const playMusic = {
             /**播放列表唯一标识处理，防止一个页面中多个songList播放标时出错
              * 使用songList时一定要加ref="songList"，歌单详情页面id是歌单ID，这样才能获取到正确的唯一标识
              */
-            let id=this.$refs.songList&&this.$refs.songList.id||this.id;
+            let id=this.$refs.songList&&this.$refs.songList.id||this.id||'no-id';
 
             let musicList;
             if (this.musicList.length >= 200) {

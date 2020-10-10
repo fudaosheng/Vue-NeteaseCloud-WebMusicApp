@@ -7,13 +7,21 @@ export function _hotSearchDetail(){
     })
 }
 
-/**搜索 */
-export function _Search(key){
+/**搜索 ：多重匹配*/
+export function _SearchMultimatch(key){
+    return request({
+        url:'/search/multimatch',
+        params:{
+            keywords:key,
+        }
+    })
+}
+/**搜索：单曲列表 */
+export function _Search(keyword){
     return request({
         url:'/search',
         params:{
-            keywords:key,
-            limit:50
+            keywords:keyword
         }
     })
 }

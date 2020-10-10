@@ -17,6 +17,7 @@
               class="search-table-tr"
               v-for="(item, index) in hotlist"
               :key="index"
+              @click.native="handleHotItemClick(index)"
             >
               <b-table-td
                 :class="{ 'search-active': index <= 2 }"
@@ -80,6 +81,11 @@ export default {
         this.hotlist = res.data.data;
       });
     },
+    /**处理热搜项点击--->跳转到搜索详情页面 */
+    handleHotItemClick(index){
+      this.$router.push('/search-detail/'+this.hotlist[index].searchWord);
+      this.$emit('hidden');
+    }
   },
 };
 </script>
@@ -111,6 +117,7 @@ export default {
     padding: 8px 0px;
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
   &-td-desc {
     display: flex;

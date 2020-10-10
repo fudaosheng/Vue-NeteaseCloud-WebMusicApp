@@ -8,6 +8,8 @@ const MvCategory = () => import('views/mv/mv-category')
 const MvDetail = () => import('views/mv/mv-detail')
 const Mv = () => import('views/mv/mv')
 const NewSongs = () => import('views/new-songs/new-songs')
+const AlbumDetail = () => import('views/album-detail/album-detail')
+const SearchDetail=()=>import('views/search-detail/search-detail')
 
 const routes = [
     {
@@ -54,6 +56,14 @@ const routes = [
     {
         path: '/new-songs',
         component: NewSongs
+    },
+    {
+        path: '/album-detail',
+        component: AlbumDetail
+    },
+    {
+        path: '/search-detail/:keyword',
+        component: SearchDetail
     },
 ]
 export default routes
