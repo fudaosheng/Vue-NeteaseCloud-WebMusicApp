@@ -1,8 +1,8 @@
 <template>
   <scroll class="search-suggest-scroll" ref="scroll">
     <div class="dance-music-search-suggest">
-      <div class="search-suggest-title" v-if="keyword">
-        搜索<span>{{ keyword }}</span
+      <div class="search-suggest-title" v-if="keywords">
+        搜索<span>{{ keywords }}</span
         >相关的结果>
       </div>
       <div
@@ -71,7 +71,7 @@ export default {
   components: { Scroll },
   mixins:[playMusic],
   props: {
-    keyword: {
+    keywords: {
       type: String,
       default: "",
     },
@@ -96,7 +96,7 @@ export default {
   methods: {
     /**关键字搜索 建议*/
     suggest() {
-      _Suggest(this.keyword).then((res) => {
+      _Suggest(this.keywords).then((res) => {
         const { albums, artists, playlists, songs } = res.data.result;
         this.albums = albums;
         this.artists = artists;
@@ -150,8 +150,8 @@ export default {
     },
   },
   watch: {
-    keyword() {
-      if (this.keyword != "") {
+    keywords() {
+      if (this.keywords != "") {
         debounce(this.suggest(), 1000)();
       }
     },

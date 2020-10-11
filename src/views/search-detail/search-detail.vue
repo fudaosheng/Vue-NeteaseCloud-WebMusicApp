@@ -2,8 +2,11 @@
   <scroll class="scroll" ref="scroll">
     <div class="dance-music-search-detail">
       <div class="search-detail-title">
-        <div class="search-detail-keyword">
-        <span class="keyword">{{keyword}}</span>共找到<span class="count">{{count}}</span>个结果
+        <div class="search-detail-keywords">
+          <span class="keywords">{{ keywords }}</span>
+          共找到
+          <span class="count">{{ count }}</span>个
+          <span class="count">{{ searchType }}</span>
         </div>
         <b-menu
           class="search-menu"
@@ -11,81 +14,74 @@
           item-height="30px"
           item-width="55px"
           :active-color="getActiveColor"
+          @click="handleChildrenRouter"
         />
       </div>
       <div class="search-detail-container">
-        <song-list :music-list="musicList" @refresh="handleRefresh"/>
+        <keep-alive>
+          <router-view @setData="handlesetData" />
+        </keep-alive>
       </div>
     </div>
   </scroll>
 </template>
 <script>
 import { theme } from "mixin/global/theme";
-import { _SearchMultimatch, _Search } from "network/search";
-import { _getSongsDetail, songDetail } from "network/detail";
 import Scroll from "common/scroll/Scroll";
-import SongList from "common/song-list/song-list";
 
 import { menuList } from "./data";
 export default {
   name: "SearchDetail",
   mixins: [theme],
-  components: { Scroll, SongList },
+  components: { Scroll },
+  /**provide对组件内data不能响应，要传入this */
+  provide(){
+    return{
+      search:this
+    }
+  },
   data() {
     return {
-      keyword: "",
-      count:0,
+      keywords: "",
+      count: 0,
+      searchType: "单曲", //搜索类型
       menuList,
-      musicList: [], //单曲
-      album: [],
-      artist: [],
-      mv: [],
-      video: [],
-      orders: [], //返回结果有几项
     };
   },
   methods: {
-    handleRefresh(){
+    handleRefresh() {
       this.$refs.scroll.refresh();
     },
-    Search() {
-      if(this.keyword=='')return;
-      this.musicList=[];
-      _Search(this.keyword).then((res) => {
-        console.log(res.data);
-        let list = res.data.result.songs;
-        for (let i in list) {
-          _getSongsDetail(list[i].id).then((res) => {
-            let song = new songDetail(res.data.songs);
-            this.musicList.push(song);
-            if(i==list.length-1){
-              console.log(this.musicList);
-            }
-          });
-        }
+    /**子路由 */
+    handleChildrenRouter(index) {
+      // switch(index){
+      //   case 0:this.forword('songs');break;
+      // }
+    },
+    forword(path, keywords = this.keywords) {
+      this.$router.push({
+        path,
+        query: {
+          keywords,
+        },
       });
-      /**搜索多重匹配 */
-      _SearchMultimatch(this.keyword).then((res) => {
-        const { album, artist, mv, orders, video } = res.data.result;
-        console.log(res.data);
-        this.album = album;
-        this.artist = artist;
-        this.mv = mv;
-        this.orders = orders;
-        this.video = video;
-        // console.log(this.album);
-        // console.log(this.artist);
-        // console.log(this.mv);
-        // console.log(this.video);
-      });
+    },
+    /**子路由反馈处理
+     * @param count        搜索项个数
+     * @param type         搜索结果类型--->如search-songs反馈单曲
+     */
+    handlesetData(count, type) {
+      this.count = count;
+      this.searchType = type;
+      this.handleRefresh();
     },
   },
   watch: {
     $route: {
       handler() {
-        this.keyword = this.$route.params.keyword;
-        console.log(this.keyword);
-        this.Search();
+        if(this.$route.path.indexOf('/search-detail')>=0){
+          this.keywords = this.$route.params.keywords;
+        }
       },
       immediate: true,
     },
@@ -106,17 +102,17 @@ export default {
 .search-menu ::v-deep .vbestui-menu-item-container i {
   margin-right: 0px !important;
 }
-.search-detail{
-  &-keyword{
-    padding:10px 0px;
-    .keyword{
+.search-detail {
+  &-keywords {
+    padding: 10px 0px;
+    .keywords {
       font-size: 18px;
       color: var(--tag-color);
       margin-right: 5px;
     }
-    .count{
+    .count {
       padding: 0px 3px;
-            color: var(--tag-color);
+      color: var(--tag-color);
     }
   }
 }

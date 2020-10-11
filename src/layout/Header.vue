@@ -48,11 +48,11 @@
           placement="bottom-start"
           max-length="400px"
         >
-          <b-input v-model="keyword" search></b-input>
+          <b-input v-model="keywords" search @search="handleSearchForword" @keyupEnter="handleSearchForword"/>
           <template v-slot:content>
             <hot-search-list v-show="!isSearch" @hidden="handleSearchPopHidden"/>
             <search-suggest
-              :keyword="keyword"
+              :keywords="keywords"
               v-show="isSearch"
               @hidden="handleSearchPopHidden"
             />
@@ -125,7 +125,7 @@ export default {
     return {
       isShow: false,
       isLogin: false,
-      keyword: "",
+      keywords: "",
       isSearch: false, //是否在搜索
     };
   },
@@ -180,15 +180,26 @@ export default {
     handleSearchPopHidden() {
       this.$refs.searchPoptip.hidden();
     },
+    /**处理搜索-->跳转到搜索详情 */
+    handleSearchForword(){
+      this.$router.push(`/search-detail/${this.keywords}`);
+      this.$refs.searchPoptip.hidden();
+      // this.$router.push({
+      //   name:'search-detail',
+      //   params:{
+      //     keywords:this.keywords
+      //   }
+      // })
+    }
   },
   watch: {
     /**监听搜索关键词 ，控制热搜列表显示隐藏*/
-    keyword() {
-      if (this.keyword != "" && !this.isSearch) {
+    keywords() {
+      if (this.keywords != "" && !this.isSearch) {
         this.isSearch = true;
       }
       /**搜索关键词为空，并且isSearch为true时设置isSearch为false显示热搜列表 */
-      if (this.keyword == "" && this.isSearch) {
+      if (this.keywords == "" && this.isSearch) {
         this.isSearch = false;
       }
     },

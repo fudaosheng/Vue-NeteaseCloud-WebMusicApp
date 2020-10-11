@@ -16,12 +16,13 @@ export function _SearchMultimatch(key){
         }
     })
 }
-/**搜索：单曲列表 */
-export function _Search(keyword){
+/**搜索 */
+export function _Search(keyword,type){
     return request({
         url:'/search',
         params:{
-            keywords:keyword
+            keywords:keyword,
+            type
         }
     })
 }

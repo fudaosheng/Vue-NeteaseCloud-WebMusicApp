@@ -1,61 +1,67 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-:root{
-    --main-color:#e83c3c;
-    --tag-color:#0c73c2;
 
-    --light-bg-color:#f9f9f9;
-    --light-main-color:#000000 ;
-    --light-text-color:#16181c;
-    --light-aside-bg-color:#f9f9f9;
-    --light-footer-bg-color:#f9f9f9;
-    --light-icon-active-color:#2d8cf0 ;
+:root {
+    --main-color: #e83c3c;
+    --tag-color: #0c73c2;
+    --light-bg-color: #f9f9f9;
+    --light-main-color: #000000;
+    --light-text-color: #16181c;
+    --light-aside-bg-color: #f9f9f9;
+    --light-footer-bg-color: #f9f9f9;
+    --light-icon-active-color: #2d8cf0;
     /* light 活跃时字体颜色 */
-    --light-text-tint:#2d8cf0;
+    --light-text-tint: #2d8cf0;
+    /* light鼠标hover背景色 */
+    --light-hover-bg-color: #f9f9f9;
 
 
-    --dark-bg-color:#16181c;
-    --dark-main-color:#fff;
-    --dark-aside-bg-color:#191b1f;
-    --dark-header-bg-color:#202023;
-    --dark-footer-bg-color:#212124;
-    --dark-text-color:#ccc;
-    --dark-border-active-color:#b82525;
-    --dark-article-color:#ffffff;
-    --dark-icon-active-color:#b82525;
+    --dark-bg-color: #16181c;
+    --dark-main-color: #fff;
+    --dark-aside-bg-color: #191b1f;
+    --dark-header-bg-color: #202023;
+    --dark-footer-bg-color: #212124;
+    --dark-text-color: #ccc;
+    --dark-border-active-color: #b82525;
+    --dark-article-color: #ffffff;
+    --dark-icon-active-color: #b82525;
     /* dark主题一些小区域元素背景颜色 */
-    --dark-block-bg-color:#26282c;
+    --dark-block-bg-color: #26282c;
     --dark-table-stripe-color: #1a1c20;
     /** dark边框颜色*/
-    --dark-border-color:#23262c;
+    --dark-border-color: #23262c;
     /* dark 活跃时字体颜色 */
-    --dark-text-tint:#b82525;
+    --dark-text-tint: #b82525;
+    /* dark 鼠标hover背景颜色 */
+    --dark-hover-bg-color:#232529;
 
-    --green-bg-color:#3eb874;
-    --green-main-color:#3eb874;
-    --green-text-color:#f6f6f6;
-    --green-aside-bg-color:#f9f9f9;
-    --green-footer-bg-color:#f6f6f8;
-    --green-icon-active-color:#3eb874;
+    --green-bg-color: #3eb874;
+    --green-main-color: #3eb874;
+    --green-text-color: #f6f6f6;
+    --green-aside-bg-color: #f9f9f9;
+    --green-footer-bg-color: #f6f6f8;
+    --green-icon-active-color: #3eb874;
     /* green活跃时字体颜色 */
-    --green-text-tint:#3eb874;
-
+    --green-text-tint: #3eb874;
+    /* light鼠标hover背景色 */
+    --green-hover-bg-color: #f9f9f9;
     /* table斑马线颜色 */
     /* --dark-table-stripe-color:#232529; */
-    --table-stripe-color:#f9f9f9;
-
-    --animation-base-time:.4s;
+    --table-stripe-color: #f9f9f9;
+    --animation-base-time: .4s;
 }
-h4{
+
+h4 {
     padding: 10px 10px;
 }
 
-.scroll{
-    height:100%;
+.scroll {
+    height: 100%;
 }
-.dance-music-group{
-    padding:10px 100px 0px 100px;
+
+.dance-music-group {
+    padding: 10px 100px 0px 100px;
 }

@@ -1,25 +1,50 @@
 <template>
-  <div :class="program+'musiclist'">
+  <div :class="program + 'playlist'">
     <div
-      class="list-item"
-      v-for="(item,index) in musicList"
+      class="playlist-item"
+      v-for="(item, index) in musicList"
       :key="index"
       @mouseenter="handleEnter(index)"
       @mouseleave="handleLeave(index)"
       @click="enterMusicListDetail(index)"
     >
-      <div class="group">
-        <transition name="musiclist-slide">
-          <div class="desc" v-show="currentIndex==index">{{item.copywriter}}</div>
-        </transition>
-        <div class="count" v-show="currentIndex!=index">
-          <div>
-            <i class="iconfont icon-erji"></i>
-            {{item.playCount}}
-          </div>
+      <div class="playlist-item-container">
+        <!-- 内部图片容器 -->
+        <div class="playlist-item-container-group">
+          <!-- 当item.copywriter内容为空时，不显示提示内容，只显示播放数，且播放书滑动进入 -->
+          <template v-if="!emptyDesc">
+            <transition name="playlist-slide">
+              <div class="playlist-desc" v-show="currentIndex == index">
+                {{ item.copywriter }}
+              </div>
+            </transition>
+          </template>
+          <transition name="playlist-slide">
+            <div
+              class="playlist-count"
+              v-show="
+                emptyDesc ? currentIndex == index : currentIndex != index
+              "
+            >
+              <div>
+                <i class="iconfont icon-erji"></i>
+                {{ item.playCount }}
+              </div>
+            </div>
+          </transition>
+          <img v-lazy="item.picUrl || item.coverImgUrl" @load="handleRefresh" />
+          <transition name="playlist-opacity">
+            <div class="playlist-play" v-show="currentIndex == index">
+              <i class="iconfont icon-icon_play"></i>
+            </div>
+          </transition>
         </div>
-        <img v-lazy="item.picUrl || item.coverImgUrl" @load="handleRefresh"/>
-        <div class="title" :class="[`${program+'musiclist-title-'+theme}`]">{{item.name}}</div>
+        <div
+          class="playlist-name"
+          :class="[`${program + 'playlist-name-' + theme}`]"
+        >
+          {{ item.name }}
+        </div>
       </div>
     </div>
   </div>
@@ -29,79 +54,89 @@ import { theme } from "mixin/global/theme.js";
 import { imgLoadMixin } from "mixin/global/imgLoad.js";
 export default {
   name: "MusicList",
-  mixins: [theme,imgLoadMixin],
+  mixins: [theme, imgLoadMixin],
   props: {
     musicList: {
       type: Array,
       default: [],
     },
-    disableSlide:{
-      type:Boolean,
-      default:false
-    }
+    /**当描述信息为空时，播放数量滑动显示出来 */
+    emptyDesc: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      currentIndex:null,
+      currentIndex: null, //控制描述信息、播放次数显示隐藏
     };
   },
   methods: {
     handleEnter(index) {
-      if(this.disableSlide)return;
+      // if (this.emptyDesc) return;
       this.currentIndex = index;
     },
     handleLeave(index) {
-      if(this.disableSlide)return;
+      // if (this.emptyDesc) return;
       this.currentIndex = null;
     },
     enterMusicListDetail(index) {
-      this.$router.push("/musiclistdetail/" + this.musicList[index].id+'/'+new Date().getTime());
+      this.$router.push(
+        "/musiclistdetail/" +
+          this.musicList[index].id +
+          "/" +
+          new Date().getTime()
+      );
     },
     /**处理图片加载刷新 */
-    handleRefresh(){
-      if(this.imgCount==this.musicList.length){
-        this.$emit('refresh')
-      };
+    handleRefresh() {
+      if (this.imgCount == this.musicList.length) {
+        this.$emit("refresh");
+      }
       this.imgCount++;
     },
   },
-  watch:{
-    musicList(){
-      this.imgCount=1;
+  watch: {
+    musicList() {
+      this.imgCount = 1;
     },
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
-.dance-music-musiclist {
+.dance-music-playlist {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  .list-item {
+  .playlist-item {
     width: calc(20%);
     padding: 5px 10px;
     img {
       width: 100%;
+      border-radius: 4px;
     }
   }
-  &-title-dark {
+  &-playlist-name-dark {
     color: #ffffff;
   }
 }
-.group {
-  position: relative;
+.playlist-item-container {
   cursor: pointer;
   overflow: hidden;
+  &-group {
+    position: relative;
+  }
 }
-.title {
+.playlist-name {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   font-size: 14px;
 }
-.desc {
+.playlist-desc {
   width: 100%;
+  padding: 5px 0px;
   background: rgba(0, 0, 0, 0.4);
   color: #ffffff;
   position: absolute;
@@ -109,10 +144,9 @@ export default {
   left: 0px;
   font-size: 13px;
 }
-.count {
+.playlist-count {
   width: 100%;
-  height: 20px;
-  line-height: 20px;
+  padding: 3px 0px;
   text-align: right;
   background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
   position: absolute;
@@ -121,10 +155,32 @@ export default {
   color: #f6f6f6;
   font-size: 13px;
 }
-.musiclist-slide-enter-active {
+.playlist-play {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: 5px;
+  bottom: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .icon-icon_play {
+    font-size: 18px;
+    color: var(--main-color);
+  }
+}
+.playlist-slide-enter-active {
   animation: slideInDown 0.4s;
 }
-.musiclist-slide-leave-active {
+.playlist-slide-leave-active {
   animation: slideInDown 0.4s reverse;
+}
+.playlist-opacity-enter-active {
+  animation: fadeOut var(--animation-base-time) reverse;
+}
+.playlist-opacity-enter-leave {
+  animation: fadeOut var(--animation-base-time);
 }
 </style>

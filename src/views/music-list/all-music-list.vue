@@ -74,7 +74,7 @@
         </div>
       </div>
       <div class="all-musiclist">
-        <music-list :music-list="playList" @refresh="refresh" />
+        <music-list empty-desc :music-list="playList" @refresh="refresh" />
       </div>
     </div>
   </scroll>
