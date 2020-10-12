@@ -1,16 +1,23 @@
 <template>
   <div class="search-songs">
-    <song-list :music-list="musicList" />
+    <template v-if="songCount">
+      <song-list :music-list="musicList" />
+    </template>
+    <template v-else>
+      <empty />
+    </template>
   </div>
 </template>
 <script>
 import { _Search } from "network/search";
 import { _getSongsDetail, songDetail } from "network/detail";
-import {search} from "mixin/components/search"
+import { search } from "mixin/components/search";
 import SongList from "common/song-list/song-list";
+
+import empty from "common/empty/empty";
 export default {
   name: "SearchSongs",
-  mixins:[search],
+  mixins: [search],
   components: { SongList },
   data() {
     return {
@@ -34,7 +41,6 @@ export default {
             let song = new songDetail(res.data.songs);
             this.musicList.push(song);
             if (i == list.length - 1) {
-              console.log("songs");
               this.songCount = this.musicList.length;
               /**设置search-detail 搜索信息 */
               this.$emit("setData", this.songCount, "单曲");

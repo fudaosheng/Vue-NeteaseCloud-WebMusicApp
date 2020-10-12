@@ -67,12 +67,13 @@ export function _getSub(id,limit){
 }
 
 /**歌单评论信息 */
-export function _getRecommends(id,limit){
+export function _getRecommends(id,limit,offset){
     return request({
         url:'/comment/playlist',
         params:{
             id:id,
-            limit:limit
+            limit:limit,
+            offset
         }
     })
 }

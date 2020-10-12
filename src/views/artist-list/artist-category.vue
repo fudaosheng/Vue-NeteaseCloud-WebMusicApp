@@ -59,7 +59,7 @@ import { theme } from "mixin/global/theme";
 import { _getArtist } from "network/discover";
 import { areas, types, Fnames } from "./data.js";
 import Scroll from "common/scroll/Scroll";
-import ArtistList from "./childsComps/artist-list";
+import ArtistList from "content/artist-list/artist-list";
 export default {
   name: "ArtistCategory",
   mixins: [theme],

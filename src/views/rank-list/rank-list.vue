@@ -40,7 +40,7 @@
       </div>
       <h4>全球榜</h4>
       <div class="play-list">
-        <music-list :music-list="ranklist.slice(4)" disable-slide @refresh="refresh" />
+        <music-list empty-desc :music-list="ranklist.slice(4)" disable-slide @refresh="refresh" />
       </div>
     </div>
   </scroll>

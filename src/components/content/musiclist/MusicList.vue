@@ -33,7 +33,7 @@
             </div>
           </transition>
           <img v-lazy="item.picUrl || item.coverImgUrl" @load="handleRefresh" />
-          <transition name="playlist-opacity">
+          <transition name="dance-music-opacity">
             <div class="playlist-play" v-show="currentIndex == index">
               <i class="iconfont icon-icon_play"></i>
             </div>
@@ -176,11 +176,5 @@ export default {
 }
 .playlist-slide-leave-active {
   animation: slideInDown 0.4s reverse;
-}
-.playlist-opacity-enter-active {
-  animation: fadeOut var(--animation-base-time) reverse;
-}
-.playlist-opacity-enter-leave {
-  animation: fadeOut var(--animation-base-time);
 }
 </style>

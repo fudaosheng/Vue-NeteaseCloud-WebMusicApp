@@ -19,7 +19,7 @@
       </div>
       <div class="search-detail-container">
         <keep-alive>
-          <router-view @setData="handlesetData" />
+          <router-view @setData="handlesetData" @refresh="handleRefresh"/>
         </keep-alive>
       </div>
     </div>
@@ -54,9 +54,9 @@ export default {
     },
     /**子路由 */
     handleChildrenRouter(index) {
-      // switch(index){
-      //   case 0:this.forword('songs');break;
-      // }
+      this.$nextTick(()=>{
+        this.handleRefresh();
+      })
     },
     forword(path, keywords = this.keywords) {
       this.$router.push({
@@ -73,7 +73,9 @@ export default {
     handlesetData(count, type) {
       this.count = count;
       this.searchType = type;
-      this.handleRefresh();
+      this.$nextTick(()=>{
+        this.handleRefresh();
+      })
     },
   },
   watch: {

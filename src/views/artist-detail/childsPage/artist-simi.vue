@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import ArtistList from "views/artist-list/childsComps/artist-list";
+import ArtistList from "content/artist-list/artist-list";
 import { _getSimiArtist } from "network/artist";
 export default {
   name: "ArtistSimi",

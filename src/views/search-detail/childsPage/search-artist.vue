@@ -3,9 +3,9 @@
     <template v-if="artistCount">
         <artist-item v-for="(item,index) in artists" :key="index" :artist="artists[index]"/>
     </template>
-    <div class="empty" v-else>
-        数据为空~~
-    </div>
+    <template v-else>
+      <empty/>
+    </template>
   </div>
 </template>
 <script>
@@ -13,9 +13,10 @@ import { _Search } from "network/search";
 import { search } from "mixin/components/search";
 
 import ArtistItem from "content/artist-item/artist-item"
+import empty from "common/empty/empty"
 export default {
   name: "SearchArtist",
-  components:{ArtistItem},
+  components:{ArtistItem,empty},
   mixins: [search],
   data() {
     return {

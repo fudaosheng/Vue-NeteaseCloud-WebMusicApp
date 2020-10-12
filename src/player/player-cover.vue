@@ -7,7 +7,7 @@
       @click="togglePlayerPure"
     >
       <b-avatar shape="square" size="60px" class="avatar">
-        <img v-lazy="song.pic" alt="" />
+        <img v-lazy="song.pic||song.picUrl" alt="" />
         <b-mask icon="iconfont icon-zuidahua" size="36px" v-show="isShade" />
       </b-avatar>
     </div>

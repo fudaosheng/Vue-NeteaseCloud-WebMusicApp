@@ -1,9 +1,23 @@
 <template>
-  <div class="newSongs" :class="[`${program+'newsongs-'+theme}`]">
+  <div class="newSongs" :class="[`${program + 'newsongs-' + theme}`]">
     <h4 class="top">最新音乐</h4>
     <div class="content">
-      <div class="item" v-for="(item,index) in songList" :key="index" @dblclick="playMusic(index)">
-        <div class="number">{{index+1}}</div>
+      <div
+        class="item"
+        v-for="(item, index) in musicList"
+        :key="index"
+        @dblclick="playMusic(index)"
+      >
+        <div class="number">
+          <span v-show="!(playId=='no-id'&&index == playIndex && item.name == playName)">{{
+            index + 1
+          }}</span>
+          <i
+            class="iconfont icon-V"
+            v-show="playId=='no-id'&&index == playIndex && item.name == playName"
+            :class="`${'icon-' + theme}`"
+          ></i>
+        </div>
         <div class="title">
           <img v-lazy="item.picUrl" alt @load="newSongImgLoad" />
           <div class="icon">
@@ -11,9 +25,9 @@
           </div>
         </div>
         <div class="mess">
-          <div>{{item.name}}</div>
+          <div>{{ item.name }}</div>
           <br />
-          <div class="bottom">{{item.song.album.company}}</div>
+          <div class="bottom">{{ item.song.album.company }}</div>
         </div>
       </div>
     </div>
@@ -21,33 +35,38 @@
 </template>
 <script>
 import { imgLoadMixin } from "mixin/global/imgLoad.js";
-import {theme} from "mixin/global/theme.js"
+import { theme } from "mixin/global/theme.js";
+import { playMusic } from "mixin/global/play-music";
+import { playing } from "player/playing";
 export default {
   name: "newSongs",
   props: {
-    songList: {
+    musicList: {
       type: Array,
       default() {
         return [];
-      }
+      },
+    },
+  },
+  mixins: [imgLoadMixin, theme, playMusic, playing],
+  computed:{
+    isPlay(){
+      /**判断是否处于播放状态 */
+      return this.playId=='no-id'&&index == playIndex && item.name == playName;
     }
   },
-  mixins: [imgLoadMixin,theme],
   methods: {
     newSongImgLoad() {
       /**类似于防抖函数功能*/
-      if (this.imgCount == this.songList.length) this.$emit("newSongImgLoad");
+      if (this.imgCount == this.musicList.length) this.$emit("newSongImgLoad");
       this.imgCount++;
     },
-    playMusic(index) {
-      this.$emit("playMusic", index);
-    }
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
-.dance-music-newsongs{
-  &-dark{
+.dance-music-newsongs {
+  &-dark {
     color: var(--dark-article-color);
   }
 }
@@ -67,6 +86,7 @@ export default {
   width: 50%;
   height: 70px;
   display: flex;
+  cursor: pointer;
 }
 .number {
   height: 70px;
@@ -82,7 +102,7 @@ export default {
   height: 100%;
 }
 .icon {
-  background: rgba(00, 0, 0, 0.3);
+  // background: rgba(00, 0, 0, 0.3);
   border-radius: 50%;
   width: 18px;
   height: 18px;
@@ -106,7 +126,7 @@ export default {
   position: absolute;
   bottom: 0px;
 }
-.iconfont{
+.icon-bofang {
   color: var(--dark-article-color);
 }
 </style>

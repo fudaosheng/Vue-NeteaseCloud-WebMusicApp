@@ -30,6 +30,12 @@ export function _getNewSong() {
     })
 }
 
+export function _getDaySongs(){
+    return request({
+        url:'/recommend/songs',
+    })
+}
+
 /**获取每日推荐歌单  需要登陆*/
 export function _getRecommendResource(cookie, uid) {
     return request({

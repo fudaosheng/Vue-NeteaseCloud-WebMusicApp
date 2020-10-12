@@ -14,12 +14,24 @@
           :length="length"
           v-show="isShow == 'music'"
         />
-        <recommends
-          :recommends="recommends"
-          :id="id"
-          v-show="isShow == 'recommend'"
-          @refresh="handleRefresh"
-        />
+        <!-- 歌曲评论 -->
+        <div class="detail-container-recommend" v-show="isShow == 'recommend'">
+          <recommends
+          ref="recommend"
+            :recommends="recommends"
+            :id="id"
+            @refresh="handleRefresh"
+          />
+          <div class="recommend-bottom">
+            <el-pagination
+              background
+              :current-page.sync="offset"
+              :page-size.sync="limit"
+              :page-count="50"
+              @current-change="onPageChange"
+            />
+          </div>
+        </div>
         <music-list-live
           :subs="subs"
           v-show="isShow == 'sub'"
@@ -63,20 +75,32 @@ export default {
   data() {
     return {
       id: null,
-      limit: 20,
+      limit: 30,
+      offset: 1, //分页
       list: [],
       baseInfo: {},
       musicList: [],
       isShow: "music", //控制显示歌单、评论、收藏者
       recommends: null,
+      recommendsCount:0,//歌单评论数
       subs: null,
-      length:null,//获取歌曲列表长度，用于刷新scroll
+      length: null, //获取歌曲列表长度，用于刷新scroll
     };
   },
   created() {
     this.getDetailRequestDate();
   },
   methods: {
+    /**处理分页点击 */
+    onPageChange() {
+      this.getRecommends();
+      // 点击评论下一页后自动滚到评论顶部
+      this.$nextTick(()=>{
+        let posY=this.$refs.recommend.$el.offsetTop;
+        this.$refs.scroll.scrollTo(posY,0);
+        this.handleRefresh();
+      })
+    },
     /**musiclist数据加载完刷新scroll */
     handleRefresh() {
       this.$refs.scroll.refresh();
@@ -113,36 +137,42 @@ export default {
       /**保存歌单基础信息 */
 
       this.baseInfo = new baseInfo(res.data && res.data.playlist);
-      let str = "评论(" + res.data.playlist.commentCount + ")";
+      /**获取歌单评论数 */
+      this.recommendsCount=res.data.playlist.commentCount ;
+      let str = "评论(" + this.recommendsCount + ")";
       this.list = ["歌曲列表", str, "收藏者"];
 
       /**遍历查询歌单所有歌曲详情 */
       const trackIds = res.data.playlist.trackIds;
       /**获取歌曲列表长度 */
-      this.length=trackIds.length;
-      for (let i=0,length=trackIds.length;i<length;i++) {
+      this.length = trackIds.length;
+      for (let i = 0, length = trackIds.length; i < length; i++) {
         _getSongsDetail(trackIds[i].id).then((res) => {
           let song = new songDetail(res.data.songs);
           this.musicList.push(song);
         });
       }
       /**获取歌单评论 */
-      _getRecommends(this.id, this.limit).then((res) => {
-        this.recommends = res.data.comments;
-      });
+      this.getRecommends();
 
       /**获取歌单收藏者 */
       _getSub(this.id, 30).then((res) => {
         this.subs = res.data.subscribers;
       });
     },
+    /**获取歌单评论 */
+    getRecommends() {
+      _getRecommends(this.id, this.limit, this.offset).then((res) => {
+        this.recommends = res.data.comments;
+      });
+    },
   },
   watch: {
     /**监听导航变化重新发送请求 */
     $route() {
-         if(this.$route.path.indexOf('musiclistdetail')>0){
-           this.getDetailRequestDate();
-         }
+      if (this.$route.path.indexOf("musiclistdetail") > 0) {
+        this.getDetailRequestDate();
+      }
     },
   },
 };
@@ -154,6 +184,11 @@ export default {
   &-container {
     padding-top: 10px;
     border-top: 1px solid var(--border);
+  }
+}
+.detail-container-recommend{
+  .recommend-bottom{
+    text-align: center;
   }
 }
 </style>

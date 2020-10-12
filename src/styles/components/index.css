@@ -1,13 +1,23 @@
 @import "./simi-mv.css";
-
-
 /**组件里面iconfont不同主题下样式*/
+
 .icon-light {
-    color: var(--light-icon-active-color);
-  }
+  color: var(--light-icon-active-color);
+}
+
 .icon-dark {
-    color: var(--dark-icon-active-color);
-  }
+  color: var(--dark-icon-active-color);
+}
+
 .icon-green {
-    color: var(--green-icon-active-color);
-  }
+  color: var(--green-icon-active-color);
+}
+
+/* 项目全局淡入淡出样式 */
+.dance-music-opacity-enter-active {
+  animation: fadeOut var(--animation-base-time) reverse;
+}
+
+.playlist-opacity-leave-active {
+  animation: fadeOut var(--animation-base-time);
+}

@@ -4,7 +4,7 @@ export class Song{
       this.name=song.name;
       this.artist=song.artist;
       this.src=url;
-      this.pic=song.pic;
+      this.pic=song.pic||song.picUrl;
       this.id=id;
     }
 }

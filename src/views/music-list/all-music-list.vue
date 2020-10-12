@@ -5,7 +5,8 @@
     :disable-wheel="isWheel"
     @pullingUp="handlePullingUp"
   >
-    <div :class="[`${program + 'all-musiclist'}`]">
+  <!-- pop所有歌单分类 -->
+    <div :class="[`${program + 'all-musiclist'}`]" @mouseenter="refresh">
       <b-poptip
         ref="poptip"
         placement="bottom-start"
@@ -177,10 +178,14 @@ export default {
         this.playList = res.data.playlists;
       });
     },
-    /**scroll刷新 */
+    /**页面scroll2刷新
+     * scroll是poptip选择歌单分类
+     */
     refresh() {
       console.log("refresh");
-      this.$refs.scroll2.refresh();
+      this.$nextTick(()=>{
+        this.$refs.scroll2.refresh();
+      })
     },
     /**poptip提示显示，禁用父级mousewheel滚动 */
     handlePoptipShow() {

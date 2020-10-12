@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "565904",
+      "name": "home_icon_details",
+      "font_class": "homeicondetails",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
       "icon_id": "11808714",
       "name": "播放",
       "font_class": "icon_play",

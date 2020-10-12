@@ -14,9 +14,8 @@
         <music-list :music-list="personalized" @refresh="handleRefresh"/>
         <private-content :pri="privateContent" />
         <new-songs
-          :songList="songList"
+          :music-list="songList"
           @newSongImgLoad="handleRefresh"
-          @playMusic="playMusic"
         />
       </div>
     </scroll>

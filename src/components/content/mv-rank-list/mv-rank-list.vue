@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     refresh(index) {
-      console.log(index);
       if (index == this.topMv.length) {
         this.$emit("refresh");
       }

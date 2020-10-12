@@ -20,7 +20,8 @@
         >
       </p>
     </div>
-    <b-list :stripe-background-color="getStripeColor">
+    <template v-if="isEmpty">
+      <b-list :stripe-background-color="getStripeColor">
       <b-list-title class="list-title">精彩评论</b-list-title>
       <b-list-item
         v-for="(item, index) in recommends"
@@ -39,6 +40,10 @@
         </div>
       </b-list-item>
     </b-list>
+    </template>
+    <template v-else>
+      <empty/>
+    </template>
   </div>
 </template>
 <script>
@@ -46,9 +51,11 @@ import { formatDate } from "utils/tool";
 import { _pushCommend } from "network/detail";
 import { theme } from "mixin/global/theme";
 import {imgLoadMixin} from "mixin/global/imgLoad"
+import empty from "common/empty/empty"
 export default {
   name: "Recommends",
   mixins: [theme,imgLoadMixin],
+  components:{empty},
   props: {
     recommends: {
       type: Array,
@@ -67,6 +74,12 @@ export default {
     return {
       content: "",
     };
+  },
+  computed:{
+    /**获取评论数量，进行非空判断 */
+    isEmpty(){
+      return this.recommends&&this.recommends.length;
+    }
   },
   methods: {
     _formatDate(data) {

@@ -1,6 +1,6 @@
 <template>
   <div class="table-list" v-if="musicList.length">
-    <b-table show-border stripe :stripe-background-color="getStripeColor">
+    <b-table  stripe :stripe-background-color="getStripeColor">
       <b-table-head
         slot="head"
         split
@@ -18,7 +18,7 @@
       </b-table-head>
       <b-table-body slot="body" class="table-body">
         <b-table-tr
-         :class="[newsongs?'dance-music-table-tr-newsongs':'']"
+          :class="[newsongs ? 'dance-music-table-tr-newsongs' : '']"
           v-for="(item, index) in musicList"
           :key="index"
           @dblclick.native="handleDbclick(index)"
@@ -48,7 +48,12 @@
             class="dance-music-table-tr-td-two"
           >
             <i class="iconfont icon-xihuan" v-if="!newsongs" />
-            <img v-lazy="item.pic" alt="" v-if="newsongs" />
+            <div class="dance-music-table-tr-td-two-card" v-if="newsongs">
+              <img v-lazy="item.pic" alt="" />
+              <div class="card-play">
+                <i class="iconfont icon-icon_play"></i>
+              </div>
+            </div>
           </b-table-td>
           <b-table-td v-if="lines[2]">{{ item.name }}</b-table-td>
           <b-table-td v-if="lines[3]" class="table-list-body-artist">{{
@@ -102,7 +107,7 @@ export default {
     /**table-head split 颜色 */
     getSplitColor() {
       let splitColor = "";
-      splitColor = this.theme == "dark" ? "var(--border-tt)" : "var(--border)";
+      splitColor = this.theme == "dark" ? "var(--dark-border-color)" : "var(--border)";
       return splitColor;
     },
     getLength() {
@@ -156,13 +161,36 @@ export default {
     color: var(--green-main-color);
   }
 }
-.dance-music-table-tr-newsongs{
+.dance-music-table-tr-newsongs {
   display: flex;
   align-items: center;
 }
 .dance-music-table-tr-td-two {
   img {
     width: 100%;
+    border-radius: 4px;
+  }
+  &-card {
+    position: relative;
+  }
+  .card-play {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon-icon_play {
+      font-size: 14px;
+      color: var(--main-color);
+    }
   }
 }
 </style>
