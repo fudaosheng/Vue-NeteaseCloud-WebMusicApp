@@ -11,6 +11,8 @@
       :disable-wheel="disableWheel"
       :bar-color="barColor"
       :load-color="loadColor"
+      @moveStart="moveStart"
+      @moveEnd="moveEnd"
     >
       <slot></slot>
     </b-scroll>
@@ -58,6 +60,14 @@ export default {
     pullingUp() {
       this.$emit("pullingUp");
     },
+    /**鼠标按下进度条小球 */
+    moveStart(){
+      this.$emit('moveStart');
+    },
+    /**鼠标释放进度条小球 */
+    moveEnd(){
+      this.$emit('moveEnd');
+    }
   },
 };
 </script>

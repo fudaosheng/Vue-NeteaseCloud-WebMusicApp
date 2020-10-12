@@ -3,7 +3,7 @@
     :class="['player-pure', `${'player-pure-' + theme}`]"
     @mouseenter="handleRefresh"
   >
-    <scroll class="scroll" ref="scroll" @pullingUp="pullingUp">
+    <scroll class="scroll" ref="scroll">
       <div class="player-pure-container">
         <b-button
           type="warning"
@@ -24,22 +24,37 @@
             </div>
           </div>
           <div class="player-pure-lyric">
+            <div class="player-pure-lyric-desc">
+              <div class="song-title">{{song.name}}</div>
+              <div class="song-artist">{{song.artist}}</div>
+            </div>
             <lyric
               :lyric="lyric"
-              height="400px"
               middle
               :current-time="currentTime"
             />
           </div>
         </div>
-        <recommends :recommends="recommends" class="player-pure-recommends" />
+        <recommends
+          ref="recommend"
+          :recommends="recommends"
+          class="player-pure-recommends"
+        />
+        <div class="player-pure-bottom">
+          <el-pagination
+            background
+            :current-page.sync="offset"
+            :page-count="50"
+            @current-change="onPageChange"
+          />
+        </div>
       </div>
     </scroll>
   </div>
 </template>
 <script>
 import { theme } from "mixin/global/theme";
-import {forcible} from "mixin/components/forcible-refresh"
+import { forcible } from "mixin/components/forcible-refresh";
 import { _musicRecommend } from "network/detail";
 import { debounce } from "utils/tool";
 import Recommends from "views/list-detail/childsComps/Recommends";
@@ -48,7 +63,7 @@ import Scroll from "common/scroll/Scroll";
 import Lyric from "./player-lyric";
 export default {
   name: "PlayerPure",
-  mixins: [theme,forcible],
+  mixins: [theme, forcible],
   components: {
     Lyric,
     Recommends,
@@ -73,7 +88,8 @@ export default {
   data() {
     return {
       recommends: null,
-      limit: 20,
+      limit: 30,
+      offset: 1,
     };
   },
   watch: {
@@ -96,24 +112,29 @@ export default {
     },
   },
   methods: {
+    /**分页 */
+    onPageChange() {
+      this.getRecom();
+      /**分页后滚动到评论顶部 */
+      this.$nextTick(() => {
+        let posY = this.$refs.recommend.$el.offsetTop;
+        this.$refs.scroll.scrollTo(posY, 0);
+      });
+    },
     /**关闭纯净模式 */
     closePure() {
       this.$parent.isPure = false;
     },
-    /**上拉加载更多 */
-    async pullingUp() {
-      this.limit += 20;
-      await debounce(this.getRecom(), 1000);
-      this.$nextTick(() => {
-        this.$refs.scroll.refresh();
-      });
-    },
     /**获取歌曲评论 */
-    getRecom() {
-      _musicRecommend(this.song.id, this.limit).then((res) => {
-        this.recommends = res.data.comments;
-        this.$refs.scroll.refresh();
-      });
+    async getRecom() {
+      await _musicRecommend(this.song.id, this.limit, this.offset).then(
+        (res) => {
+          this.recommends = res.data.comments;
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh();
+          });
+        }
+      );
     },
   },
 };
@@ -193,7 +214,18 @@ export default {
   }
 }
 .player-pure-lyric {
-  flex: 1;
+  width: 40%;
+  &-desc{
+    padding: 0px 20px;
+    border:40px;
+    .song-title{
+      font-size:20px;
+    }
+    .song-artist{
+      font-size:13px;
+      padding:3px 0px;
+    }
+  }
 }
 .player-pure-pic {
   width: 240px;
@@ -217,6 +249,9 @@ export default {
     width: 100%;
     border-radius: 50%;
   }
+}
+.player-pure-bottom {
+  text-align: center;
 }
 @keyframes rotate {
   0% {

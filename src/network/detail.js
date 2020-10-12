@@ -21,12 +21,13 @@ export function _getMusicUrl(id){
 }
 
 /**歌曲评论 */
-export function _musicRecommend(id,limit){
+export function _musicRecommend(id,limit,offset){
     return request({
         url:'/comment/music',
         params:{
             id:id,
-            limit:limit
+            limit:limit,
+            offset
         }
     })
 }

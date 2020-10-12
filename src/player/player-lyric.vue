@@ -1,6 +1,13 @@
 <template>
-  <div class="player-lyric" :style="lyricStyle">
-    <scroll :disable-bar="disableBar" :height="height" disable-wheel ref="scroll">
+  <div class="player-lyric" :style="lyricStyle" @mouseenter="handleRefresh">
+    <scroll
+      :disable-bar="disableBar"
+      :height="height"
+      disable-wheel
+      @moveStart="isDarg = true"
+      @moveEnd="isDarg = false"
+      ref="scroll"
+    >
       <ul>
         <li
           v-for="(line, index) in lyricArray"
@@ -17,13 +24,14 @@
   </div>
 </template>
 <script>
+import {forcible} from "mixin/components/forcible-refresh"
 import { theme } from "mixin/global/theme";
 import { parseLyric } from "utils/parse-lyric";
 import Scroll from "common/scroll/Scroll";
 import { lyricItem } from "./init-songs";
 export default {
   name: "Lyric",
-  mixins: [theme],
+  mixins: [theme,forcible],
   components: { Scroll },
   props: {
     disableBar: {
@@ -46,10 +54,19 @@ export default {
     },
     /**列表还是一行
      * 列表当前歌词在中间时才滚动
+     * true是列表形式，字体较小
      */
     middle: {
       type: Boolean,
       default: false,
+    },
+    /**在middle为true时，即列表形式歌单时有效，
+     * 作用：设置第几行歌词滚动
+     * 同时动态计算此时歌词列表高度
+     */
+    scrollNum: {
+      type: Number,
+      default: 5,
     },
   },
   data() {
@@ -58,6 +75,7 @@ export default {
       lyricIndex: -1, //活跃的歌词行数
       midIndex: 0,
       length: 0,
+      isDarg: false, //是否在拖动歌词进度条，true的话禁用歌词scrollTo
     };
   },
   watch: {
@@ -70,8 +88,11 @@ export default {
       /**歌词改变，歌词列表刷新后重新计算刷新滚动条 */
       this.$nextTick(() => {
         this.refresh();
+        /**歌曲切换歌词滚动到最顶部 */
+        this.$refs.scroll.scrollTo(0, 0);
       });
     },
+    /**监听歌曲播放时间，滚动歌词 */
     currentTime(currentTime) {
       /**歌词对应时间判断 */
       for (let i = 0; i < this.lyricArray.length; i++) {
@@ -87,11 +108,19 @@ export default {
           if (this.middle) {
             /**list形式时，活跃歌词不到中间不滚动 */
             if (
-              this.lyricIndex < 6 ||
-              this.lyricIndex > this.lyricArray.length - 6
+              this.lyricIndex < this.scrollNum ||
+              this.lyricIndex > this.lyricArray.length - this.scrollNum
             )
               return;
-            this.$refs.scroll.scrollTo(-30 * (this.lyricIndex - 6), 2, false);
+
+            /**拖动进度条小球时不能自动滚动 */
+            if (!this.isDarg) {
+              this.$refs.scroll.scrollTo(
+                -30 * (this.lyricIndex - this.scrollNum),
+                2,
+                false
+              );
+            }
           } else {
             this.$refs.scroll.scrollTo(-30 * this.lyricIndex, 0, false);
           }
@@ -100,6 +129,7 @@ export default {
     },
   },
   methods: {
+    /**刷新scroll */
     refresh() {
       this.$refs.scroll.refresh();
     },
@@ -107,7 +137,9 @@ export default {
   computed: {
     lyricStyle() {
       return {
-        height: this.height,
+        height: this.middle
+          ? `${(this.scrollNum * 2 + 1) * 30}px`
+          : this.height,
       };
     },
   },
@@ -143,6 +175,7 @@ export default {
 }
 /* list 形式时middle为true--改变字号 */
 .player-action-middle {
-  font-size: initial;
+  font-size: 13px;
+  text-align: left;
 }
 </style>

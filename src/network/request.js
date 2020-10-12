@@ -1,11 +1,14 @@
 import axios from 'axios'
 import $store from '@/store/index'
 
+// const baseURL="http://localhost:3000";
+const baseURL="http://59.110.124.156:3000";
+
 let ajaxTimer = 0;
 export function request(config) {
     $store.commit('showLoading');
     const install = axios.create({
-        baseURL: 'http://localhost:3000',
+        baseURL,
         timeOut: 2000
     });
     install.interceptors.request.use(data => {

@@ -18,7 +18,7 @@ import empty from "common/empty/empty";
 export default {
   name: "SearchSongs",
   mixins: [search],
-  components: { SongList },
+  components: { SongList ,empty},
   data() {
     return {
       searchType: 1,

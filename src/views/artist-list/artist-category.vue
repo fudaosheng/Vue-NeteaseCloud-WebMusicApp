@@ -44,7 +44,7 @@
       </div>
       <div class="artist-category-page">
         <el-pagination
-        background
+          background
           :current-page.sync="offset"
           :page-count="50"
           @current-change="onPageChange"
@@ -113,9 +113,9 @@ export default {
         this.offset
       );
       this.artistlist = res.data.artists;
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.refresh();
-      })
+      });
     },
   },
 };
