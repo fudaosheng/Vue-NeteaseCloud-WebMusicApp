@@ -1,5 +1,5 @@
 <template>
-  <scroll class="scroll" ref="scroll" :theme="getTheme">
+  <!-- <scroll class="scroll" ref="scroll" :theme="getTheme"> -->
     <div :class="detailClass">
       <base-info :base-info="baseInfo" @playMusic="playMusic" />
       <b-menu
@@ -20,7 +20,6 @@
           ref="recommend"
             :recommends="recommends"
             :id="id"
-            @refresh="handleRefresh"
           />
           <div class="recommend-bottom">
             <el-pagination
@@ -35,11 +34,10 @@
         <music-list-live
           :subs="subs"
           v-show="isShow == 'sub'"
-          @refresh="handleRefresh"
         />
       </div>
     </div>
-  </scroll>
+  <!-- </scroll> -->
 </template>
 <script>
 import {
@@ -53,8 +51,6 @@ import {
 
 import { theme } from "mixin/global/theme.js";
 import { playMusic } from "mixin/global/play-music";
-
-import Scroll from "common/scroll/Scroll";
 import BaseInfo from "./childsComps/baseInfo";
 import SongList from "common/song-list/song-list";
 import Recommends from "./childsComps/Recommends";
@@ -63,7 +59,7 @@ export default {
   name: "MusicListDetail",
   /**Vue中最好别全大写 */
   mixins: [theme, playMusic],
-  components: { Scroll, BaseInfo, SongList, Recommends, MusicListLive },
+  components: {BaseInfo, SongList, Recommends, MusicListLive },
   computed: {
     detailClass() {
       return [
@@ -102,9 +98,9 @@ export default {
       })
     },
     /**musiclist数据加载完刷新scroll */
-    handleRefresh() {
-      this.$refs.scroll.refresh();
-    },
+    // handleRefresh() {
+    //   this.$refs.scroll.refresh();
+    // },
     /**根据导航切换 */
     handleMenuClick(index) {
       switch (index) {

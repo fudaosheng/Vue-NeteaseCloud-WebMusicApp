@@ -93,7 +93,7 @@
         <a href="https://gitee.com/fudaosheng">
           <b-tooltip :theme="getTheme">
             <div :class="['item', `${theme + '-item'}`]">G</div>
-            <div slot="content">作者Gitee主页</div>
+            <div slot="content">Gitee</div>
           </b-tooltip>
         </a>
         <a href="https://gitee.com/fudaosheng">
@@ -101,7 +101,7 @@
             <div
               :class="[`${theme + '-item'}`, 'item iconfont icon-github']"
             ></div>
-            <div slot="content">作者Github主页</div>
+            <div slot="content">Github</div>
           </b-tooltip>
         </a>
       </div>

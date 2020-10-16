@@ -12,7 +12,7 @@
       <div class="dance-music-mvs-item-container">
         <div class="dance-music-mvs-item-top">
           <i class="iconfont icon-shipin"></i>
-          <span>{{
+          <span v-if="item.count || item.playCount">{{
             (item.count || item.playCount).toString().slice(0, 2) + "万"
           }}</span>
         </div>

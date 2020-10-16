@@ -30,7 +30,6 @@ export default {
   methods: {
     Search() {
       _Search(this.keywords, this.searchType).then((res) => {
-        console.log(res.data);
         this.mvs = res.data.result.mvs;
         this.mvCount = this.mvs.length;
         this.$emit("setData", this.mvCount, "MV");

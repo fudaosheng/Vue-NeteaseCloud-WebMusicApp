@@ -1,11 +1,11 @@
 <template>
-  <scroll class="scroll" ref="scroll">
-    <div :class="[`${program + 'mv-list'}`, `${program + 'mv-list-' + theme}`]" @mouseenter="handleRefresh">
+  <!-- <scroll class="scroll" ref="scroll"> -->
+    <div :class="[`${program + 'mv-list'}`, `${program + 'mv-list-' + theme}`]">
       <h4 class="mv-list-title">全部MV</h4>
       <split class="split"/>
       <mv-bar class="mv-list-bar" @change="handleChange" />
       <split class="split"/>
-      <mv-list :mv-list="mvList" @refresh="handleRefresh" />
+      <mv-list :mv-list="mvList" />
       <div class="mv-list-bottom">
         <el-pagination
           background
@@ -15,13 +15,13 @@
         />
       </div>
     </div>
-  </scroll>
+  <!-- </scroll> -->
 </template>
 <script>
 import { theme } from "mixin/global/theme";
 import { _AllMv, MV } from "network/mv";
 
-import Scroll from "common/scroll/Scroll";
+// import Scroll from "common/scroll/Scroll";
 import Split from "common/split/split";
 import MvList from "content/mv-list/mv-list";
 
@@ -29,7 +29,7 @@ import MvBar from "./childsComps/mv-bar";
 export default {
   name: "MvCategory",
   mixins: [theme],
-  components: { Scroll, Split, MvBar, MvList },
+  components: { Split, MvBar, MvList },
   data() {
     return {
       currentArea: "全部",
@@ -43,6 +43,11 @@ export default {
   created() {
     this.initRequest();
   },
+  computed:{
+    getOffset(){
+      return (this.offset-1)*this.limit;
+    }
+  },
   methods: {
     /**分页 */
     onPageChange() {
@@ -55,9 +60,9 @@ export default {
       this.currentOrder = currentOrder;
       this.initRequest();
     },
-    handleRefresh() {
-      this.$refs.scroll.refresh();
-    },
+    // handleRefresh() {
+    //   this.$refs.scroll.refresh();
+    // },
     initRequest() {
       this.mvList = [];
       _AllMv(
@@ -65,7 +70,7 @@ export default {
         this.currentType,
         this.currentOrder,
         this.limit,
-        this.offset
+        this.getOffset
       ).then((res) => {
         let mvs = res.data.data;
         for (let i in mvs) {
@@ -77,13 +82,12 @@ export default {
             mvs[i].playCount
           );
           this.mvList.push(mv);
-          if (i == mvs.length - 1) {
-            console.log(this.mvList);
-            this.$nextTick(() => {
-              this.handleRefresh();
-              this.$refs.scroll.scrollTo(0, 0);
-            });
-          }
+          // if (i == mvs.length - 1) {
+          //   this.$nextTick(() => {
+          //     this.handleRefresh();
+          //     this.$refs.scroll.scrollTo(0, 0);
+          //   });
+          // }
         }
       });
     },

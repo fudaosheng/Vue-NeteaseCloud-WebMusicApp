@@ -1,6 +1,6 @@
 <template>
-  <scroll class="scroll" ref="scroll">
-    <div :class="[`${program + 'artist-category'}`]" @mouseenter="refresh">
+  <!-- <scroll class="scroll" ref="scroll"> -->
+    <div :class="[`${program + 'artist-category'}`]">
       <div class="artist-category-menu">
         <div class="artist-category-menu-item">
           <div class="artist-category-menu-item-title">语种：</div>
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="artist-category-container">
-        <artist-list :artist-list="artistlist" @refresh="refresh" />
+        <artist-list :artist-list="artistlist"/>
       </div>
       <div class="artist-category-page">
         <el-pagination
@@ -51,19 +51,19 @@
         />
       </div>
     </div>
-  </scroll>
+  <!-- </scroll> -->
 </template>
 <script>
 import { theme } from "mixin/global/theme";
 
 import { _getArtist } from "network/discover";
 import { areas, types, Fnames } from "./data.js";
-import Scroll from "common/scroll/Scroll";
+// import Scroll from "common/scroll/Scroll";
 import ArtistList from "content/artist-list/artist-list";
 export default {
   name: "ArtistCategory",
   mixins: [theme],
-  components: { Scroll, ArtistList },
+  components: { ArtistList },
   data() {
     return {
       areas,
@@ -101,9 +101,9 @@ export default {
       this.getArtist();
     },
     /**scroll刷新 */
-    refresh() {
-      this.$refs.scroll.refresh();
-    },
+    // refresh() {
+    //   this.$refs.scroll.refresh();
+    // },
     async getArtist() {
       const res = await _getArtist(
         this.currentArea,
@@ -113,9 +113,6 @@ export default {
         this.offset
       );
       this.artistlist = res.data.artists;
-      this.$nextTick(() => {
-        this.refresh();
-      });
     },
   },
 };

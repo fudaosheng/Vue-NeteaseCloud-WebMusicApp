@@ -1,5 +1,5 @@
 <template>
-  <scroll class="scroll" ref="scroll">
+  <!-- <scroll class="scroll" ref="scroll"> -->
     <div class="dance-music-mv-detail" v-if="id != null && detail != null">
       <div class="layout-left">
         <div class="title" v-if="detail != null">
@@ -56,7 +56,7 @@
         />
       </div>
     </div>
-  </scroll>
+  <!-- </scroll> -->
 </template>
 <script>
 import Scroll from "common/scroll/Scroll";
@@ -115,7 +115,7 @@ export default {
         this.recommends = res.data.comments;
         this.$nextTick(()=>{
           let top = this.$refs.recom.offsetTop;
-          this.$refs.scroll.scrollTo(-top,0);
+          // this.$refs.scroll.scrollTo(-top,0);
         })
       });
     },
@@ -147,11 +147,11 @@ export default {
             mvs[i].playCount
           );
           this.simiMv.push(mv);
-          if (i == mvs.length - 1) {
-            this.$nextTick(() => {
-              this.$refs.scroll.refresh();
-            });
-          }
+          // if (i == mvs.length - 1) {
+          //   this.$nextTick(() => {
+          //     this.$refs.scroll.refresh();
+          //   });
+          // }
         }
       });
     },
@@ -164,13 +164,13 @@ export default {
 <style scoped>
 .dance-music-mv-detail {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   padding: 10px 10% 0px 10%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
-.scroll {
+/* .scroll {
   height: calc(100vh - 58px - 60px);
-}
+} */
 .layout-left {
   display: inline-block;
   width: 70%;

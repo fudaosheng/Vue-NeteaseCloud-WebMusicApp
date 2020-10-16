@@ -1,69 +1,64 @@
 <template>
-  <scroll class="scroll" ref="scroll">
-    <div :class="[`${program + 'mv'}`]">
-      <div class="mv-title">
-        <div class="mv-title-left">
-          <h4>最新MV</h4>
-        </div>
-        <div class="mv-right">
-          <b-menu
-            class="item-menu"
-            :menu="areas"
-            item-height="30px"
-            item-width="40px"
-            :active-show-border="false"
-            :active-color="getActiveColor"
-            @click="handleAreasClick"
-          />
-        </div>
-        <div class="mv-title-forword">
-          <router-link to="/mv-list" title="查看更多MV"
-            ><i class="vbestui-iconfont icon-qian icon"></i
-          ></router-link>
-        </div>
+  <!-- <scroll class="scroll" ref="scroll"> -->
+  <div :class="[`${program + 'mv'}`]">
+    <div class="mv-title">
+      <div class="mv-title-left">
+        <h4>最新MV</h4>
       </div>
-      <mv-list :mv-list="mvList" />
-      <h4 class="mv-h4">推荐MV</h4>
-      <mv-list :mv-list="perMV" @refresh="handleRefresh" />
-      <div class="mv-title">
-        <div class="mv-title-left">
-          <h4>MV排行榜</h4>
-        </div>
-        <div class="mv-right">
-          <b-menu
-            class="item-menu"
-            :menu="mvRank"
-            item-height="30px"
-            item-width="40px"
-            :active-show-border="false"
-            :active-color="getActiveColor"
-            @click="handleRankMvClick"
-          />
-        </div>
-        <div class="mv-title-forword">
-          <router-link to="/mv-list" title="查看更多MV"
-            ><i class="vbestui-iconfont icon-qian icon"></i
-          ></router-link>
-        </div>
+      <div class="mv-right">
+        <b-menu
+          class="item-menu"
+          :menu="areas"
+          item-height="30px"
+          item-width="40px"
+          :active-show-border="false"
+          :active-color="getActiveColor"
+          @click="handleAreasClick"
+        />
       </div>
-      <mv-rank-list
-        class="mv-rank-list"
-        :top-mv="topMv"
-        @refresh="handleRefresh"
-      />
+      <div class="mv-title-forword">
+        <router-link to="/mv-list" title="查看更多MV"
+          ><i class="vbestui-iconfont icon-qian icon"></i
+        ></router-link>
+      </div>
     </div>
-  </scroll>
+    <mv-list :mv-list="mvList" />
+    <h4 class="mv-h4">推荐MV</h4>
+    <mv-list :mv-list="perMV"/>
+    <div class="mv-title">
+      <div class="mv-title-left">
+        <h4>MV排行榜</h4>
+      </div>
+      <div class="mv-right">
+        <b-menu
+          class="item-menu"
+          :menu="mvRank"
+          item-height="30px"
+          item-width="40px"
+          :active-show-border="false"
+          :active-color="getActiveColor"
+          @click="handleRankMvClick"
+        />
+      </div>
+      <div class="mv-title-forword">
+        <router-link to="/mv-list" title="查看更多MV"
+          ><i class="vbestui-iconfont icon-qian icon"></i
+        ></router-link>
+      </div>
+    </div>
+    <mv-rank-list class="mv-rank-list" :top-mv="topMv" />
+  </div>
+  <!-- </scroll> -->
 </template>
 <script>
 import { theme } from "mixin/global/theme";
 import { _getNewMV, MV, _getTopMv, _Personalized } from "network/mv";
-import Scroll from "common/scroll/Scroll";
 import MvList from "content/mv-list/mv-list";
 import MvRankList from "content/mv-rank-list/mv-rank-list";
 export default {
   name: "Mv",
   mixins: [theme],
-  components: { Scroll, MvList, MvRankList },
+  components: { MvList, MvRankList },
   data() {
     return {
       areas: ["内地", "港台", "欧美", "日本", "韩国"],
@@ -82,9 +77,9 @@ export default {
     this.Personalized();
     this.getTopMv();
     this.$Notice.info({
-      title:'系统提示：',
-      desc:'点击更多按钮可查看全部MV哦~'
-    })
+      title: "系统提示：",
+      desc: "点击更多按钮可查看全部MV哦~",
+    });
   },
   methods: {
     handleAreasClick(index) {
@@ -96,9 +91,9 @@ export default {
       this.currentRankMV = this.mvRank[index];
       this.getTopMv();
     },
-    handleRefresh() {
-      this.$refs.scroll.refresh();
-    },
+    // handleRefresh() {
+    //   this.$refs.scroll.refresh();
+    // },
     /**最新MV */
     getNewMv() {
       _getNewMV(this.limit, this.currentArea).then((res) => {
@@ -130,11 +125,11 @@ export default {
             mvs[i].playCount
           );
           this.perMV.push(mv);
-          if (i == mvs.length - 1) {
-            this.$nextTick(() => {
-              this.handleRefresh();
-            });
-          }
+          // if (i == mvs.length - 1) {
+          //   this.$nextTick(() => {
+          //     this.handleRefresh();
+          //   });
+          // }
         }
       });
     },

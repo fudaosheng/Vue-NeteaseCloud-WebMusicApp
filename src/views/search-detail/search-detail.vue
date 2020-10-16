@@ -1,29 +1,30 @@
 <template>
-  <scroll class="scroll" ref="scroll">
-    <div class="dance-music-search-detail">
-      <div class="search-detail-title">
-        <div class="search-detail-keywords">
-          <span class="keywords">{{ keywords }}</span>
-          共找到
-          <span class="count">{{ count }}</span>个
-          <span class="count">{{ searchType }}</span>
-        </div>
-        <b-menu
-          class="search-menu"
-          :menu="menuList"
-          item-height="30px"
-          item-width="55px"
-          :active-color="getActiveColor"
-          @click="handleChildrenRouter"
-        />
+  <!-- <scroll class="scroll" ref="scroll"> -->
+  <div class="dance-music-search-detail">
+    <div class="search-detail-title">
+      <div class="search-detail-keywords">
+        <span class="keywords">{{ keywords }}</span>
+        共找到
+        <span class="count">{{ count }}</span
+        >个
+        <span class="count">{{ searchType }}</span>
       </div>
-      <div class="search-detail-container">
-        <keep-alive>
-          <router-view @setData="handlesetData" @refresh="handleRefresh"/>
-        </keep-alive>
-      </div>
+      <b-menu
+        class="search-menu"
+        :menu="menuList"
+        item-height="30px"
+        item-width="55px"
+        :active-color="getActiveColor"
+        @click="handleChildrenRouter"
+      />
     </div>
-  </scroll>
+    <div class="search-detail-container">
+      <keep-alive>
+        <router-view @setData="handlesetData" />
+      </keep-alive>
+    </div>
+  </div>
+  <!-- </scroll> -->
 </template>
 <script>
 import { theme } from "mixin/global/theme";
@@ -35,10 +36,10 @@ export default {
   mixins: [theme],
   components: { Scroll },
   /**provide对组件内data不能响应，要传入this */
-  provide(){
-    return{
-      search:this
-    }
+  provide() {
+    return {
+      search: this,
+    };
   },
   data() {
     return {
@@ -49,15 +50,8 @@ export default {
     };
   },
   methods: {
-    handleRefresh() {
-      this.$refs.scroll.refresh();
-    },
     /**子路由 */
-    handleChildrenRouter(index) {
-      this.$nextTick(()=>{
-        this.handleRefresh();
-      })
-    },
+    handleChildrenRouter(index) {},
     forword(path, keywords = this.keywords) {
       this.$router.push({
         path,
@@ -73,15 +67,12 @@ export default {
     handlesetData(count, type) {
       this.count = count;
       this.searchType = type;
-      this.$nextTick(()=>{
-        this.handleRefresh();
-      })
     },
   },
   watch: {
     $route: {
       handler() {
-        if(this.$route.path.indexOf('/search-detail')>=0){
+        if (this.$route.path.indexOf("/search-detail") >= 0) {
           this.keywords = this.$route.params.keywords;
         }
       },

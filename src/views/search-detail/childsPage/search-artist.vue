@@ -33,7 +33,6 @@ export default {
       console.log('artist');
       _Search(this.keywords, this.searchType).then((res) => {
         this.artists=res.data.result.artists;
-        console.log(this.artists);
         this.artistCount=res.data.result.artistCount;
         this.$emit('setData',this.artistCount,"歌手")
       });

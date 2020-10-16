@@ -102,7 +102,6 @@ export default {
         this.artists = artists;
         this.playlists = playlists;
         this.songs = songs;
-        console.log("----");
       });
     },
     /**处理搜索建议歌单点击 */
@@ -139,7 +138,6 @@ export default {
      * 点击单曲直接逼疯
     */
     async handleSongsClick(index){
-      console.log(this.songs[index]);
       /**获取歌曲详情 */
       await _getSongsDetail(this.songs[index].id).then((res) => {
             let song = new songDetail(res.data.songs);

@@ -1,73 +1,63 @@
 <template>
-  <div
-    :class="['player-pure', `${'player-pure-' + theme}`]"
-    @mouseenter="handleRefresh"
-  >
-    <scroll class="scroll" ref="scroll">
-      <div class="player-pure-container">
-        <b-button
-          type="warning"
-          class="iconfont icon-min"
-          width="40px"
-          @click="closePure"
-        />
-        <div :class="['player-pure-top', `${'player-pure-top-' + theme}`]">
-          <div class="player-record">
-            <div class="player-record-support">
-              <img src="../assets/player/play-bar-support.png" alt="" />
-            </div>
-            <div class="player-record-bar" :style="barStyle">
-              <img src="../assets/player/play-bar.png" alt="" />
-            </div>
-            <div class="player-pure-pic" :class="['player-pure-pic-' + theme]">
-              <img v-lazy="song.pic" alt="" />
-            </div>
+  <div :class="['player-pure', `${'player-pure-' + theme}`]">
+    <!-- <scroll class="scroll" ref="scroll"> -->
+    <div class="player-pure-container">
+      <b-button
+        type="warning"
+        class="iconfont icon-min"
+        width="40px"
+        @click="closePure"
+      />
+      <div :class="['player-pure-top', `${'player-pure-top-' + theme}`]">
+        <div class="player-record">
+          <div class="player-record-support">
+            <img src="../assets/player/play-bar-support.png" alt="" />
           </div>
-          <div class="player-pure-lyric">
-            <div class="player-pure-lyric-desc">
-              <div class="song-title">{{song.name}}</div>
-              <div class="song-artist">{{song.artist}}</div>
-            </div>
-            <lyric
-              :lyric="lyric"
-              middle
-              :current-time="currentTime"
-            />
+          <div class="player-record-bar" :style="barStyle">
+            <img src="../assets/player/play-bar.png" alt="" />
+          </div>
+          <div class="player-pure-pic" :class="['player-pure-pic-' + theme]">
+            <img v-lazy="song.pic" alt="" />
           </div>
         </div>
-        <recommends
-          ref="recommend"
-          :recommends="recommends"
-          class="player-pure-recommends"
-        />
-        <div class="player-pure-bottom">
-          <el-pagination
-            background
-            :current-page.sync="offset"
-            :page-count="50"
-            @current-change="onPageChange"
-          />
+        <div class="player-pure-lyric">
+          <div class="player-pure-lyric-desc">
+            <div class="song-title">{{ song.name }}</div>
+            <div class="song-artist">{{ song.artist }}</div>
+          </div>
+          <lyric :lyric="lyric" middle :current-time="currentTime" />
         </div>
       </div>
-    </scroll>
+      <recommends
+        ref="recommend"
+        :recommends="recommends"
+        class="player-pure-recommends"
+      />
+      <div class="player-pure-bottom">
+        <el-pagination
+          background
+          :current-page.sync="offset"
+          :page-count="50"
+          @current-change="onPageChange"
+        />
+      </div>
+    </div>
+    <!-- </scroll> -->
   </div>
 </template>
 <script>
 import { theme } from "mixin/global/theme";
-import { forcible } from "mixin/components/forcible-refresh";
 import { _musicRecommend } from "network/detail";
 import { debounce } from "utils/tool";
 import Recommends from "views/list-detail/childsComps/Recommends";
-import Scroll from "common/scroll/Scroll";
 
 import Lyric from "./player-lyric";
 export default {
   name: "PlayerPure",
-  mixins: [theme, forcible],
+  mixins: [theme],
   components: {
     Lyric,
     Recommends,
-    Scroll,
   },
   props: {
     song: {
@@ -110,16 +100,19 @@ export default {
     getIsPlay() {
       return this.$parent.isPlay;
     },
+    getOffset() {
+      return (this.offset - 1) * this.limit;
+    },
   },
   methods: {
     /**分页 */
     onPageChange() {
       this.getRecom();
       /**分页后滚动到评论顶部 */
-      this.$nextTick(() => {
-        let posY = this.$refs.recommend.$el.offsetTop;
-        this.$refs.scroll.scrollTo(posY, 0);
-      });
+      // this.$nextTick(() => {
+      //   let posY = this.$refs.recommend.$el.offsetTop;
+      //   // this.$refs.scroll.scrollTo(posY, 0);
+      // });
     },
     /**关闭纯净模式 */
     closePure() {
@@ -127,12 +120,9 @@ export default {
     },
     /**获取歌曲评论 */
     async getRecom() {
-      await _musicRecommend(this.song.id, this.limit, this.offset).then(
+      await _musicRecommend(this.song.id, this.limit, this.getOffset).then(
         (res) => {
           this.recommends = res.data.comments;
-          this.$nextTick(() => {
-            this.$refs.scroll.refresh();
-          });
         }
       );
     },
@@ -140,12 +130,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.scroll {
-  height: calc(100vh - 58px - 60px);
-}
 .player-pure {
   width: 100%;
   height: calc(100vh - 58px - 60px);
+  overflow-y: auto;
   position: absolute;
   z-index: 2;
   left: 0px;
@@ -215,15 +203,15 @@ export default {
 }
 .player-pure-lyric {
   width: 40%;
-  &-desc{
+  &-desc {
     padding: 0px 20px;
-    border:40px;
-    .song-title{
-      font-size:20px;
+    border: 40px;
+    .song-title {
+      font-size: 20px;
     }
-    .song-artist{
-      font-size:13px;
-      padding:3px 0px;
+    .song-artist {
+      font-size: 13px;
+      padding: 3px 0px;
     }
   }
 }

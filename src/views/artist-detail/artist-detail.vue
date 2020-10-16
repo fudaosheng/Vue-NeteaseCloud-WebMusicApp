@@ -1,5 +1,5 @@
 <template>
-  <scroll class="scroll" ref="scroll" :disable-wheel="getIsWheel">
+  <!-- <scroll class="scroll" ref="scroll" :disable-wheel="getIsWheel"> -->
     <div :class="[`${program + 'artist-detail'}`]">
       <artist-baseinfo :artist="getArtist" :mv-count="getMvCount" />
       <b-menu
@@ -11,7 +11,6 @@
       <album-list
         v-show="isShow === 'album'"
         :id="getArtistId"
-        @refresh="handleRefresh"
         @enter="handleEnter"
         @leave="handleLeave"
       />
@@ -19,7 +18,6 @@
         :show-artist="false"
         :line-num="6"
         :mv-list="mvList"
-        @refresh="handleRefresh"
         v-show="isShow === 'MV'"
       />
       <artist-desc-detail
@@ -30,17 +28,15 @@
       <artist-simi
         :id="getArtistId"
         v-show="isShow === 'simi'"
-        @refresh="handleRefresh"
       />
     </div>
-  </scroll>
+  <!-- </scroll> -->
 </template>
 <script>
 import { formatDate } from "utils/tool";
 import { theme } from "mixin/global/theme";
 import { _getArtistMv } from "network/artist";
 import { MV } from "network/mv";
-import Scroll from "common/scroll/Scroll";
 
 import ArtistBaseinfo from "./childsComps/artist-baseinfo";
 import AlbumList from "./childsPage/album-list";
@@ -51,7 +47,6 @@ export default {
   name: "ArtistDetail",
   mixins: [theme],
   components: {
-    Scroll,
     ArtistBaseinfo,
     AlbumList,
     ArtistMvs,
@@ -102,13 +97,10 @@ export default {
         case 3:
           this.isShow = "simi";
       }
-      this.$nextTick(() => {
-        this.handleRefresh();
-      });
     },
-    handleRefresh() {
-      this.$refs.scroll.refresh();
-    },
+    // handleRefresh() {
+    //   this.$refs.scroll.refresh();
+    // },
     /**鼠标进入热门50首，禁用启用外层wheel */
     handleEnter() {
       this.isWheel = true;
