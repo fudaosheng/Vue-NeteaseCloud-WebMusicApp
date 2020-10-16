@@ -1,24 +1,19 @@
 <template>
   <div :class="indiviClass">
-    <scroll :theme="getTheme" ref="scroll" class="scroll">
-      <div class="dance-music-group">
-        <swiper :banner="banner" class="swiper" />
-        <h4
-          :class="[
-            `${program + 'indivi-h4'}`,
-            `${program + 'indivi-h4-' + theme}`,
-          ]"
-        >
-          推荐歌单
-        </h4>
-        <music-list :music-list="personalized" @refresh="handleRefresh"/>
-        <private-content :pri="privateContent" />
-        <new-songs
-          :music-list="songList"
-          @newSongImgLoad="handleRefresh"
-        />
-      </div>
-    </scroll>
+    <div class="dance-music-group">
+      <swiper :banner="banner" class="swiper" />
+      <h4
+        :class="[
+          `${program + 'indivi-h4'}`,
+          `${program + 'indivi-h4-' + theme}`,
+        ]"
+      >
+        推荐歌单
+      </h4>
+      <music-list :music-list="personalized" @refresh="handleRefresh" />
+      <private-content :pri="privateContent" />
+      <new-songs :music-list="songList" @newSongImgLoad="handleRefresh" />
+    </div>
   </div>
 </template>
 <script>
@@ -32,14 +27,13 @@ import {
 } from "network/discover";
 
 import Swiper from "common/swiper/Swiper";
-import Scroll from "common/scroll/Scroll";
-import MusicList from "content/musiclist/MusicList"
+import MusicList from "content/musiclist/MusicList";
 import PrivateContent from "./childsComps/PrivateContent";
 import NewSongs from "./childsComps/newSongs";
 export default {
   name: "Individuation",
   mixins: [theme],
-  components: { Swiper, Scroll, PrivateContent, NewSongs ,MusicList},
+  components: { Swiper, PrivateContent, NewSongs, MusicList },
   computed: {
     indiviClass() {
       return [
@@ -82,7 +76,7 @@ export default {
   },
   methods: {
     handleRefresh() {
-      this.$refs.scroll.refresh();
+      // this.$refs.scroll.refresh();
     },
     playMusic(index) {
       this.musiclist = [];
@@ -97,21 +91,12 @@ export default {
       }
     },
   },
-  mounted(){
-    /**解决图片懒加载不发射refresh事件，滚动无法刷新 */
-    this.$nextTick(()=>{
-      this.$refs.scroll.refresh();
-    })
-  },
 };
 </script>
 <style lang="less" scoped>
 .dance-music-indivi {
   width: 100%;
   height: 100%;
-  .scroll {
-    height: 100%;
-  }
   .swiper {
     width: calc(100% - 20px);
     margin-left: 10px;

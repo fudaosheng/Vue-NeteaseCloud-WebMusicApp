@@ -1,84 +1,84 @@
 <template>
-  <scroll
-    class="scroll"
-    ref="scroll2"
-    :disable-wheel="isWheel"
-    @pullingUp="handlePullingUp"
-  >
-  <!-- pop所有歌单分类 -->
-    <div :class="[`${program + 'all-musiclist'}`]" @mouseenter="refresh">
-      <b-poptip
-        ref="poptip"
-        placement="bottom-start"
-        :theme="getTheme"
-        max-length="520px"
-        @show="handlePoptipShow"
-        @hidden="handlePoptipHidden"
-        class="poptip"
+  <div :class="[`${program + 'all-musiclist'}`]">
+    <b-poptip
+      ref="poptip"
+      placement="bottom-start"
+      :theme="getTheme"
+      max-length="520px"
+      @show="handlePoptipShow"
+      @hidden="handlePoptipHidden"
+      class="poptip"
+    >
+      <div
+        :class="[
+          `${program + 'musiclist-poptip'}`,
+          `${program + 'musiclist-poptip-' + theme}`,
+        ]"
       >
-        <div
-          :class="[
-            `${program + 'musiclist-poptip'}`,
-            `${program + 'musiclist-poptip-' + theme}`,
-          ]"
-        >
-          <span>{{ cat }}</span>
-          <i class="vbestui-iconfont icon-qian"></i>
-        </div>
-        <template v-slot:title>
-          <div class="pop-title">全部歌单分类</div>
-        </template>
-        <template v-slot:content>
-          <scroll class="pop-scroll" ref="scroll">
-            <div
-              :class="['pop-container', `${'pop-container-' + theme}`]"
-              @mouseenter="handleRefresh"
+        <span>{{ cat }}</span>
+        <i class="vbestui-iconfont icon-qian"></i>
+      </div>
+      <template v-slot:title>
+        <div class="pop-title">全部歌单分类</div>
+      </template>
+      <template v-slot:content>
+        <scroll class="pop-scroll" ref="scroll">
+          <div
+            :class="['pop-container', `${'pop-container-' + theme}`]"
+            @mouseenter="handleRefresh"
+          >
+            <d-button
+              size="long"
+              height="35px"
+              round
+              @click.native="handleAllPlayList"
+              >全部歌单</d-button
             >
-              <d-button
-                size="long"
-                height="35px"
-                round
-                @click.native="handleAllPlayList"
-                >全部歌单</d-button
-              >
-              <div class="cate-item" v-for="(item, index) in list" :key="index">
-                <div class="cate-item-left">
-                  <i :class="['iconfont', `${iconList[index]}`]"></i>
-                  <span>{{ categories[index] }}</span>
-                </div>
-                <div class="cate-item-right">
-                  <d-button
-                    v-for="(cate, index2) in item"
-                    :key="index2"
-                    width="80px"
-                    height="35px"
-                    @click.native="handleButtonClick(index, index2)"
-                    >{{ cate.name }}</d-button
-                  >
-                </div>
+            <div class="cate-item" v-for="(item, index) in list" :key="index">
+              <div class="cate-item-left">
+                <i :class="['iconfont', `${iconList[index]}`]"></i>
+                <span>{{ categories[index] }}</span>
+              </div>
+              <div class="cate-item-right">
+                <d-button
+                  v-for="(cate, index2) in item"
+                  :key="index2"
+                  width="80px"
+                  height="35px"
+                  @click.native="handleButtonClick(index, index2)"
+                  >{{ cate.name }}</d-button
+                >
               </div>
             </div>
-          </scroll>
-        </template>
-      </b-poptip>
-      <div class="menu">
-        <div class="menu-title">热门标签：</div>
-        <div class="menu-main">
-          <b-menu
-            :menu="hotTags"
-            item-height="30px"
-            item-width="80px"
-            :active-show-border="false"
-            :active-color="getActiveColor"
-            @click="handleMenuClick"
-          />
-        </div>
-      </div>
-      <div class="all-musiclist">
-        <music-list empty-desc :music-list="playList" @refresh="refresh" />
+          </div>
+        </scroll>
+      </template>
+    </b-poptip>
+    <div class="menu">
+      <div class="menu-title">热门标签：</div>
+      <div class="menu-main">
+        <b-menu
+          :menu="hotTags"
+          item-height="30px"
+          item-width="80px"
+          :active-show-border="false"
+          :active-color="getActiveColor"
+          @click="handleMenuClick"
+        />
       </div>
     </div>
-  </scroll>
+    <div class="all-musiclist">
+      <music-list empty-desc :music-list="playList" />
+    </div>
+    <div class="all-musiclist-bottom">
+      <el-pagination
+        background
+        :current-page.sync="offset"
+        :page-count="50"
+        @current-change="onPageChange"
+      />
+    </div>
+  </div>
 </template>
 <script>
 import { theme } from "mixin/global/theme";
@@ -96,7 +96,7 @@ import MusicList from "content/musiclist/MusicList";
 export default {
   name: "AllMusicList",
   mixins: [theme, forcible],
-  components: { Scroll, DButton, Scroll, MusicList },
+  components: { DButton, Scroll, MusicList },
   data() {
     return {
       categories: [],
@@ -118,10 +118,16 @@ export default {
       hotTags: [], //热门标签
       playList: [],
       limit: 50,
+      offset: 1,
       cat: "全部",
       isWheel: false,
       isPoptip: false, //控制poptip打开关闭
     };
+  },
+  computed:{
+    getOffset(){
+      return (this.offset-1)*this.limit;
+    },
   },
   created() {
     _getCatList().then((res) => {
@@ -147,45 +153,38 @@ export default {
     });
   },
   methods: {
-    /**上拉加载更多 */
-    handlePullingUp() {
-      this.limit += 50;
+    /**分页 */
+    onPageChange() {
       this.getPlayList();
     },
     /**全部歌单 */
     handleAllPlayList() {
-      this.limit = 50;
+      this.reset();
       this.cat = "全部";
       this.getPlayList();
       this.$refs.poptip.hidden();
     },
     /**标签里面按钮点击 */
     handleButtonClick(index, index2) {
-      this.limit = 50;
+      this.reset();
       this.cat = this.list[index][index2].name;
       this.getPlayList();
       this.$refs.poptip.hidden();
     },
     /**menu点击 */
     handleMenuClick(index) {
-      this.limit = 50;
+      this.reset();
       this.cat = this.hotTags[index];
       this.getPlayList();
     },
     /**获取分类歌单 */
     getPlayList() {
-      _getPlayList(this.cat, this.limit).then((res) => {
+      _getPlayList(this.cat, this.limit, this.getOffset).then((res) => {
         this.playList = res.data.playlists;
       });
     },
-    /**页面scroll2刷新
-     * scroll是poptip选择歌单分类
-     */
-    refresh() {
-      console.log("refresh");
-      this.$nextTick(()=>{
-        this.$refs.scroll2.refresh();
-      })
+    reset(){
+      this.offset=1;
     },
     /**poptip提示显示，禁用父级mousewheel滚动 */
     handlePoptipShow() {
@@ -285,5 +284,8 @@ export default {
 }
 .all-musiclist {
   padding: 10px 0px 0px 0px;
+  &-bottom {
+    text-align: right;
+  }
 }
 </style>

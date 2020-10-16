@@ -2,7 +2,8 @@ import axios from 'axios'
 import $store from '@/store/index'
 
 // const baseURL="http://localhost:3000";
-const baseURL="http://59.110.124.156:3000";
+// const baseURL="http://59.110.124.156:3000";
+const baseURL="http://123.56.175.108:3000"
 
 let ajaxTimer = 0;
 export function request(config) {

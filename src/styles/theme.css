@@ -17,8 +17,6 @@
     --light-text-tint: #2d8cf0;
     /* light鼠标hover背景色 */
     --light-hover-bg-color: #f9f9f9;
-
-
     --dark-bg-color: #16181c;
     --dark-main-color: #fff;
     --dark-aside-bg-color: #191b1f;
@@ -36,8 +34,7 @@
     /* dark 活跃时字体颜色 */
     --dark-text-tint: #b82525;
     /* dark 鼠标hover背景颜色 */
-    --dark-hover-bg-color:#232529;
-
+    --dark-hover-bg-color: #232529;
     --green-bg-color: #3eb874;
     --green-main-color: #3eb874;
     --green-text-color: #f6f6f6;
@@ -64,4 +61,18 @@ h4 {
 
 .dance-music-group {
     padding: 10px 100px 0px 100px;
+}
+
+::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-bgcolor);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-color);
 }

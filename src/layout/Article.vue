@@ -14,9 +14,37 @@
 </template>
 <script>
 import { theme } from "mixin/global/theme.js";
+import variableWhite from "@/styles/variables/variable-white";
+import variableGreen from "@/styles/variables/variable-green";
+import variableDark from "@/styles/variables/variable-dark";
+/**三种主题 */
+const themes = {
+  white: "light",
+  dark: "dark",
+  green: "green",
+};
 export default {
   name: "LayoutArticle",
   mixins: [theme],
+  created() {
+    /**初始化主题表 */
+    this.themeMap = {
+      [themes.white]: {
+        title: "浅色",
+        file: variableWhite,
+      },
+      [themes.green]: {
+        title: "绿色",
+        file: variableGreen,
+      },
+      [themes.dark]: {
+        title: "深色",
+        file: variableDark,
+      },
+    };
+    // 默认浅色
+    this.changeTheme(this.getTheme);
+  },
   computed: {
     articleClass() {
       return [
@@ -37,18 +65,30 @@ export default {
           : "";
       return color;
     },
-    getRequestType(){
+    getRequestType() {
       return this.$store.getters.getRequestType;
-    }
+    },
   },
-  // watch:{
-  //   getRequestType(){
-  //     this.$Notice.error({
-  //       title:'系统提示',
-  //       desc:'网络错误，请重新打开网站，给您带来的不便敬请谅解。'
-  //     })
-  //   }
-  // }
+  methods: {
+    /**设置主题 */
+    changeTheme(themeKey) {
+      console.log(themeKey);
+      /**style里面定义的各种样式---一个样式数组 */
+      const theme = this.themeMap[themeKey].file;
+      /**将theme定义的样式key转化为数组 */
+      Object.keys(theme).forEach((key) => {
+        /**得到值 */
+        const value = theme[key];
+        /**设置属性 */
+        document.documentElement.style.setProperty(key, value);
+      });
+    },
+  },
+  watch: {
+    theme() {
+      this.changeTheme(this.theme);
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -56,6 +96,7 @@ export default {
   width: 82%;
   height: calc(100% - 58px - 60px);
   float: left;
+  overflow-y: auto;
   &-dark {
     background: var(--dark-bg-color);
     color: var(--dark-article-color);

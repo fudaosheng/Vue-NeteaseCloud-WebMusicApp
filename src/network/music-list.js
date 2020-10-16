@@ -27,12 +27,13 @@ export function _getHighquality(cat,limit){
 }
 
 /**获取歌单--网友精选碟，全部歌单 */
-export function _getPlayList(cat,limit){
+export function _getPlayList(cat,limit,offset){
     return request({
         url:'/top/playlist',
         params:{
             cat:cat,
             limit:limit,
+            offset
         }
     })
 }
