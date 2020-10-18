@@ -64,15 +64,15 @@ h4 {
 }
 
 ::-webkit-scrollbar {
-    width: 16px;
+    width: 12px;
     height: 16px;
     background-color: #f5f5f5;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: var(--scrollbar-bgcolor);
+    background-color: var(--scrollbar-track-color);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-color);
+    background-color: var(--scrollbar-thumb-color);
 }

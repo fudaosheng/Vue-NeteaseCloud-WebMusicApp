@@ -55,10 +55,10 @@
       <div class="player-progress-main">
         <b-progress
           :percent.sync="percent"
-          pro-width="4px"
-          :base-color="getProgressBaseColor"
-          :stroke-color="iconActiveColor"
-          show-loadbar
+          :stroke-width="4"
+          :track-base-color="getProgressBaseColor"
+          :track-color="iconActiveColor"
+          show-thumb
           allow-click
           allow-drag
           is-active
@@ -78,10 +78,10 @@
       <div class="player-volumn-progress">
         <b-progress
           :percent.sync="volumnPercent"
-          pro-width="3px"
-          :base-color="getProgressBaseColor"
-          :stroke-color="iconActiveColor"
-          show-loadbar
+          :stroke-width="3"
+          :track-base-color="getProgressBaseColor"
+          :track-color="iconActiveColor"
+          show-thumb
           allow-click
           allow-drag
           is-active

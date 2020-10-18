@@ -13,7 +13,7 @@ Vue.use(VbestUi)
 
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad,{
-  loading: './assets/img/loading.png',
+  loading: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
 })
 
 import global from './utils/global'

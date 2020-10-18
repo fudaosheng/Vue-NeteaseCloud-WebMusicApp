@@ -1,6 +1,6 @@
 <template>
   <div :class="asideClass">
-    <div class="menu">
+    <div class="menu" ref="menu">
       <b-menu
         :menu="menuList"
         vertical
@@ -126,13 +126,13 @@ export default {
   }
 }
 .menu {
-  height: 300px;
+  height:50%;
 }
 .aside-scroll {
-  height: calc(100% - 300px -60px);
+  height: calc(50% -60px);
 }
 .my-music-list {
-  height: calc(100% - 300px -60px);
+  height: calc(50% -60px);
   padding: 10px 0px;
   .title {
     font-size: 13px;

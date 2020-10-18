@@ -1,4 +1,4 @@
 export default {
-    ['--scrollbar-bgcolor']: '#16181c',
-    ['--scrollbar-color']: '#4f4f4f',
+    ['--scrollbar-track-color']: '#16181c',
+    ['--scrollbar-thumb-color']: '#4f4f4f',
 }

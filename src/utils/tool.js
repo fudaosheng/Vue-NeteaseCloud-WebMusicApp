@@ -9,7 +9,7 @@ export function debounce(fn,delay){
     },delay)
   }
 }
-// 时间戳方案
+// 时间戳方案--节流
 export function throttle(fn,wait){
   var pre = Date.now();
   return function(){

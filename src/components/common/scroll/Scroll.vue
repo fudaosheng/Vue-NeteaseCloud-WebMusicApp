@@ -2,17 +2,17 @@
   <div class="scroll">
     <b-scroll
       ref="scroll"
+      class="b-scroll"
       :theme="getTheme"
       :speed="speed"
       :disable-bar="disableBar"
-      class="b-scroll"
-      @pullingUp="pullingUp"
       :height="height"
       :disable-wheel="disableWheel"
-      :bar-color="barColor"
-      :load-color="loadColor"
+      :track-color="trackColor"
+      :thumb-color="thumbColor"
       @moveStart="moveStart"
       @moveEnd="moveEnd"
+      @pullingUp="pullingUp"
     >
       <slot></slot>
     </b-scroll>
@@ -40,14 +40,14 @@ export default {
       type: Boolean,
       default: false,
     },
-    barColor:{
-      type:String,
-      default:"",
+    trackColor: {
+      type: String,
+      default: "",
     },
-    loadColor:{
-            type:String,
-      default:"",
-    }
+    thumbColor: {
+      type: String,
+      default: "",
+    },
   },
   methods: {
     refresh() {
@@ -61,13 +61,13 @@ export default {
       this.$emit("pullingUp");
     },
     /**鼠标按下进度条小球 */
-    moveStart(){
-      this.$emit('moveStart');
+    moveStart() {
+      this.$emit("moveStart");
     },
     /**鼠标释放进度条小球 */
-    moveEnd(){
-      this.$emit('moveEnd');
-    }
+    moveEnd() {
+      this.$emit("moveEnd");
+    },
   },
 };
 </script>
