@@ -42,7 +42,7 @@ export default {
       if (this.getCookie) {
         this.initRequest();
       } else {
-        this.$Message.warning("请先登陆");
+        this.$Toast.warning("请先登陆");
       }
     }
   },
@@ -51,7 +51,7 @@ export default {
       if (this.getCookie) {
         this.initRequest();
       } else {
-        this.$Message.warning("请先登陆");
+        this.$Toast.warning("请先登陆");
       }
     },
   },

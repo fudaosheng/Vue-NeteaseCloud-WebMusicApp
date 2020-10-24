@@ -59,6 +59,7 @@
           :track-base-color="getProgressBaseColor"
           :track-color="iconActiveColor"
           show-thumb
+          hover-show-thumb
           allow-click
           allow-drag
           is-active
@@ -82,6 +83,7 @@
           :track-base-color="getProgressBaseColor"
           :track-color="iconActiveColor"
           show-thumb
+          hover-show-thumb
           allow-click
           allow-drag
           is-active
