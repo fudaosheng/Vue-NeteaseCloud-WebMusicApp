@@ -10,28 +10,22 @@
 
 肝代码不易，本项目还是比较能拿的出手的，若是在网上发表请标明出处，另外跪求Star。本项目仅用于学习。 
 
-Github地址：[https://github.com/daoshengfu/vue-fds_music](http://)
-
- **打赏作者**
-如果您觉得本项目不错，您可以设置任何金额支持作者，您的支持是作者持续更新的动力。
-| ![微信](https://images.gitee.com/uploads/images/2020/0827/170558_62cb7b87_7602838.png "wechat.png")  |  ![支付宝](https://images.gitee.com/uploads/images/2020/0827/170614_e539c549_7602838.jpeg "支付宝.jpg") |
-|---|---|
+[Github仓库](https://github.com/daoshengfu/Vue-NeteaseCloud-WebMusicApp)
 
 
 #### 项目简介
 
-本项目后端接口是Github大神Binaryify的开源项目（项目地址：[https://github.com/Binaryify/NeteaseCloudMusicApi](http://)），接口文档直接在百度搜索“网易云音乐API”作者是Binaryify。
+本项目后端接口是Github Binaryify的开源项目（[后端仓库地址](https://github.com/Binaryify/NeteaseCloudMusicApi)），接口文档直接在百度搜索“网易云音乐API”作者是Binaryify。
 
 本项目前端均是本人独立自主开发，所用技术栈：Vue全家桶+better-scroll+axios。
 
-项目演示：（b站)[https://www.bilibili.com/video/BV1ui4y137Xr/](http://) 随手点个赞吧:tw-1f339: 
+[项目演示](https://www.bilibili.com/video/BV1ui4y137Xr/) 随手点个赞吧:tw-1f339: 
 
 下面也有项目效果图
 
  **项目准备：** 
 
-后端API官方文档：[https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi
-](http://)
+[后端API接口文档](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi)
 
  **API安装步骤：** 
 
@@ -53,87 +47,6 @@ Github地址：[https://github.com/daoshengfu/vue-fds_music](http://)
 #### 问题交流群
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0915/095720_2490a5ae_7602838.jpeg "qrcode_1600134831290.jpg")
 
-
-
-#### 本项目核心--如何播放音乐 ：
-
-```
-import { _getMusicUrl, _getLyric } from "network/detail"
-import { playList } from "components/content/playmusic/playList";
-export const indexMixin = {
-    methods: {
-        PlayMusic(index = 0) {
-            let path = this.$route.path;
-            let musiclist;
-            if (this.musiclist.length >= 200) {
-                musiclist = this.musiclist.slice(0, 199);
-            }
-            else musiclist = this.musiclist;
-            let url = null,
-                lyric = null,
-                currentLength = 0;
-            let playlist = [];
-            for (let i = 0, length = musiclist.length; i < length; i++) {
-                let getUrl = _getMusicUrl(musiclist[i].id).then(res => {
-                    url = res.data.data[0].url;
-                    return url;
-                });
-                let getLyric = _getLyric(musiclist[i].id).then(res => {
-                    lyric = res.data.tlyric.lyric;
-                    return lyric;
-                });
-                Promise.all([getUrl, getLyric])
-                    .then(results => {
-                        let song = new playList(i, musiclist[i], results[0], results[1]);
-                        playlist.push(song);
-                        currentLength++;
-                        /**每次完成两个网络请求都判断是否满足要求，满足才发送事件 */
-
-                        if (i == musiclist.length - 1) {
-
-                            this.$bus.$emit("playMusic", playlist, index, path);
-                        }
-                    })
-                    .catch(err => {
-                        this.$Message.warning('数据加载中，请稍等');
-                    });
-            }
-        },
-    }
-}
-```
-
-之所以将其放在mixin中，是因为这样我在任何一个组件中都能使用这个方法，降低了代码的重复性，也体现了模块化的编程思想。
-
- **在音乐播放器组件中接收时：** 
-
-
-```
-mounted() {
- /**list是音乐列表，index是要播放的音乐在列表中的位置，path是当前播放音乐的路由路径 */
-    this.$bus.$on("playMusic", (list, index, path) => {
-      this.music = [];
-      this.path = path;
-      this.music = list;
-      //   this.music = list.filter(item => {
-      //     return item.src !== "";
-      //   });
-      /**对数组进行排序 */
-      this.music = this.music.sort((a, b) => {
-        return a.index - b.index;
-      });
-      /**在请求歌曲的时候，可能有的歌曲不可用，丢失。导致在播放器中的歌曲列表和页面展示的歌单存在差异，会出现实际的播放歌曲与要播放的歌曲不符的问题。
-       * 用一次查找解决问题
-       */
-      for (let i in this.music) {
-        if (this.music[i].index == index) {
-          this.currentIndex = i;
-          break; //break跳出循环------continue跳出本次循环
-        }
-      }
-    });
-  },
-```
 
 #### 关于本项目
 
