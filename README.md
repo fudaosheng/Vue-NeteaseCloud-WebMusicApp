@@ -51,6 +51,12 @@
     2.3. npm run serve
 
 
+#### 问题交流群
+
+欢迎加群一起讨论
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0915/095720_2490a5ae_7602838.jpeg "qrcode_1600134831290.jpg")
+
 ### 项目效果预览
 
 #### theme
