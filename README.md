@@ -20,7 +20,7 @@
     亮点：支持三种主题颜色，页面更友好，对不同尺寸屏幕也做了一定兼容，内部代码相较于第一版也有比较大的优化
     技术栈：vue+vuex+vue-router+axios+element-ui+vbest-ui(自己封装的组件库)+postcss-pxtorem+vue-lazyload
 
-----R-player  //正在开发中，目标是封装一个独立的音乐播放器
+----dev-player  //正在开发中，目标是封装一个独立的音乐播放器
     技术栈：react+hooks+mobx+antd
 ```
 
