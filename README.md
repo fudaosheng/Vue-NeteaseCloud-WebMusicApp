@@ -21,7 +21,7 @@
     技术栈：vue+vuex+vue-router+axios+element-ui+vbest-ui(自己封装的组件库)+postcss-pxtorem+vue-lazyload
 
 ----dev-player  //正在开发中，目标是封装一个独立的音乐播放器
-    技术栈：react+hooks+mobx+antd
+    技术栈：react+ts+hooks+mobx+antd
 ```
 
 ### 后端API
