@@ -4,6 +4,10 @@
 
 [Github地址](https://github.com/daoshengfu/Vue-NeteaseCloud-WebMusicApp)
 
+### 头条内推（前端）
+
+[北京日常实习](https://job.toutiao.com/s/eYLjJcG)     [北京社招](https://job.toutiao.com/s/eYLf5vy)
+
 ### 项目介绍
 
 项目参考于网易云音乐PC版app，基本实现官方音乐播放、MV播放所有功能
