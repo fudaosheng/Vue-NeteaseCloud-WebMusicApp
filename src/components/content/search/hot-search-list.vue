@@ -6,10 +6,10 @@
     :load-color="getLoadColor"
   >
     <div class="dance-music-search-list" @mouseenter="handleRefresh">
-      <div class="search-list-title">
+      <!-- <div class="search-list-title">
         <span>搜索历史</span>
         <i class="iconfont icon-shanchu" />
-      </div>
+      </div> -->
       <div class="search-list-main">
         <b-table>
           <b-table-body slot="body">

@@ -63,13 +63,13 @@
 import { _getSongsDetail, songDetail } from "network/detail";
 import { _Suggest } from "network/search";
 
-import {playMusic} from "mixin/global/play-music"
-import { debounce } from "utils/tool";
+import { playMusic } from "mixin/global/play-music";
+import { debounce } from "lodash";
 import Scroll from "common/scroll/Scroll";
 export default {
   name: "SearchSuggest",
   components: { Scroll },
-  mixins:[playMusic],
+  mixins: [playMusic],
   props: {
     keywords: {
       type: String,
@@ -82,12 +82,12 @@ export default {
       artists: [], //歌手列表
       playlists: [], //歌单列表
       songs: [], //单曲列表
-      musicList:[],//歌曲列表，单曲播放用
+      musicList: [], //歌曲列表，单曲播放用
     };
   },
   computed: {
-    isShowSongs(){
-      return this.songs && this.songs.length
+    isShowSongs() {
+      return this.songs && this.songs.length;
     },
     getTheme() {
       return this.$store.getters.getTheme;
@@ -95,7 +95,10 @@ export default {
   },
   methods: {
     /**关键字搜索 建议*/
-    suggest() {
+    suggest: debounce(function () {
+      if (!this.keywords) {
+        return;
+      }
       _Suggest(this.keywords).then((res) => {
         const { albums, artists, playlists, songs } = res.data.result;
         this.albums = albums;
@@ -103,7 +106,7 @@ export default {
         this.playlists = playlists;
         this.songs = songs;
       });
-    },
+    }, 500),
     /**处理搜索建议歌单点击 */
     handlePlayListClick(index) {
       this.$router.push(
@@ -112,7 +115,7 @@ export default {
           "/" +
           new Date().getTime()
       );
-      this.$emit('hidden');
+      this.$emit("hidden");
     },
     /**搜索建议歌手点击 */
     handleArtistClick(index) {
@@ -122,36 +125,37 @@ export default {
           artist: this.artists[index],
         },
       });
-      this.$emit('hidden');
+      this.$emit("hidden");
     },
     /**专辑点击 */
-    handleAlbumClick(index){
+    handleAlbumClick(index) {
       this.$router.push({
-        path:'/album-detail',
-        query:{
-          album:this.albums[index]
-        }
+        path: "/album-detail",
+        query: {
+          album: this.albums[index],
+        },
       });
-      this.$emit('hidden');
+      this.$emit("hidden");
     },
-    /**处理搜索建议单曲点击 
+    /**处理搜索建议单曲点击
      * 点击单曲直接逼疯
-    */
-    async handleSongsClick(index){
+     */
+    async handleSongsClick(index) {
       /**获取歌曲详情 */
       await _getSongsDetail(this.songs[index].id).then((res) => {
-            let song = new songDetail(res.data.songs);
-            this.musicList.push(song);
-          });
+        let song = new songDetail(res.data.songs);
+        this.musicList.push(song);
+      });
       this.playMusic();
-      this.$emit('hidden');
+      this.$emit("hidden");
     },
   },
   watch: {
-    keywords() {
-      if (this.keywords != "") {
-        debounce(this.suggest(), 1000)();
-      }
+    keywords: {
+      handler() {
+        this.suggest();
+      },
+      immediate: false,
     },
   },
 };

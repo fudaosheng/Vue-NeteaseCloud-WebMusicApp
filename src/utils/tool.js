@@ -1,44 +1,44 @@
-export function debounce(fn,delay){
-  let timer=null;
-  
+export const debounce = (fn, delay) => {
+  let timer = null;
+
   //返回的函数是用户每次实际调用的函数
-  return (...args)=>{
-    if(timer)clearTimeout(timer);
-    timer=setTimeout(()=>{
-      fn&&fn.apply(this,args)
-    },delay)
+  return function (...args) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn && fn.apply(this, args)
+    }, delay)
   }
 }
 // 时间戳方案--节流
-export function throttle(fn,wait){
+export function throttle(fn, wait) {
   var pre = Date.now();
-  return function(){
-      var context = this;
-      var args = arguments;
-      var now = Date.now();
-      if( now - pre >= wait){
-          fn.apply(context,args);
-          pre = Date.now();
-      }
+  return function () {
+    var context = this;
+    var args = arguments;
+    var now = Date.now();
+    if (now - pre >= wait) {
+      fn.apply(context, args);
+      pre = Date.now();
+    }
   }
 }
 
 /**数组去重 */
-export function distinct(arr){
-  let newArr=[];
-  let isExist=false;
-  for(let i=0,length=arr.length;i<length;i++){
+export function distinct(arr) {
+  let newArr = [];
+  let isExist = false;
+  for (let i = 0, length = arr.length; i < length; i++) {
 
-    for(let j=i+1;j<length;j++){
-      if(arr[i].name==arr[j].name){
-        isExist=true;
+    for (let j = i + 1; j < length; j++) {
+      if (arr[i].name == arr[j].name) {
+        isExist = true;
         break;
       }
     }
-    if(!isExist){
+    if (!isExist) {
       newArr.push(arr[i]);
     }
-    isExist=false;
+    isExist = false;
   }
   return newArr;
 }
@@ -67,6 +67,6 @@ export function formatDate(date, fmt) {
   return fmt;
 };
 
-function padLeftZero (str) {
+function padLeftZero(str) {
   return ('00' + str).substr(str.length);
 };

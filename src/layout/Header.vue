@@ -41,23 +41,7 @@
     </div>
     <div :class="program + 'header-main'">
       <div class="left">
-        <b-poptip
-          ref="searchPoptip"
-          trigger="focus"
-          :theme="getTheme"
-          placement="bottom-start"
-          max-length="400px"
-        >
-          <b-input v-model="keywords" search @search="handleSearchForword" @keyupEnter="handleSearchForword"/>
-          <template v-slot:content>
-            <hot-search-list v-show="!isSearch" @hidden="handleSearchPopHidden"/>
-            <search-suggest
-              :keywords="keywords"
-              v-show="isSearch"
-              @hidden="handleSearchPopHidden"
-            />
-          </template>
-        </b-poptip>
+        <Search />
       </div>
       <div class="right">
         <b-avatar
@@ -115,18 +99,15 @@
 import { theme } from "mixin/global/theme.js";
 import { requestFullScreen, exitFullscreen } from "utils/window.js";
 import Login from "content/user/Login";
-import HotSearchList from "content/search/hot-search-list";
-import SearchSuggest from "content/search/search-suggest";
+import Search from "content/search";
 export default {
   name: "LayoutHeader",
   mixins: [theme],
-  components: { Login, HotSearchList, SearchSuggest },
+  components: { Login, Search },
   data() {
     return {
       isShow: false,
       isLogin: false,
-      keywords: "",
-      isSearch: false, //是否在搜索
     };
   },
   computed: {
@@ -175,33 +156,6 @@ export default {
     /**路由 */
     go(index) {
       this.$router.go(index);
-    },
-    /**处理搜索建议点击，Poptip隐藏 */
-    handleSearchPopHidden() {
-      this.$refs.searchPoptip.hidden();
-    },
-    /**处理搜索-->跳转到搜索详情 */
-    handleSearchForword(){
-      this.$router.push(`/search-detail/${this.keywords}`);
-      this.$refs.searchPoptip.hidden();
-      // this.$router.push({
-      //   name:'search-detail',
-      //   params:{
-      //     keywords:this.keywords
-      //   }
-      // })
-    }
-  },
-  watch: {
-    /**监听搜索关键词 ，控制热搜列表显示隐藏*/
-    keywords() {
-      if (this.keywords != "" && !this.isSearch) {
-        this.isSearch = true;
-      }
-      /**搜索关键词为空，并且isSearch为true时设置isSearch为false显示热搜列表 */
-      if (this.keywords == "" && this.isSearch) {
-        this.isSearch = false;
-      }
     },
   },
 };
