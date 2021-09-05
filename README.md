@@ -2,6 +2,8 @@
 
 肝代码不易，若是在网上发表请标明出处，另外请路过的朋友们随手点个Star。本项目仅用于学习。 
 
+- [English](README_EN.md)
+
 [Github地址](https://github.com/daoshengfu/Vue-NeteaseCloud-WebMusicApp)
 
 ### 项目介绍
