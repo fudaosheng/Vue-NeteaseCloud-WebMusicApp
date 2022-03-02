@@ -5,6 +5,7 @@
 - [English](README_EN.md)
 
 [Github地址](https://github.com/daoshengfu/Vue-NeteaseCloud-WebMusicApp)
+[gitee地址](https://gitee.com/fudaosheng/Vue-NeteaseCloud-WebMusicApp)
 
 ### 项目介绍
 
@@ -57,7 +58,9 @@
 
 欢迎加群一起讨论
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0915/095720_2490a5ae_7602838.jpeg "qrcode_1600134831290.jpg")
+|一群（已满）|二群|
+|![输入图片说明](https://images.gitee.com/uploads/images/2020/0915/095720_2490a5ae_7602838.jpeg "qrcode_1600134831290.jpg")|![二群](src/assets/img/qrcode.png)|
+|---|---|
 
 ### 项目效果预览
 
