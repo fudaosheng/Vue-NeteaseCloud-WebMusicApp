@@ -4,7 +4,7 @@ The liver code is not easy. If it is published online, please indicate the sourc
 
 - [中文](README.md)
 
-[Github Adress](https://github.com/daoshengfu/Vue-NeteaseCloud-WebMusicApp)
+[Github Adress](https://github.com/daoshengfu/Vue-NeteaseCloud-WebMusicApp)&nbsp;&nbsp;&nbsp;&nbsp;[Gitee Address](https://gitee.com/fudaosheng/Vue-NeteaseCloud-WebMusicApp)
 
 ### Project Introduction
 The project is based on the NetEase Cloud Music PC version app, which basically realizes all the functions of official music playback and MV playback.
@@ -56,9 +56,10 @@ All the back-end data of this project comes from the open source project Netease
 
 ### Question Exchange Group
 
-Welcome to join the group to discuss.
+Welcome to join the group to discuss. The number of members in the first group has reached the upper limit, please join the second group.
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0915/095720_2490a5ae_7602838.jpeg "qrcode_1600134831290.jpg")
+|![输入图片说明](https://images.gitee.com/uploads/images/2020/0915/095720_2490a5ae_7602838.jpeg "qrcode_1600134831290.jpg")|<img src="src/assets/img/qrcode.png" style="width: 200px" />|
+|---|---|
 
 ### Preview
 
