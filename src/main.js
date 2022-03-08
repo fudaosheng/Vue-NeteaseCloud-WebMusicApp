@@ -19,6 +19,13 @@ Vue.use(VueLazyLoad,{
 import global from './utils/global'
 Vue.use(global)
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
+
 Vue.prototype.$bus=new Vue()
 
 new Vue({

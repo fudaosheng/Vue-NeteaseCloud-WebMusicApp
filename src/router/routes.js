@@ -24,48 +24,81 @@ const routes = [
     },
     {
         path: '/individuation',
-        component: Individuation
+        component: Individuation,
+        meta: {
+            title: 'Dance Music'
+        }
     },
     {
         path: '/musiclistdetail/:id/:time',
-        component: MusicListDetail
+        component: MusicListDetail,
+        meta: {
+            title: '歌单信息 - Dance Music'
+        }
     },
     {
         path: '/allmusiclist',
-        component: AllMusicList
+        component: AllMusicList,
+        meta: {
+            title: '歌单 - Dance Music'
+        }
     },
     {
         path: '/ranklist',
-        component: RankList
+        component: RankList,
+        meta: {
+            title: '排行榜 - Dance Music'
+        }
     },
     {
         path: '/artist-list',
-        component: ArtistList
+        component: ArtistList,
+        meta: {
+            title: '歌手 - Dance Music'
+        }
     },
     {
         path: '/artist-detail',
         name: 'artist-detail',
-        component: ArtistDetail
+        component: ArtistDetail,
+        meta: {
+            title: '歌手信息 - Dance Music'
+        }
     },
     {
         path: '/mv-list',
-        component: MvCategory
+        component: MvCategory,
+        meta: {
+            title: 'MV列表 - Dance Music'
+        }
     },
     {
         path: '/mv-detail/:id',
-        component: MvDetail
+        component: MvDetail,
+        meta: {
+            title: 'MV详情 - Dance Music'
+        }
     },
     {
         path: '/mv',
-        component: Mv
+        component: Mv,
+        meta: {
+            title: 'MV - Dance Music'
+        }
     },
     {
         path: '/new-songs',
-        component: NewSongs
+        component: NewSongs,
+        meta: {
+            title: '最新音乐 - Dance Music'
+        }
     },
     {
         path: '/album-detail',
-        component: AlbumDetail
+        component: AlbumDetail,
+        meta: {
+            title: '专辑详情 - Dance Music'
+        }
     },
     {
         path: '/search-detail/:keywords',
@@ -80,26 +113,41 @@ const routes = [
                 path: 'songs',
                 name: 'search-songs',
                 component: SearchSongs,
+                meta: {
+                    title: '歌曲搜索 - Dance Music'
+                }
             },
             {
                 path: 'artist',
                 name: 'search-artist',
                 component: SearchArtist,
+                meta: {
+                    title: '歌手搜索 - Dance Music'
+                }
             },
             {
                 path: 'album',
                 name: 'search-album',
                 component: SearchAlbum,
+                meta: {
+                    title: '专辑搜索 - Dance Music'
+                }
             },
             {
                 path: 'playlist',
                 name: 'search-playlist',
                 component: SearchPlaylist,
+                meta: {
+                    title: '歌单搜索 - Dance Music'
+                }
             },
             {
                 path: 'mv',
                 name: 'search-mv',
                 component: SearchMv,
+                meta: {
+                    title: 'MV搜索 - Dance Music'
+                }
             }
         ]
     },
