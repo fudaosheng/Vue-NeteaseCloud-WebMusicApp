@@ -1,42 +1,42 @@
 <template>
   <div :class="playerClass">
     <!-- 播放器歌曲封面 -->
-    <player-cover :song="playList[currentIndex]" />
+    <player-cover :song="playList[currentIndex]"/>
     <lyric
-      :lyric="lyric"
-      :disable-bar="true"
-      :currentTime="currentTime"
-      height="40px"
-      ref="lyric"
-      class="player-lyric-simple"
-      v-show="isShowLyric"
+        :lyric="lyric"
+        :disable-bar="true"
+        :currentTime="currentTime"
+        height="40px"
+        ref="lyric"
+        class="player-lyric-simple"
+        v-show="isShowLyric"
     />
     <transition name="player-side">
       <player-list
-        class="player-list"
-        :music-list="musicList"
-        v-show="isShowList"
+          class="player-list"
+          :music-list="musicList"
+          v-show="isShowList"
       />
     </transition>
     <transition name="player-pure-side">
       <player-pure
-        :song="playList[currentIndex]"
-        :lyric="lyric"
-        :current-time="currentTime"
-        v-show="isPure"
+          :song="playList[currentIndex]"
+          :lyric="lyric"
+          :current-time="currentTime"
+          v-show="isPure"
       />
     </transition>
     <audio
-      :src="getSongSrc"
-      autoplay
-      :loop="schemaIndex === 2 ? true : false"
-      ref="audio"
-      @timeupdate="audioTimeUpdate()"
-      @pause="musicPause()"
-      @ended="musicEnded()"
-      @play="playLoad()"
-      @playing="musicPlaying()"
-      @error="musicErr()"
+        :src="getSongSrc"
+        autoplay
+        :loop="schemaIndex === 2 ? true : false"
+        ref="audio"
+        @timeupdate="audioTimeUpdate()"
+        @pause="musicPause()"
+        @ended="musicEnded()"
+        @play="playLoad()"
+        @playing="musicPlaying()"
+        @error="musicErr()"
     ></audio>
     <div class="player-toggle" :class="[`${'player-toggle-' + theme}`]">
       <div class="player-pre player-toggle-item" @click="preMusic">
@@ -54,66 +54,66 @@
       <div class="player-progress-current-time">{{ getCurrentTime }}</div>
       <div class="player-progress-main">
         <b-progress
-          :percent.sync="percent"
-          :stroke-width="4"
-          :track-base-color="getProgressBaseColor"
-          :track-color="iconActiveColor"
-          show-thumb
-          hover-show-thumb
-          allow-click
-          allow-drag
-          is-active
-          :disable-transition="currentTime == 0"
-          @click="handleAudioProgress"
-          @dragend="handleAudioDragEnd"
-          @dragbegin="handleAudioBeginDrag"
+            :percent.sync="percent"
+            :stroke-width="4"
+            :track-base-color="getProgressBaseColor"
+            :track-color="iconActiveColor"
+            show-thumb
+            hover-show-thumb
+            allow-click
+            allow-drag
+            is-active
+            :disable-transition="currentTime == 0"
+            @click="handleAudioProgress"
+            @dragend="handleAudioDragEnd"
+            @dragbegin="handleAudioBeginDrag"
         />
       </div>
       <div class="player-progress-time">{{ getDurationTime }}</div>
     </div>
     <div class="player-volumn">
       <span @click="toggleVolume">
-        <i class="player-small-icon iconfont icon-V" v-show="!isVolume" />
-        <i class="player-small-icon iconfont icon-jingyin" v-show="isVolume" />
+        <i class="player-small-icon iconfont icon-V" v-show="!isVolume"/>
+        <i class="player-small-icon iconfont icon-jingyin" v-show="isVolume"/>
       </span>
       <div class="player-volumn-progress">
         <b-progress
-          :percent.sync="volumnPercent"
-          :stroke-width="3"
-          :track-base-color="getProgressBaseColor"
-          :track-color="iconActiveColor"
-          show-thumb
-          hover-show-thumb
-          allow-click
-          allow-drag
-          is-active
-          @click="handleVolumn"
-          @dragend="handleVolumn"
+            :percent.sync="volumnPercent"
+            :stroke-width="3"
+            :track-base-color="getProgressBaseColor"
+            :track-color="iconActiveColor"
+            show-thumb
+            hover-show-thumb
+            allow-click
+            allow-drag
+            is-active
+            @click="handleVolumn"
+            @dragend="handleVolumn"
         />
       </div>
     </div>
     <div class="player-tool">
       <div class="player-tool-schema" @click="toggleSchema()">
         <a href="#" title="顺序播放" v-show="schemaIndex == 0"
-          ><i class="player-small-icon iconfont icon-shunxu"
+        ><i class="player-small-icon iconfont icon-shunxu"
         /></a>
         <a href="#" title="随机播放" v-show="schemaIndex == 1"
-          ><i class="player-small-icon iconfont icon-suiji"
+        ><i class="player-small-icon iconfont icon-suiji" GG
         /></a>
         <a href="#" title="单曲播放" v-show="schemaIndex == 2"
-          ><i class="player-small-icon iconfont icon-danqu"
+        ><i class="player-small-icon iconfont icon-danqu"
         /></a>
       </div>
       <div class="player-tool-lyric" @click="toggleLyric">
         <a href="#" title="歌词"
-          ><i
+        ><i
             class="player-small-icon iconfont icon-lyric"
             :class="[this.isShowLyric ? `${'player-icon-' + theme}` : '']"
         /></a>
       </div>
       <div class="player-tool-list" @click="toggleMusicList">
         <a href="#" title="歌单"
-          ><i
+        ><i
             class="player-small-icon iconfont icon-gedan"
             :class="[this.isShowList ? `${'player-icon-' + theme}` : '']"
         /></a>
@@ -123,18 +123,19 @@
 </template>
 <script>
 const prefixCls = "player";
-import { theme } from "mixin/global/theme";
-import { _getLyric } from "network/detail";
-import { formatDate } from "utils/tool";
+import {theme} from "mixin/global/theme";
+import {_getLyric} from "network/detail";
+import {formatDate} from "utils/tool";
 
 import PlayerCover from "./player-cover";
 import Lyric from "./player-lyric";
 import PlayerList from "./player-list";
 import PlayerPure from "./player-pure";
+
 export default {
   name: "Player",
   mixins: [theme],
-  components: { PlayerCover, Lyric, PlayerList, PlayerPure },
+  components: {PlayerCover, Lyric, PlayerList, PlayerPure},
   data() {
     return {
       prefixCls: prefixCls,
@@ -145,7 +146,7 @@ export default {
       duration: 0, //音乐总时间
       schemaIndex: 0, //音乐播放方式--0:顺序、1：随机、2：单曲
       playList: [] /**播放列表
-      @params {
+       @params {
       this.index=index;
       this.name=song.name;
       this.artist=song.artist;
@@ -153,7 +154,7 @@ export default {
       this.pic=song.pic;
       this.id=id;
       }
-      */,
+       */,
       currentIndex: 0, //当前播放音乐
       musicList: [], //歌单
       isMusicDrag: false, //是否音乐进度条正在拖拽正在拖拽
@@ -163,16 +164,16 @@ export default {
       isShowLyric: false, //是否显示歌词,
       isShowList: false, //是否显示播放列表
       isPure: false, //是否是纯净模式
-      id:null,//接收传来的播放列表唯一标识
+      id: null,//接收传来的播放列表唯一标识
     };
   },
   computed: {
     /**获取歌词播放地址 */
     getSongSrc() {
       return (
-        (this.playList[this.currentIndex] &&
-          this.playList[this.currentIndex].src) ||
-        ""
+          (this.playList[this.currentIndex] &&
+              this.playList[this.currentIndex].src) ||
+          ""
       );
     },
     /**格式化audio currentTime => 'MM:dd' */
@@ -197,8 +198,8 @@ export default {
   },
   mounted() {
     /**list是音乐列表，index是要播放的音乐在列表中的位置，path是当前播放音乐的路由路径,musicList是歌单信息*/
-    this.$bus.$on("playMusic", (playList, index, musicList,id) => {
-      this.id=id;
+    this.$bus.$on("playMusic", (playList, index, musicList, id) => {
+      this.id = id;
       this.musicList = musicList;
       /**初始化播放列表 */
       this.playList = [];
@@ -293,10 +294,10 @@ export default {
        * @param2 正在播放歌曲的音乐名字
        */
       this.$bus.$emit(
-        "Playing",
-        this.playList[this.currentIndex].index,
-        this.playList[this.currentIndex].name,
-        this.id
+          "Playing",
+          this.playList[this.currentIndex].index,
+          this.playList[this.currentIndex].name,
+          this.id
       );
       if (this.$refs.player != null) this.$refs.player.isPlay = true;
     },
@@ -308,7 +309,7 @@ export default {
     /**音乐出现错误 */
     musicErr() {
       console.log("err");
-      this.$Toast.error("当前音频不可用");
+      // this.$Toast.error("当前音频不可用");
       this.currentIndex++;
     },
     /**对音乐播放结束进行监视 */
@@ -323,8 +324,8 @@ export default {
       switch (this.schemaIndex) {
         case 0:
           this.currentIndex >= this.playList.length - 1
-            ? 0
-            : this.currentIndex++; //循环播放
+              ? 0
+              : this.currentIndex++; //循环播放
           break;
         case 1:
           this.currentIndex = Math.floor(Math.random() * this.playList.length); //随机播放
@@ -336,8 +337,15 @@ export default {
     },
     /**加载下一首音乐 */
     nextMusic() {
-      if (this.currentIndex >= this.playList.length - 1) this.currentIndex = 0;
-      else this.currentIndex++;
+      if (this.currentIndex >= this.playList.length - 1) {
+        this.currentIndex = 0;
+      } else {
+        if (this.schemaIndex == 1) {
+          this.currentIndex = Math.floor(Math.random() * this.playList.length); //随机播放
+        } else {
+          this.currentIndex++;
+        }
+      }
       this.$refs.audio.src = this.playList[this.currentIndex].src;
     },
     preMusic() {
@@ -355,9 +363,9 @@ export default {
      */
     setMusicCurrent() {
       this.$refs.audio.currentTime =
-        (this.percent / 100) * this.$refs.audio.duration;
+          (this.percent / 100) * this.$refs.audio.duration;
       this.percent =
-        (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100;
+          (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100;
     },
     /**切换音量
      * 静音--恢复
@@ -399,95 +407,119 @@ export default {
   width: 100%;
   height: 60px;
   display: flex;
+  box-shadow: 0px -2px 10px #292C32;
+  border-radius: 10px 10px 0px 0px;
   position: relative;
+
   a {
     text-decoration: none;
     color: inherit;
   }
+
   &-icon-light {
     color: var(--light-icon-active-color);
   }
+
   &-icon-dark {
     color: var(--dark-icon-active-color);
   }
+
   &-icon-green {
     color: var(--green-icon-active-color);
   }
 }
+
 .player-toggle {
   width: 18%;
   padding: 0px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+
   &-item {
     padding: 0px 20px;
     text-align: center;
     cursor: pointer;
   }
+
   &-light {
     color: var(--light-main-color);
   }
+
   &-dark {
     color: var(--dark-main-color);
   }
+
   &-green {
     color: var(--green-main-color);
   }
 }
+
 .player-progress {
   flex: 1;
   padding: 0px 10px;
   display: flex;
   align-items: center;
   font-size: 14px;
+
   &-current-time {
     width: 50px;
     text-align: left;
   }
+
   &-time {
     width: 50px;
     text-align: right;
   }
+
   &-main {
     flex: 1;
   }
 }
+
 .player-volumn {
   width: 150px;
   padding: 0px 10px;
   display: flex;
   align-items: center;
   cursor: pointer;
+
   &-progress {
     flex: 1;
     padding: 0px 0px 0px 15px;
   }
 }
+
 .player-tool {
   width: 200px;
   display: flex;
   align-items: center;
   padding: 0px 10px;
   text-align: center;
+
   &-schema {
     width: calc(33%);
   }
+
   &-lyric {
     width: calc(33%);
   }
+
   &-list {
     width: calc(33%);
   }
 }
+
 /**player iconfont */
 .player-icon {
   font-size: 26px;
 }
+
 /**toggle图标 */
 .player-icon-type {
   font-size: 30px;
 }
+
 // 右侧小图标
 .player-icon {
   font-size: 24px;
@@ -501,21 +533,26 @@ export default {
   bottom: 70px;
   margin: auto;
 }
+
 .player-list {
   position: absolute;
   right: 0px;
   bottom: 60px;
   z-index: 9;
 }
+
 .player-side-enter-active {
   animation: slideInRight var(--animation-base-time);
 }
+
 .player-side-leave-active {
   animation: slideInRight var(--animation-base-time) reverse;
 }
+
 .player-pure-side-enter-active {
   animation: slideInUp var(--animation-base-time);
 }
+
 .player-pure-side-leave-active {
   animation: slideInUp var(--animation-base-time) reverse;
 }

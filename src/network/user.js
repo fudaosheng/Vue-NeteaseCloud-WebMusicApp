@@ -24,7 +24,8 @@ export function _getSongList(id){
     return request({
         url:'/user/playlist',
         params:{
-            uid:id
+            uid:id,
+            limit: 300
         }
     })
 }

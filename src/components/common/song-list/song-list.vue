@@ -47,7 +47,8 @@
             v-if="lines[1]"
             class="dance-music-table-tr-td-two"
           >
-            <i class="iconfont icon-xihuan" v-if="!newsongs" />
+            <i class="iconfont el-icon-video-play" style="color: orangered" @click="handleDbclick(index)"/>
+            <i v-if="item.mvid > 0" @click="play_mv(item.mvid)" class="iconfont el-icon-video-camera" style="color: orangered; margin-right: 5px" ></i>
             <div class="dance-music-table-tr-td-two-card" v-if="newsongs">
               <img v-lazy="item.pic" alt="" />
               <div class="card-play">
@@ -139,13 +140,18 @@ export default {
       }
       return currentIndex;
     },
+    play_mv(mvid){
+      this.$router.push("/mv-detail/" + mvid);
+    },
   },
+
 };
 </script>
 <style lang="less" scoped>
 .table-list {
   width: 100%;
   font-size: 13px;
+  padding-bottom: 50px;
 }
 .table-body {
   cursor: pointer;

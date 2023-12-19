@@ -96,6 +96,7 @@ export class songDetail{
         this.album=songs[0].al.name;
         this.artist=songs[0].ar[0].name;
         this.pic=songs[0].al.picUrl;
+        this.mvid=songs[0].mv
         this.time=formatDate(new Date(songs[0].dt),'mm:ss')
     }
 }

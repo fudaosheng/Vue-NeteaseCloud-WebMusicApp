@@ -2,19 +2,19 @@
   <div :class="asideClass">
     <div class="menu" ref="menu">
       <b-menu
-        :menu="menuList"
-        vertical
-        item-width="100%"
-        item-height="50px"
-        :text-color="theme == 'dark' ? 'var(--dark-text-color)' : ''"
-        :active-color="getActiveColor"
+          :menu="menuList"
+          vertical
+          item-width="100%"
+          item-height="50px"
+          :text-color="theme == 'dark' ? 'var(--dark-text-color)' : ''"
+          :active-color="getActiveColor"
       ></b-menu>
       <div class="my-music-list" @mouseenter="handleRefresh" v-if="playList.length">
-        <p class="title">创建的歌单</p>
+        <p class="title vbestui-menu-item vbestui-menu-item-active-vertical">创建的歌单({{playList.length}})</p>
         <scroll class="aside-scroll" ref="scroll">
           <ul class="my-music-list-main">
             <li v-for="(item, index) in playList" :key="index" @click="enterMusicListDetail(index)">
-              <img :src="item.cover" alt="" />
+              <img :src="item.cover" alt=""/>
               <div class="my-music-list-main-name">{{ item.name }}</div>
             </li>
           </ul>
@@ -24,14 +24,15 @@
   </div>
 </template>
 <script>
-import { theme } from "mixin/global/theme.js";
-import { forcible } from "mixin/components/forcible-refresh";
-import { _getSongList, PlayList } from "network/user";
+import {theme} from "mixin/global/theme.js";
+import {forcible} from "mixin/components/forcible-refresh";
+import {_getSongList, PlayList} from "network/user";
 import Scroll from "common/scroll/Scroll";
+
 export default {
   name: "LayoutAside",
   mixins: [theme, forcible],
-  components: { Scroll },
+  components: {Scroll},
   data() {
     return {
       menuList: [
@@ -40,7 +41,7 @@ export default {
           icon: "iconfont icon-music",
           content: "个性推荐",
         },
-        { link: "/allmusiclist", icon: "iconfont icon-gedan", content: "歌单" },
+        {link: "/allmusiclist", icon: "iconfont icon-gedan", content: "歌单"},
         {
           link: "/ranklist",
           icon: "iconfont icon-PCbofangye_paihangbang",
@@ -51,13 +52,13 @@ export default {
           icon: "iconfont icon-mansingle",
           content: "歌手",
         },
-        { link: "/mv", icon: "iconfont icon-shipin", content: "MV" },
+        {link: "/mv", icon: "iconfont icon-shipin", content: "MV"},
         // { link: "/mv-list", icon: "iconfont icon-MV", content: "全部MV" },
         {
           link: "/new-songs",
           icon: "iconfont icon-musicnoteeighth",
           content: "最新音乐",
-        },
+        }
       ],
       playList: [],
     };
@@ -75,7 +76,7 @@ export default {
   },
   methods: {
     getPriPlayList() {
-      this.playList=[];
+      this.playList = [];
       _getSongList(this.getUserId).then((res) => {
         let playlist = res.data.playlist;
         for (let i in playlist) {
@@ -89,9 +90,9 @@ export default {
       });
     },
     /**进入歌单详情 */
-    enterMusicListDetail(index){
-        this.$router.push("/musiclistdetail/" + this.playList[index].id+"/"+new Date().getTime());
-      }
+    enterMusicListDetail(index) {
+      this.$router.push("/musiclistdetail/" + this.playList[index].id + "/" + new Date().getTime());
+    }
   },
   created() {
     /**首先从本地存储获取歌单，没有则请求数据 */
@@ -114,32 +115,49 @@ export default {
   width: 18%;
   float: left;
   padding-left: 1px;
+
   &-light {
     background: var(--light-aside-bg-color);
   }
+
   &-dark {
     background: var(--dark-aside-bg-color);
     color: var(--dark-text-color);
   }
+
   &-green {
     background: var(--green-aside-bg-color);
   }
 }
+
 .menu {
-  height:50%;
+  //height: 50%;
 }
+
 .aside-scroll {
-  height: calc(50% -60px);
+  height: calc(100vh - 420px);
 }
+
+
 .my-music-list {
-  height: calc(50% -60px);
+  height: calc(100vh - 420px);
   padding: 10px 0px;
+
   .title {
-    font-size: 13px;
+    font-size: 14px;
+    padding: 12px;
   }
+
+  ::-webkit-scrollbar{
+    display: none;
+  }
+
   &-main {
     list-style-type: none;
     padding-left: 20px;
+    padding-bottom: 20px;
+    overflow-y: scroll;
+
     li {
       height: 30px;
       font-size: 13px;
@@ -149,11 +167,13 @@ export default {
       cursor: pointer;
       display: flex;
       align-items: center;
+
       img {
         height: 80%;
         border-radius: 2px;
       }
     }
+
     &-name {
       padding: 0px 10px;
     }

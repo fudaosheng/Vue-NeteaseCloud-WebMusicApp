@@ -42,13 +42,13 @@ export default {
 .player-cover {
   width: 18%;
   height: 100%;
-  position: absolute;
+  //position: absolute;
   z-index: 1;
   top: -100%;
   left: 0px;
   display: flex;
   &-left {
-    padding: 0px 10px 0px 5px;
+    padding: 8px 10px 0px 5px;
     height: 60px;
     .avatar {
       position: relative;
@@ -57,9 +57,10 @@ export default {
   &-right {
     flex: 1;
     font-size: 13px;
-    padding: 0px 10px;
+    padding: 10px 0px;
     position: relative;
     &-title {
+      //padding: 10px 0px;
       font-weight: 600;
       display: -webkit-box;
       -webkit-box-orient: vertical;
@@ -67,8 +68,9 @@ export default {
       overflow: hidden;
     }
     &-artist {
-      position: absolute;
-      bottom: 0px;
+      //position: absolute;
+      //bottom: 10px;
+      //padding: 10px 0px;
     }
   }
 }
