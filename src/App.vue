@@ -29,5 +29,8 @@ export default {
   height: 100vh;
   overflow: hidden;
   position: relative;
+  ::-webkit-scrollbar{
+    width: 6px;
+  }
 }
 </style>

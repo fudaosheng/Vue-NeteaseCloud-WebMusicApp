@@ -61,7 +61,8 @@ export default {
   border-radius: 6px;
   overflow: hidden;
   position: absolute;
-  box-shadow: 0 0 2px var(--border-tt);
+  //box-shadow: 0px -2px 10px var(--border-tt);
+  box-shadow: 0px -2px 10px #292C32;
   &-dark {
     background: var(--dark-bg-color);
   }

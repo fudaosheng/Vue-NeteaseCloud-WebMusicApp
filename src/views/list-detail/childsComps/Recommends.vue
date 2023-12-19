@@ -33,7 +33,8 @@
         </div>
         <div class="right">
           <div class="desc">
-            <span>{{ item.user.nickname }}：</span>
+            <span>{{ item.user.nickname }}</span>
+            <br/>
             {{ item.content }}
           </div>
           <div class="bottom">{{ _formatDate(item.time) }}</div>
